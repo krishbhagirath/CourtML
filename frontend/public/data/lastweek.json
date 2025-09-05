@@ -1,0 +1,270 @@
+{
+  "currentWeek": {
+    "Thursday": [
+      {
+        "id": 1,
+        "homeTeam": {
+          "name": "Thunder",
+          "abbreviation": "OKC",
+          "city": "Oklahoma City"
+        },
+        "awayTeam": {
+          "name": "Wizards",
+          "abbreviation": "WAS",
+          "city": "Washington"
+        },
+        "time": null,
+        "venue": "Paycom Center",
+        "date": "2025-10-30",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 2,
+        "homeTeam": {
+          "name": "Spurs",
+          "abbreviation": "SAS",
+          "city": "San Antonio"
+        },
+        "awayTeam": {
+          "name": "Heat",
+          "abbreviation": "MIA",
+          "city": "Miami"
+        },
+        "time": null,
+        "venue": "Frost Bank Center",
+        "date": "2025-10-30",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      }
+    ],
+    "Friday": [
+      {
+        "id": 1,
+        "homeTeam": {
+          "name": "Pacers",
+          "abbreviation": "IND",
+          "city": "Indiana"
+        },
+        "awayTeam": {
+          "name": "Hawks",
+          "abbreviation": "ATL",
+          "city": "Atlanta"
+        },
+        "time": null,
+        "venue": "Gainbridge Fieldhouse",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 2,
+        "homeTeam": {
+          "name": "76ers",
+          "abbreviation": "PHI",
+          "city": "Philadelphia"
+        },
+        "awayTeam": {
+          "name": "Celtics",
+          "abbreviation": "BOS",
+          "city": "Boston"
+        },
+        "time": null,
+        "venue": "Xfinity Mobile Arena",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 3,
+        "homeTeam": {
+          "name": "Cavaliers",
+          "abbreviation": "CLE",
+          "city": "Cleveland"
+        },
+        "awayTeam": {
+          "name": "Raptors",
+          "abbreviation": "TOR",
+          "city": "Toronto"
+        },
+        "time": null,
+        "venue": "Rocket Arena",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 4,
+        "homeTeam": {
+          "name": "Bulls",
+          "abbreviation": "CHI",
+          "city": "Chicago"
+        },
+        "awayTeam": {
+          "name": "Knicks",
+          "abbreviation": "NYK",
+          "city": "New York"
+        },
+        "time": null,
+        "venue": "United Center",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 5,
+        "homeTeam": {
+          "name": "Grizzlies",
+          "abbreviation": "MEM",
+          "city": "Memphis"
+        },
+        "awayTeam": {
+          "name": "Lakers",
+          "abbreviation": "LAL",
+          "city": "Los Angeles"
+        },
+        "time": null,
+        "venue": "FedExForum",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 6,
+        "homeTeam": {
+          "name": "Suns",
+          "abbreviation": "PHX",
+          "city": "Phoenix"
+        },
+        "awayTeam": {
+          "name": "Jazz",
+          "abbreviation": "UTA",
+          "city": "Utah"
+        },
+        "time": null,
+        "venue": "PHX Arena",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 7,
+        "homeTeam": {
+          "name": "Trail Blazers",
+          "abbreviation": "POR",
+          "city": "Portland"
+        },
+        "awayTeam": {
+          "name": "Nuggets",
+          "abbreviation": "DEN",
+          "city": "Denver"
+        },
+        "time": null,
+        "venue": "Moda Center",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      },
+      {
+        "id": 8,
+        "homeTeam": {
+          "name": "Clippers",
+          "abbreviation": "LAC",
+          "city": "Los Angeles"
+        },
+        "awayTeam": {
+          "name": "Pelicans",
+          "abbreviation": "NOP",
+          "city": "New Orleans"
+        },
+        "time": null,
+        "venue": "Intuit Dome",
+        "date": "2025-10-31",
+        "prediction": null,
+        "confidence": 0,
+        "gameStatus": "final",
+        "finalScore": {
+          "home": null,
+          "away": null
+        }
+      }
+    ],
+    "Saturday": [],
+    "Sunday": [],
+    "Monday": [],
+    "Tuesday": [],
+    "Wednesday": []
+  },
+  "orderedDays": [
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday"
+  ],
+  "weekDates": [
+    "2025-10-30",
+    "2025-10-31",
+    "2025-11-01",
+    "2025-11-02",
+    "2025-11-03",
+    "2025-11-04",
+    "2025-11-05"
+  ],
+  "metadata": {
+    "lastUpdated": "2025-08-28T20:11:22.210605-04:00",
+    "weekStartDate": "2025-10-30",
+    "weekEndDate": "2025-11-05",
+    "totalGames": 10,
+    "dataSource": "Basketball-Reference (parsed)",
+    "version": "1.0",
+    "mode": "last-week"
+  }
+}
