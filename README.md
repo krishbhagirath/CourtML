@@ -1,28 +1,27 @@
-# 🏀 NBA Match Predictor V5
+# NBA Match Predictor V5
 
-A production-ready machine learning system that predicts NBA game outcomes with **61.2% accuracy**.
+A production-ready machine learning system that predicts NBA game outcomes.
 It features a full pipeline: Data Collection -> Training (HistGradientBoosting) -> Live Inference -> React Frontend -> Daily Automation.
 
-## 🚀 Features
+## Features
 
 - **Advanced Modeling**: Uses `HistGradientBoostingClassifier` with "Matchup Merge" architecture (comparing Team Form vs Opponent Form).
 - **Live Predictions**: Fetches today's games via `nba_api`, processes stats in real-time, and predicts winners with confidence scores.
 - **Automated Pipeline**: A GitHub Action (`.github/workflows/daily_prediction.yml`) runs every morning at 6 AM ET to generate new predictions.
 - **React Frontend**: A clean UI to view today's games and the model's picks.
 
-## 📊 Performance
+## Performance
 
 - **Model**: HistGradientBoostingClassifier
-- **Accuracy**: **61.2%** (Verified on 2022-2025 seasons)
 - **Key Features**: 50 selected predictors including Rolling Advanced Stats (`orb%`, `drtg`, etc.) and "Matchup" differentials.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **ML/Backend:** Python, scikit-learn, pandas, numpy, nba_api
 - **Frontend:** React.js, CSS Modules
 - **CI/CD:** GitHub Actions (Daily Cron Job)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 nba-match-predictor/
@@ -39,7 +38,7 @@ nba-match-predictor/
 └── .github/workflows/          # Automation configuration
 ```
 
-## 🏃 How to Run
+## How to Run
 
 ### 1. Generate Live Predictions
 To run the prediction system locally:
@@ -64,11 +63,11 @@ Open `predictors/predictor_v5.ipynb` in Jupyter. This notebook contains the full
 3. Train the HistGradientBoosting model
 4. Save artifacts to `models/`
 
-## 🤖 Automation
+## Automation
 The project is configured to run automatically via GitHub Actions.
 - **Schedule**: Every day at 11:00 UTC (6:00 AM ET).
 - **Action**: Runs `predict_v5.py`, commits the new `predictions.json`, and pushes to the repo.
 - **Deploy**: Vercel (linked to the repo) automatically deploys the updated frontend.
 
-## 📜 License
+## License
 MIT License.
