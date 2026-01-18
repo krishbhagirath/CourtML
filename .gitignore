@@ -31,3 +31,7 @@ frontend/*.swo
 # Frontend OS files
 frontend/.DS_Store
 frontend/Thumbs.db
+
+# data files (Large CSVs)
+data/
+

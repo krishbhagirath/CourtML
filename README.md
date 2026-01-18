@@ -1,69 +1,74 @@
-# 🏀 NBA Match Outcome Predictor
+# 🏀 NBA Match Predictor V5
 
-This project uses machine learning to predict the outcome of NBA games using historical data. Built with Python, scikit-learn, and pandas, it trains a Ridge Classifier using time-series cross-validation and feature selection to model match outcomes.
+A production-ready machine learning system that predicts NBA game outcomes with **61.2% accuracy**.
+It features a full pipeline: Data Collection -> Training (HistGradientBoosting) -> Live Inference -> React Frontend -> Daily Automation.
 
 ## 🚀 Features
 
-- Loads and processes historical NBA data (`nba_games.csv`)
-- Uses `RidgeClassifier` with 30 selected features via `SequentialFeatureSelector`
-- Evaluates using `TimeSeriesSplit` for realistic model validation
-- Compares performance with `DummyClassifier` baseline
-- Well-commented and beginner-friendly code
+- **Advanced Modeling**: Uses `HistGradientBoostingClassifier` with "Matchup Merge" architecture (comparing Team Form vs Opponent Form).
+- **Live Predictions**: Fetches today's games via `nba_api`, processes stats in real-time, and predicts winners with confidence scores.
+- **Automated Pipeline**: A GitHub Action (`.github/workflows/daily_prediction.yml`) runs every morning at 6 AM ET to generate new predictions.
+- **React Frontend**: A clean UI to view today's games and the model's picks.
 
-## 📊 Results
+## 📊 Performance
 
-- Accuracy: ~65% (with rolling average implementation)
-- Baseline (home team always wins): ~57%
-- Indicates potential for further optimization and tuning
+- **Model**: HistGradientBoostingClassifier
+- **Accuracy**: **61.2%** (Verified on 2022-2025 seasons)
+- **Key Features**: 50 selected predictors including Rolling Advanced Stats (`orb%`, `drtg`, etc.) and "Matchup" differentials.
 
-## 🧠 ML Techniques Used
+## 🛠 Tech Stack
 
-- Ridge Classification (for binary outcome prediction)
-- Sequential Feature Selection (Forward)
-- Time-series aware cross-validation
-
-## 🧰 Tech Stack
-
-- Python
-- scikit-learn
-- pandas
-- Jupyter Notebook (or VS Code with Jupyter support)
+- **ML/Backend:** Python, scikit-learn, pandas, numpy, nba_api
+- **Frontend:** React.js, CSS Modules
+- **CI/CD:** GitHub Actions (Daily Cron Job)
 
 ## 📁 Project Structure
 
 ```
 nba-match-predictor/
-├── predictor.ipynb         # Main notebook
-├── nba_games.csv           # Historical match data
-├── requirements.txt        # Dependencies
-└── README.md               # This file
+├── predictors/
+│   └── predictor_v5.ipynb      # Main training notebook (Analysis & Retraining)
+├── models/
+│   └── hist_gbm_v5/            # Serialized Model, Scaler, and Predictor list
+├── scripts/
+│   └── predict_v5.py           # PRODUCTION SCRIPT: Generates today's predictions
+├── frontend/                   # React Application
+│   ├── public/data/            # Contains schedule and generated predictions.json
+│   └── src/                    # Frontend source
+├── data/                       # Raw training data (gitignored)
+└── .github/workflows/          # Automation configuration
 ```
 
-## 🛠 How to Run
+## 🏃 How to Run
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/your-username/nba-match-predictor.git
-   cd nba-match-predictor
-   ```
+### 1. Generate Live Predictions
+To run the prediction system locally:
+```bash
+pip install -r requirements.txt
+python scripts/predict_v5.py
+```
+This will fetch today's games and save the results to `frontend/public/data/predictions.json`.
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 2. Run the Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+Open [http://localhost:3000](http://localhost:3000) to see the dashboard.
 
-3. Launch notebook:
-   - Open `predictor.ipynb` in Jupyter or VSCode
-   - Run all cells to preprocess, train, and evaluate
+### 3. Retrain the Model
+Open `predictors/predictor_v5.ipynb` in Jupyter. This notebook contains the full pipeline to:
+1. Load `data/nba_games_raw.csv`
+2. Clean and Compute Rolling Averages
+3. Train the HistGradientBoosting model
+4. Save artifacts to `models/`
 
-## 🌱 Future Work
-
-- Add support for live data via API (e.g., NBA stats API)
-- Build a React.js frontend for users to input matchups
-- Host as a web app for public predictions
-- Test alternative models (Random Forest, XGBoost, etc.)
-- Improve accuracy with hyperparameter tuning
+## 🤖 Automation
+The project is configured to run automatically via GitHub Actions.
+- **Schedule**: Every day at 11:00 UTC (6:00 AM ET).
+- **Action**: Runs `predict_v5.py`, commits the new `predictions.json`, and pushes to the repo.
+- **Deploy**: Vercel (linked to the repo) automatically deploys the updated frontend.
 
 ## 📜 License
-
-This project is licensed under the MIT License.
+MIT License.

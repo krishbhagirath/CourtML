@@ -1,567 +1,442 @@
+/* Global Page Style */
 .games-page {
   min-height: 100vh;
-  background: transparent;
-  position: relative;
-  z-index: 20;
+  /* Background handled in JS via inline style for path resolution */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #fff;
+  padding-bottom: 4rem;
+  overflow-x: hidden;
 }
 
-/* Games Header */
+/* Navigation */
+.nav {
+  display: flex;
+  justify-content: center;
+  /* Centered container */
+  align-items: center;
+  padding: 1.5rem 2rem;
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 2rem;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+/* Header */
 .games-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .games-header h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  color: var(--nba-white);
-  font-weight: 900;
-  font-family: 'Segoe UI', sans-serif;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 3rem;
+  font-weight: 200;
+  /* Thin sleek font */
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .games-header p {
-  font-size: 1.3rem;
-  color: var(--nba-white);
-  font-weight: 500;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-/* Calendar Navigation */
+/* Week Selection */
 .calendar-navigation {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .nav-button {
-  background: linear-gradient(45deg, var(--nba-blue), var(--nba-navy));
-  color: var(--nba-white);
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 700;
-  box-shadow: 0 6px 20px rgba(29, 66, 138, 0.3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  gap: 8px;
+  transition: all 0.2s;
 }
 
 .nav-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(29, 66, 138, 0.4);
+  background: #fff;
+  color: #000;
 }
 
-.arrow {
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-/* Calendar Week View */
-.calendar-week {
-  background: rgba(248, 249, 250, 0.1);
-  border-radius: 25px;
-  padding: 2.5rem;
-  box-shadow: 0 15px 40px rgba(10, 20, 40, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.5s ease;
-  backdrop-filter: blur(10px);
-  max-width: 1300px;
-  margin: 0 auto;
-}
-
-.week-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-.week-header h2 {
-  font-size: 2.5rem;
-  color: var(--nba-white);
-  font-weight: 900;
-  font-family: 'Segoe UI', sans-serif;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.week-header p {
-  font-size: 1.2rem;
-  color: var(--nba-white);
-  font-weight: 500;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-/* Day Bubbles */
 .day-bubbles {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: 12px;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .day-bubble {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 130px;
-  height: 130px;
+  width: 70px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(10, 20, 40, 0.08);
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  transition: all 0.2s;
 }
 
 .day-bubble:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(10, 20, 40, 0.15);
-  border-color: var(--nba-blue);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .day-bubble.selected {
-  background: linear-gradient(135deg, var(--nba-blue), var(--nba-navy));
-  color: var(--nba-white);
-  transform: scale(1.1);
-  box-shadow: 0 10px 30px rgba(29, 66, 138, 0.4);
+  background: #fff;
+  color: #000;
+  border-color: #fff;
 }
 
-.day-bubble.today {
-  border-color: var(--nba-red);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.day-bubble.today.selected {
-  background: linear-gradient(135deg, var(--nba-blue), var(--nba-navy));
-  color: var(--nba-white);
+.day-bubble.selected .day-name,
+.day-bubble.selected .day-date,
+.day-bubble.selected .games-count {
+  color: #000;
 }
 
 .day-name {
-  font-size: 0.9rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  color: var(--nba-white);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .day-date {
-  font-size: 2rem;
-  font-weight: 900;
-  font-family: 'Segoe UI', sans-serif;
-  line-height: 1;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  color: var(--nba-white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .games-count {
-  font-size: 0.7rem;
-  font-weight: 600;
-  opacity: 0.8;
+  font-size: 0.6rem;
   margin-top: 4px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  color: var(--nba-white);
+  opacity: 0.7;
 }
 
-/* Selected Day Games */
+/* GAMES GRID */
 .selected-day-games {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 8px 25px rgba(10, 20, 40, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .selected-day-title {
-  font-size: 1.8rem;
-  color: var(--nba-white);
-  font-weight: 800;
-  font-family: 'Segoe UI', sans-serif;
   text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
   margin-bottom: 2rem;
-  letter-spacing: -0.5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .games-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
+/* COMPACT GAME CARD */
 .game-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(10, 20, 40, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem;
+  backdrop-filter: blur(12px);
+  position: relative;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .game-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(10, 20, 40, 0.15);
-  border-color: var(--nba-blue);
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  background: rgba(30, 30, 30, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Teams Row - Symmetrical Layout: [Name Logo] VS [Logo Name] */
 .game-teams {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .team-info {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 12px;
   flex: 1;
 }
 
-.team-info:last-child {
+/* Home Team (Left Side): Name then Logo */
+.team-info.home-team {
+  flex-direction: row;
   justify-content: flex-end;
+  /* Align towards center */
+}
+
+/* Away Team (Right Side): Logo then Name */
+.team-info.away-team {
+  flex-direction: row;
+  justify-content: flex-start;
+  /* Align towards center */
 }
 
 .team-logo-container {
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 3px solid var(--nba-blue);
-  transition: all 0.3s ease;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
 }
 
-.team-logo-container:hover {
-  transform: scale(1.1);
-  border-color: var(--nba-navy);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.team-logo-placeholder {
-  width: 40px;
-  height: 40px;
-  background: var(--nba-blue);
-  color: var(--nba-white);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
+.team-logo-container img,
+.team-logo-container svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .team-name {
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--nba-white);
-  font-size: 1.2rem;
-  min-width: 100px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-transform: uppercase;
 }
 
 .vs-text {
-  font-size: 1.3rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  color: var(--nba-blue);
-  margin: 0 1.5rem;
-  font-family: 'Segoe UI', sans-serif;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 12px;
 }
 
+/* Time/Location Row */
 .game-details {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.game-time, .game-venue {
-  color: var(--nba-white);
-  font-weight: 600;
-  font-size: 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+.separator {
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.prediction-section {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 1.5rem;
+/* Score Display */
+.score-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+}
+
+.team-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-team-abbr {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.score-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  line-height: 1;
+}
+
+.score-separator {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.game-status-label {
   text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+  font-weight: 600;
 }
 
-.prediction, .confidence {
-  color: var(--nba-white);
-  font-size: 1.1rem;
+/* PREDICTION BAR */
+.prediction-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+/* Scheduled */
+.prediction-scheduled {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Active Prediction */
+.prediction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.prediction strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.prediction-winner-name {
+  color: #fff;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
 .confidence-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
   width: 100%;
-  height: 8px;
-  background: rgba(248, 249, 250, 0.3);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 1rem;
+  margin-top: 4px;
 }
 
 .confidence-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--nba-blue), var(--nba-navy));
-  border-radius: 4px;
-  transition: width 0.8s ease;
+  background: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6;
+  border-radius: 2px;
+}
+
+.confidence-value {
+  text-align: right;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+}
+
+/* Result Badge (Win/Loss) for Last Week */
+.prediction-result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-badge {
+  text-align: center;
+  padding: 6px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.result-badge.correct {
+  background: rgba(34, 197, 94, 0.15);
+  /* Green tint */
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.result-badge.incorrect {
+  background: rgba(239, 68, 68, 0.15);
+  /* Red tint */
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .no-games {
   text-align: center;
   padding: 3rem;
-  color: var(--nba-white);
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+  grid-column: 1 / -1;
 }
-
-/* Last Week Section */
-.last-week-section {
-  background: rgba(248, 249, 250, 0.1);
-  border-radius: 25px;
-  padding: 2.5rem;
-  box-shadow: 0 15px 40px rgba(10, 20, 40, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.5s ease;
-  backdrop-filter: blur(10px);
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.prediction-stats {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.stat-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 8px 25px rgba(10, 20, 40, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  min-width: 150px;
-  backdrop-filter: blur(10px);
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 35px rgba(10, 20, 40, 0.15);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.stat-number {
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--nba-white);
-  font-family: 'Segoe UI', sans-serif;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.stat-label {
-  font-size: 1.1rem;
-  color: var(--nba-white);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.prediction-details {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.prediction-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding: 0.5rem 0;
-}
-
-.prediction-row:last-child {
-  margin-bottom: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  padding-top: 1rem;
-}
-
-.prediction, .actual, .confidence {
-  color: var(--nba-white);
-  font-size: 1rem;
-  font-weight: 600;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.prediction-result {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.result-icon {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.correct {
-  color: #27ae60;
-}
-
-.incorrect {
-  color: #e74c3c;
-}
-
-.correct-text {
-  color: #27ae60;
-  font-weight: 600;
-}
-
-.incorrect-text {
-  color: #e74c3c;
-  font-weight: 600;
-}
-
-/* Slide Animations */
-.slide-left {
-  animation: slideLeft 0.3s ease-out;
-}
-
-.slide-right {
-  animation: slideRight 0.3s ease-out;
-}
-
-@keyframes slideLeft {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slideRight {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .day-bubbles {
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  
-  .day-bubble {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .day-date {
-    font-size: 1.5rem;
-  }
-  
-  .day-name {
-    font-size: 0.8rem;
-  }
-  
-  .games-count {
-    font-size: 0.6rem;
-  }
-  
-  .game-teams {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .team-info {
-    justify-content: center;
-  }
-  
-  .team-info:last-child {
-    justify-content: center;
-  }
-  
-  .prediction-stats {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .stat-card {
-    min-width: 200px;
-  }
-  
-  .prediction-row {
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-  
-  .calendar-week, .last-week-section {
-    padding: 1.5rem;
-  }
-  
-  .week-header h2 {
-    font-size: 2rem;
-  }
-} 

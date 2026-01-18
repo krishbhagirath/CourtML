@@ -1,0 +1,38 @@
+name: Daily NBA Predictions
+
+on:
+  schedule:
+    # Run at 11:00 UTC (6:00 AM EST) every day
+    - cron: '0 11 * * *'
+  workflow_dispatch: # Button to run manually
+
+jobs:
+  predict-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to push back to repo
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Prediction Script
+        run: |
+          python scripts/predict_v5.py
+
+      - name: Commit and Push Prediction
+        run: |
+          git config --global user.name "NBA Predictor Bot"
+          git config --global user.email "bot@nbapredictor.com"
+          git add frontend/public/data/predictions.json
+          # Only commit if file changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Daily Predictions [skip ci]" && git push)

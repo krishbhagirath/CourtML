@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   LAL, GSW, BOS, MIA, CHI, MIL, BKN, NYK, PHX, LAC, DAL, HOU, POR, UTA,
   ATL, CHA, CLE, DEN, DET, IND, MEM, MIN, NOP, OKC, ORL, PHI, SAC, SAS, TOR, WAS
 } from 'react-nba-logos';
 import './GamesPage.css';
 
 // "7:30p" -> minutes since midnight; unknown -> very large so it sorts last
-const parseTimeToMinutes = (t) => {
-  if (!t) return Number.MAX_SAFE_INTEGER;
-  const m = /^(\d{1,2}):(\d{2})([ap])$/i.exec(String(t).trim());
-  if (!m) return Number.MAX_SAFE_INTEGER;
-  const h12 = parseInt(m[1], 10) % 12;
-  const mins = h12 * 60 + parseInt(m[2], 10) + (m[3].toLowerCase() === 'p' ? 12 * 60 : 0);
-  return mins;
+// "7:30p" -> minutes since midnight; unknown -> very large so it sorts last
+// const parseTimeToMinutes = (t) => { ... } // Removed unused function
+
+// Convert "YYYY-MM-DD" to Date at midnight (local)
+const dateFromISOLocal = (iso) => {
+  const [y, m, d] = String(iso).split('-').map(Number);
+  return new Date(y, m - 1, d);
 };
 
-const buildWeekDatesFromData = (data) => {
-  const start = new Date(data.metadata.weekStartDate + 'T00:00:00');
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(start);
-    d.setDate(start.getDate() + i);
-    return d;
-  });
-};
-
-// Fallback only before JSON loads (Mon→Sun for current week)
+// Fallback Mon→Sun if JSON missing
 const buildFallbackWeekDates = () => {
   const today = new Date();
   const res = [];
@@ -45,30 +36,49 @@ const GamesPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('current'); // 'current' or 'lastWeek'
   const [slideDirection, setSlideDirection] = useState('');
-  const [gamesData, setGamesData] = useState(null);
+  const [todayData, setTodayData] = useState(null);
+  const [lastWeekData, setLastWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load JSON data when component mounts
+  // Load today.json and lastweek.json
   useEffect(() => {
-    const fetchGamesData = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/data/upcoming.json');
-        if (!response.ok) throw new Error('Failed to fetch games data');
-        const data = await response.json();
-        setGamesData(data);
 
-        // Initialize selected date to the JSON week start
-        if (data?.metadata?.weekStartDate) {
-          setSelectedDate(new Date(data.metadata.weekStartDate + 'T00:00:00'));
+        // 1. Fetch Today's Games
+        try {
+          const todayResp = await fetch('/data/today.json');
+          if (todayResp.ok) {
+            const tData = await todayResp.json();
+            setTodayData(tData);
+            // Default selected date to today
+            if (tData.date) {
+              setSelectedDate(dateFromISOLocal(tData.date));
+            }
+          }
+        } catch (e) {
+          console.error("Failed to fetch today.json", e);
         }
+
+        // 2. Fetch Last Week's Games
+        try {
+          const lastWeekResp = await fetch('/data/lastweek.json');
+          if (lastWeekResp.ok) {
+            const lData = await lastWeekResp.json();
+            setLastWeekData(lData);
+          }
+        } catch (e) {
+          console.error("Failed to fetch lastweek.json", e);
+        }
+
       } catch (error) {
         console.error('Error loading games data:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchGamesData();
+    fetchData();
   }, []);
 
   // Team logo mapping
@@ -80,18 +90,40 @@ const GamesPage = () => {
     'Magic': ORL, '76ers': PHI, 'Kings': SAC, 'Spurs': SAS, 'Raptors': TOR, 'Wizards': WAS
   };
 
-  // Week scaffolding from data (or fallback)
+  // Get all season dates or fallback
   const getWeekDates = () => {
-    if (gamesData?.weekDates?.length === 7) return gamesData.weekDates.map(d => new Date(d));
-    return buildFallbackWeekDates();
+    if (viewMode === 'current') {
+      if (todayData?.date) {
+        // Just return today as a single item array? Or pad it?
+        // User said: "use the current date to fetch todays games... then compute dates of the last 7 days... lay them out as dates"
+        // It implies for "current" view maybe just today is fine, or maybe surrounding days?
+        // Let's stick to just Today for now to be safe with available data.
+        return [dateFromISOLocal(todayData.date)];
+      }
+      return [new Date()]; // fallback
+    } else {
+      // Last Week
+      if (lastWeekData?.weekDates) {
+        return lastWeekData.weekDates.map(d => dateFromISOLocal(d));
+      }
+      return buildFallbackWeekDates();
+    }
   };
+
   const weekDates = getWeekDates();
-  const labels = gamesData?.orderedDays ?? ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
   const handleDateSelect = (date) => setSelectedDate(date);
 
   const switchToLastWeek = () => {
     setSlideDirection('left');
+    // If we have last week data, select the first day or last day?
+    // Usually last day (closest to today) is better, or first day?
+    // Let's default to the last day of the week (yesterday)
+    if (lastWeekData?.weekDates?.length) {
+      const lastDay = lastWeekData.weekDates[lastWeekData.weekDates.length - 1];
+      setSelectedDate(dateFromISOLocal(lastDay));
+    }
+
     setTimeout(() => {
       setViewMode('lastWeek');
       setSlideDirection('right');
@@ -100,19 +132,38 @@ const GamesPage = () => {
 
   const switchToCurrentWeek = () => {
     setSlideDirection('right');
+    // Select today
+    if (todayData?.date) {
+      setSelectedDate(dateFromISOLocal(todayData.date));
+    }
     setTimeout(() => {
       setViewMode('current');
       setSlideDirection('left');
     }, 300);
   };
 
+  // Get games for selected date
   const getSelectedDayGames = () => {
-    if (!gamesData?.currentWeek) return [];
-    const idx = weekDates.findIndex(d => d.toDateString() === selectedDate.toDateString());
-    const label = labels[Math.max(0, idx)];
-    const arr = gamesData.currentWeek[label] || [];
-    // Safety sort by time (scraper already sorts, this guarantees it)
-    return [...arr].sort((a, b) => parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time));
+    const isoDate = selectedDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    if (viewMode === 'current') {
+      if (todayData?.date === isoDate) {
+        return todayData.games || [];
+      }
+      return [];
+    } else {
+      // Last Week
+      // lastWeekData has currentWeek keyed by Day Name (e.g. "Monday")
+      // We need to find the day name for the isoDate
+      if (lastWeekData?.weekDates && lastWeekData?.orderedDays) {
+        const idx = lastWeekData.weekDates.indexOf(isoDate);
+        if (idx !== -1) {
+          const dayName = lastWeekData.orderedDays[idx];
+          return lastWeekData.currentWeek[dayName] || [];
+        }
+      }
+      return [];
+    }
   };
 
   const getTeamLogo = (teamName) => {
@@ -120,19 +171,13 @@ const GamesPage = () => {
     return LogoComponent ? <LogoComponent size={40} /> : <div className="team-logo-placeholder">{teamName?.charAt(0)}</div>;
   };
 
-  const getAccuracyPercentage = () => {
-    const lastWeekGames = []; // replace with real history when you wire it up
-    if (!lastWeekGames.length) return 0;
-    const correct = lastWeekGames.filter(g => g.correct).length;
-    return Math.round((correct / lastWeekGames.length) * 100);
-  };
-
-  // Selected label for header
-  const selectedIndex = weekDates.findIndex(d => d.toDateString() === selectedDate.toDateString());
-  const selectedLabel = labels[Math.max(0, selectedIndex)];
-
   return (
-    <div className="games-page">
+    <div
+      className="games-page"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(0, 0, 0, 0.95)), url(${process.env.PUBLIC_URL}/bg_player.png)`
+      }}
+    >
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-container">
@@ -166,7 +211,6 @@ const GamesPage = () => {
               Last Week's Predictions
             </button>
           )}
-
           {viewMode === 'lastWeek' && (
             <button className="nav-button current-week-btn" onClick={switchToCurrentWeek}>
               This Week's Games
@@ -175,18 +219,18 @@ const GamesPage = () => {
           )}
         </div>
 
-        {/* Calendar Week View */}
+        {/* Current Week */}
         {viewMode === 'current' && (
           <div className={`calendar-week ${slideDirection === 'left' ? 'slide-left' : slideDirection === 'right' ? 'slide-right' : ''}`}>
             <div className="week-header">
-              <h2>This Week's Games</h2>
+              <h2>Season Games</h2>
               <p>Click on a day to view games and predictions</p>
             </div>
 
             <div className="day-bubbles">
               {weekDates.map((date, index) => {
-                const dayName = labels[index];
-                const games = gamesData?.currentWeek?.[dayName] || [];
+                const isoDate = date.toISOString().split('T')[0];
+                const games = (todayData?.date === isoDate) ? (todayData.games || []) : [];
                 const isSelected = date.toDateString() === selectedDate.toDateString();
                 const isToday = date.toDateString() === new Date().toDateString();
 
@@ -196,7 +240,7 @@ const GamesPage = () => {
                     className={`day-bubble ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                     onClick={() => handleDateSelect(date)}
                   >
-                    <div className="day-name">{dayName.slice(0, 3)}</div>
+                    <div className="day-name">{date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
                     <div className="day-date">{date.getDate()}</div>
                     <div className="games-count">{games.length} game{games.length !== 1 ? 's' : ''}</div>
                   </div>
@@ -207,45 +251,77 @@ const GamesPage = () => {
             {/* Selected Day Games */}
             <div className="selected-day-games">
               <h3 className="selected-day-title">
-                {selectedLabel} - {selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </h3>
 
               {loading ? (
                 <div className="no-games"><p>Loading…</p></div>
               ) : getSelectedDayGames().length > 0 ? (
-                <div className="games-list">
+                <div className="games-list" key={selectedDate.toISOString()}>
                   {getSelectedDayGames().map(game => (
                     <div key={game.id} className="game-card prediction-card">
                       <div className="game-teams">
-                        <div className="team-info">
-                          <div className="team-logo-container">{getTeamLogo(game.homeTeam.name)}</div>
+                        {/* Home Team: Name Left, Logo Right */}
+                        <div className="team-info home-team">
                           <span className="team-name">{game.homeTeam.name}</span>
+                          <div className="team-logo-container">{getTeamLogo(game.homeTeam.name)}</div>
                         </div>
-                        <span className="vs-text">vs</span>
-                        <div className="team-info">
-                          <span className="team-name">{game.awayTeam.name}</span>
+
+                        <span className="vs-text">VS</span>
+
+                        {/* Away Team: Logo Left, Name Right */}
+                        <div className="team-info away-team">
                           <div className="team-logo-container">{getTeamLogo(game.awayTeam.name)}</div>
+                          <span className="team-name">{game.awayTeam.name}</span>
                         </div>
                       </div>
 
+                      {/* Always show time/venue for today's games (updates once daily) */}
                       <div className="game-details">
                         <div className="game-time">{game.time}</div>
-                        <div className="game-venue">{game.venue}</div>
+                        {game.venue && (
+                          <>
+                            <span className="separator">•</span>
+                            <div className="game-venue">{game.venue}</div>
+                          </>
+                        )}
                       </div>
 
                       <div className="prediction-section">
-                        <div className="prediction">
-                          <strong>Prediction:</strong> {game.prediction?.winner || game.prediction || 'TBD'}
-                        </div>
-                        <div className="confidence">
-                          <strong>Confidence:</strong> {game.prediction?.confidence ?? game.confidence ?? 0}%
-                        </div>
-                        <div className="confidence-bar">
-                          <div
-                            className="confidence-fill"
-                            style={{ width: `${game.prediction?.confidence ?? game.confidence ?? 0}%` }}
-                          />
-                        </div>
+                        {game.prediction && game.prediction.winner !== 'TBD' ? (
+                          <>
+                            {game.prediction.correct !== undefined ? (
+                              /* Result View (Past Games) */
+                              <div className="prediction-result-container">
+                                <div className="prediction">
+                                  <strong>Predicted:</strong>
+                                  <span className="prediction-winner-name">{game.prediction.winner}</span>
+                                </div>
+                                <div className={`result-badge ${game.prediction.correct ? 'correct' : 'incorrect'}`}>
+                                  {game.prediction.correct ? '✅ Correct' : '❌ Incorrect'}
+                                </div>
+                              </div>
+                            ) : (
+                              /* Live Prediction View */
+                              <>
+                                <div className="prediction">
+                                  <strong>PREDICTION: {game.prediction.winner.toUpperCase()} WINS</strong>
+                                </div>
+                                <div className="confidence-bar">
+                                  <div
+                                    className="confidence-fill"
+                                    style={{ width: `${game.prediction.confidence}%` }}
+                                  />
+                                </div>
+                                <div className="confidence-value">{game.prediction.confidence}% Confidence</div>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <div className="prediction-scheduled">
+                            Scheduled
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -257,30 +333,126 @@ const GamesPage = () => {
           </div>
         )}
 
-        {/* Last Week's Predictions (placeholder) */}
+        {/* Last Week */}
         {viewMode === 'lastWeek' && (
-          <div className={`last-week-section ${slideDirection === 'right' ? 'slide-right' : slideDirection === 'left' ? 'slide-left' : ''}`}>
+          <div className={`calendar-week ${slideDirection === 'right' ? 'slide-right' : slideDirection === 'left' ? 'slide-left' : ''}`}>
             <div className="week-header">
-              <h2>Last Week's Predictions</h2>
-              <p>Review our prediction accuracy</p>
+              <h2>Last Week's Results</h2>
+              <p>Click on a day to view games and results</p>
             </div>
 
-            <div className="prediction-stats">
-              <div className="stat-card">
-                <div className="stat-number">{getAccuracyPercentage()}%</div>
-                <div className="stat-label">Accuracy</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">0</div>
-                <div className="stat-label">Correct</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">0</div>
-                <div className="stat-label">Incorrect</div>
-              </div>
+            <div className="day-bubbles">
+              {weekDates.map((date, index) => {
+                const isoDate = date.toISOString().split('T')[0];
+                const games = getSelectedDayGames(); // Will be filtered by selected date
+                const dayGames = (viewMode === 'lastWeek' && lastWeekData?.weekDates && lastWeekData?.orderedDays)
+                  ? (() => {
+                    const idx = lastWeekData.weekDates.indexOf(isoDate);
+                    if (idx !== -1) {
+                      const dayName = lastWeekData.orderedDays[idx];
+                      return lastWeekData.currentWeek[dayName] || [];
+                    }
+                    return [];
+                  })()
+                  : [];
+                const isSelected = date.toDateString() === selectedDate.toDateString();
+
+                return (
+                  <div
+                    key={index}
+                    className={`day-bubble ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleDateSelect(date)}
+                  >
+                    <div className="day-name">{date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                    <div className="day-date">{date.getDate()}</div>
+                    <div className="games-count">{dayGames.length} game{dayGames.length !== 1 ? 's' : ''}</div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="no-games"><p>Hook up history data to display results here.</p></div>
+            {/* Selected Day Games */}
+            <div className="selected-day-games">
+              <h3 className="selected-day-title">
+                {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+              </h3>
+
+              {loading ? (
+                <div className="no-games"><p>Loading…</p></div>
+              ) : getSelectedDayGames().length > 0 ? (
+                <div className="games-list" key={selectedDate.toISOString()}>
+                  {getSelectedDayGames().map(game => (
+                    <div key={game.id} className="game-card prediction-card">
+                      <div className="game-teams">
+                        {/* Home Team: Name Left, Logo Right */}
+                        <div className="team-info home-team">
+                          <span className="team-name">{game.homeTeam.name}</span>
+                          <div className="team-logo-container">{getTeamLogo(game.homeTeam.name)}</div>
+                        </div>
+
+                        <span className="vs-text">VS</span>
+
+                        {/* Away Team: Logo Left, Name Right */}
+                        <div className="team-info away-team">
+                          <div className="team-logo-container">{getTeamLogo(game.awayTeam.name)}</div>
+                          <span className="team-name">{game.awayTeam.name}</span>
+                        </div>
+                      </div>
+
+                      {/* Final Score for Last Week */}
+                      {game.finalScore && (game.finalScore.home || game.finalScore.away) ? (
+                        <>
+                          <div className="score-display">
+                            <div className="team-score">
+                              <span className="score-team-abbr">{game.homeTeam.abbreviation}</span>
+                              <span className="score-number">{game.finalScore.home}</span>
+                            </div>
+                            <span className="score-separator">-</span>
+                            <div className="team-score">
+                              <span className="score-number">{game.finalScore.away}</span>
+                              <span className="score-team-abbr">{game.awayTeam.abbreviation}</span>
+                            </div>
+                          </div>
+                          <div className="game-status-label">{game.time || game.gameStatus}</div>
+                        </>
+                      ) : (
+                        <div className="game-details">
+                          <div className="game-time">{game.time || 'TBD'}</div>
+                          {game.venue && (
+                            <>
+                              <span className="separator">•</span>
+                              <div className="game-venue">{game.venue}</div>
+                            </>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="prediction-section">
+                        {game.prediction && game.prediction.winner ? (
+                          <div className="prediction-result-container">
+                            <div className="prediction">
+                              <strong>Predicted:</strong>
+                              <span className="prediction-winner-name">{game.prediction.winner}</span>
+                            </div>
+                            {game.prediction.correct !== undefined && (
+                              <div className={`result-badge ${game.prediction.correct ? 'correct' : 'incorrect'}`}>
+                                {game.prediction.correct ? '✅ Correct' : '❌ Incorrect'}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="prediction-scheduled">
+                            No Prediction Available
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="no-games"><p>No games played on this day</p></div>
+              )}
+            </div>
           </div>
         )}
       </div>
