@@ -1,0 +1,2 @@
+TEAM_ID,TEAM_ABBREVIATION,OPP_TEAM_ID,mp,fg%,usg%,fg%_max,ft_max,+/-_max,ts%_max,usg%_max,mp_opp,fg_opp,3p_opp,blk_opp,usg%_opp,fg_max_opp,fga_max_opp,3p%_max_opp,ft%_max_opp,stl_max_opp,blk_max_opp,pf_max_opp,pts_max_opp,games_count
+1610612738,BOS,1610612752.6,240.00166666666664,0.46210000000000007,0.1950318029573564,0.9053000000000001,5.7,15.9,1.0246,0.3161,240.0,38.8,13.7,4.2,0.19244770833333336,9.3,19.2,0.8167,1.0,2.4,2.0,4.2,25.5,10

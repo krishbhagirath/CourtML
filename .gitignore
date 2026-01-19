@@ -32,6 +32,8 @@ frontend/*.swo
 frontend/.DS_Store
 frontend/Thumbs.db
 
-# data files (Large CSVs)
-data/
+# data files (Large CSV training files only)
+# Keep predictions_history.json tracked
+data/*.csv
+data/2026_schedule/
 

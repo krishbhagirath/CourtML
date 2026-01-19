@@ -187,7 +187,7 @@ const GamesPage = () => {
               alt="NBA Logo"
               style={{ height: '40px', verticalAlign: 'middle', marginRight: '8px' }}
             />
-            NBA Predictor
+            CourtML
           </Link>
           <div className="nav-links">
             <Link to="/" className="nav-link">Home</Link>
@@ -224,7 +224,7 @@ const GamesPage = () => {
           <div className={`calendar-week ${slideDirection === 'left' ? 'slide-left' : slideDirection === 'right' ? 'slide-right' : ''}`}>
             <div className="week-header">
               <h2>Season Games</h2>
-              <p>Click on a day to view games and predictions</p>
+              <p style={{ marginBottom: '24px' }}>Today's games with AI-powered predictions</p>
             </div>
 
             <div className="day-bubbles">
@@ -338,13 +338,12 @@ const GamesPage = () => {
           <div className={`calendar-week ${slideDirection === 'right' ? 'slide-right' : slideDirection === 'left' ? 'slide-left' : ''}`}>
             <div className="week-header">
               <h2>Last Week's Results</h2>
-              <p>Click on a day to view games and results</p>
+              <p style={{ marginBottom: '24px' }}>Review past predictions and actual game outcomes</p>
             </div>
 
             <div className="day-bubbles">
               {weekDates.map((date, index) => {
                 const isoDate = date.toISOString().split('T')[0];
-                const games = getSelectedDayGames(); // Will be filtered by selected date
                 const dayGames = (viewMode === 'lastWeek' && lastWeekData?.weekDates && lastWeekData?.orderedDays)
                   ? (() => {
                     const idx = lastWeekData.weekDates.indexOf(isoDate);
