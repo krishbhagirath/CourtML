@@ -25,14 +25,16 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run Prediction Script
+      - name: Run Prediction & Evaluation Script
         run: |
-          python scripts/predict_v5.py
+          python scripts/update_frontend_data.py
 
-      - name: Commit and Push Prediction
+      - name: Commit and Push Updates
         run: |
           git config --global user.name "NBA Predictor Bot"
           git config --global user.email "bot@nbapredictor.com"
-          git add frontend/public/data/predictions.json
-          # Only commit if file changed
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Daily Predictions [skip ci]" && git push)
+          git add data/predictions_history.json
+          git add frontend/public/data/today.json
+          git add frontend/public/data/lastweek.json
+          # Only commit if files changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update daily predictions and evaluations [skip ci]" && git push)
