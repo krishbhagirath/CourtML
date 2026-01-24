@@ -69,8 +69,10 @@ jobs:
           "
 
       - name: Run Full Prediction Script
+        env:
+          PROXY_URL: ${{ secrets.PROXY_URL }}
         run: |
-          echo "Running full prediction script..."
+          echo "Running full prediction script with proxy..."
           python scripts/update_frontend_data.py
         continue-on-error: true
         

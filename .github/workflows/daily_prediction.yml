@@ -26,6 +26,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Prediction & Evaluation Script
+        env:
+          PROXY_URL: ${{ secrets.PROXY_URL }}  # Format: http://username:password@host:port
         run: |
           python scripts/update_frontend_data.py
 

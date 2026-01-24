@@ -39,6 +39,19 @@ NBA_API_HEADERS = {
 # Timeout in seconds for all NBA API requests
 NBA_API_TIMEOUT = 90
 
+# Proxy configuration for GitHub Actions (bypasses cloud provider IP blocking)
+# Set PROXY_URL environment variable (format: http://username:password@host:port)
+NBA_API_PROXY = os.getenv('PROXY_URL')
+if NBA_API_PROXY:
+    NBA_API_PROXIES = {
+        'http': NBA_API_PROXY,
+        'https': NBA_API_PROXY
+    }
+    print(f"[Proxy] Configured: {NBA_API_PROXY.split('@')[1] if '@' in NBA_API_PROXY else NBA_API_PROXY}")
+else:
+    NBA_API_PROXIES = None
+    print("[Proxy] Not configured (running locally)")
+
 # =============================================================================
 # RETRY LOGIC FOR NBA API
 # =============================================================================
@@ -104,7 +117,8 @@ def fetch_rolling_stats(team_id):
     gamefinder = leaguegamefinder.LeagueGameFinder(
         team_id_nullable=team_id,
         headers=NBA_API_HEADERS,
-        timeout=NBA_API_TIMEOUT
+        timeout=NBA_API_TIMEOUT,
+        proxy=NBA_API_PROXIES
     )
     games = gamefinder.get_data_frames()[0]
     
@@ -119,12 +133,14 @@ def fetch_rolling_stats(team_id):
             trad = boxscoretraditionalv3.BoxScoreTraditionalV3(
                 game_id=g_id,
                 headers=NBA_API_HEADERS,
-                timeout=NBA_API_TIMEOUT
+                timeout=NBA_API_TIMEOUT,
+                proxy=NBA_API_PROXIES
             )
             adv = boxscoreadvancedv3.BoxScoreAdvancedV3(
                 game_id=g_id,
                 headers=NBA_API_HEADERS,
-                timeout=NBA_API_TIMEOUT
+                timeout=NBA_API_TIMEOUT,
+                proxy=NBA_API_PROXIES
             )
             time.sleep(0.4) 
             game_stats = process_game_stats(trad, adv, team_id)
@@ -352,7 +368,8 @@ def get_games_for_date(date_str):
     board = scoreboardv2.ScoreboardV2(
         game_date=date_str,
         headers=NBA_API_HEADERS,
-        timeout=NBA_API_TIMEOUT
+        timeout=NBA_API_TIMEOUT,
+        proxy=NBA_API_PROXIES
     )
     games_df = board.get_data_frames()[0]  # GameHeader dataframe
     linescore_df = board.get_data_frames()[1]  # LineScore dataframe (has PTS!)
