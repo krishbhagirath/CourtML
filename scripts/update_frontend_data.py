@@ -6,12 +6,97 @@ import warnings
 import json
 import os
 import argparse
+import random
+from functools import wraps
 from datetime import datetime, timedelta
 from nba_api.stats.endpoints import leaguegamefinder, boxscoretraditionalv3, boxscoreadvancedv3, scoreboardv2
 from nba_api.stats.static import teams
+from nba_api.stats.library.http import NBAStatsHTTP
+import requests
 
 # Suppress the specific sklearn warning about feature names
 warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
+
+# =============================================================================
+# NBA API CONFIGURATION - Fix for GitHub Actions
+# =============================================================================
+# The NBA API blocks requests from cloud providers (GitHub Actions, AWS, etc.)
+# We need to configure proper headers to make requests look like a real browser
+
+def configure_nba_api_headers():
+    """Configure NBA API to use browser-like headers"""
+    # Get the singleton HTTP client
+    nba_http = NBAStatsHTTP()
+    
+    # Set headers to mimic a real browser request
+    # These headers make the request look like it's coming from Chrome on Windows
+    nba_http.headers = {
+        'Host': 'stats.nba.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'x-nba-stats-origin': 'stats',
+        'x-nba-stats-token': 'true'
+    }
+    
+    # Increase timeout for all requests
+    nba_http.timeout = 60
+    
+    print("  ✓ Configured NBA API with browser headers")
+
+# Configure headers on module import
+configure_nba_api_headers()
+
+# =============================================================================
+# RETRY LOGIC FOR NBA API
+# =============================================================================
+
+def retry_on_timeout(max_retries=5, initial_delay=2):
+    """Decorator to retry functions on timeout/connection errors with exponential backoff"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            delay = initial_delay
+            last_exception = None
+            
+            for attempt in range(max_retries):
+                try:
+                    # Add random jitter to avoid thundering herd
+                    if attempt > 0:
+                        jitter = random.uniform(0, delay * 0.3)
+                        sleep_time = delay + jitter
+                        print(f"    Retry {attempt}/{max_retries} after {sleep_time:.1f}s...")
+                        time.sleep(sleep_time)
+                    
+                    result = func(*args, **kwargs)
+                    
+                    # Add delay between successful calls to avoid rate limiting
+                    time.sleep(random.uniform(0.6, 1.2))
+                    return result
+                    
+                except (requests.exceptions.ReadTimeout, 
+                        requests.exceptions.ConnectionError,
+                        requests.exceptions.Timeout) as e:
+                    last_exception = e
+                    print(f"    ⚠️ Timeout/Connection error on attempt {attempt + 1}: {str(e)[:100]}")
+                    delay *= 2  # Exponential backoff
+                    
+                    if attempt == max_retries - 1:
+                        print(f"    ❌ Failed after {max_retries} attempts")
+                        raise
+                        
+                except Exception as e:
+                    # Don't retry on other exceptions
+                    print(f"    ❌ Non-retryable error: {str(e)[:100]}")
+                    raise
+            
+            raise last_exception
+        return wrapper
+    return decorator
 
 # --- Config ---
 MODEL_PATH = "models/hist_gbm_v5/model_v5.pkl"
@@ -25,6 +110,7 @@ LASTWEEK_JSON_PATH = "frontend/public/data/lastweek.json"
 # HELPER FUNCTIONS (from predict_v5.py)
 # =============================================================================
 
+@retry_on_timeout(max_retries=5, initial_delay=2)
 def fetch_rolling_stats(team_id):
     """Fetch rolling stats for a team (last 10 games)"""
     gamefinder = leaguegamefinder.LeagueGameFinder(team_id_nullable=team_id)
@@ -258,6 +344,7 @@ def save_predictions_history(history):
     with open(PREDICTIONS_HISTORY_PATH, 'w') as f:
         json.dump(history, f, indent=2)
 
+@retry_on_timeout(max_retries=5, initial_delay=3)
 def get_games_for_date(date_str):
     """Fetch games for a specific date"""
     print(f"\n📅 Fetching games for {date_str}...")
@@ -400,7 +487,6 @@ def fetch_last_7_days_results(target_date, history):
         # Fetch games for that date
         try:
             games = get_games_for_date(date_str)
-            time.sleep(0.6)
             
             if not games:
                 print("    No games on this day")
@@ -489,8 +575,9 @@ def fetch_last_7_days_results(target_date, history):
             week_data["currentWeek"][day_name] = day_games
             
         except Exception as e:
-            print(f"    ⚠️ Error fetching games: {e}")
-            week_data[" currentWeek"][day_name] = []
+            print(f"    ⚠️ Error fetching games for {date_str}: {e}")
+            week_data["currentWeek"][day_name] = []
+            continue
     
     return week_data
 
@@ -513,6 +600,7 @@ def main():
     print("=" * 60)
     print("🏀 NBA PREDICTION TRACKING SYSTEM V5")
     print("=" * 60)
+    print("\n💡 NBA API configured with browser headers to work in GitHub Actions")
     
     # Load model
     print("\n⚙️  Loading model...")
