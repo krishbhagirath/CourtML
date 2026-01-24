@@ -20,17 +20,16 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Test NBA API Connection
+      - name: Test NBA API Connection with Headers
         run: |
           python -c "
-          from nba_api.stats.library.http import NBAStatsHTTP
           from nba_api.stats.endpoints import scoreboardv2
-          from datetime import datetime, timedelta
+          from datetime import datetime
           
-          # Configure headers
-          print('🔧 Configuring NBA API headers...')
-          nba_http = NBAStatsHTTP()
-          nba_http.headers = {
+          # Configure headers per nba_api v1.1.0+ documentation
+          # Must pass headers to EACH endpoint call, not globally
+          print('🔧 Testing NBA API with browser headers...')
+          custom_headers = {
               'Host': 'stats.nba.com',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
               'Accept': 'application/json, text/plain, */*',
@@ -42,33 +41,36 @@ jobs:
               'x-nba-stats-origin': 'stats',
               'x-nba-stats-token': 'true'
           }
-          nba_http.timeout = 60
-          print('✅ Headers configured')
           
-          # Test API call
-          print('\\n📡 Testing API connection with today\\'s games...')
+          # Test API call with headers and timeout passed directly
+          print('\\n📡 Fetching today\\'s games from NBA API...')
           today = datetime.now().strftime('%m/%d/%Y')
-          print(f'Fetching games for: {today}')
+          print(f'Date: {today}, Timeout: 90s')
           
           try:
-              board = scoreboardv2.ScoreboardV2(game_date=today)
+              board = scoreboardv2.ScoreboardV2(
+                  game_date=today,
+                  headers=custom_headers,
+                  timeout=90
+              )
               games = board.get_data_frames()[0]
               print(f'✅ SUCCESS! Retrieved {len(games)} games')
-              print(f'\\nResponse columns: {list(games.columns)[:10]}...')
               if len(games) > 0:
-                  print(f'\\nFirst game: {games.iloc[0][\"GAME_STATUS_TEXT\"]}')
+                  print(f'\\nFirst game status: {games.iloc[0][\"GAME_STATUS_TEXT\"]}')
               else:
                   print('\\nNo games scheduled for today')
           except Exception as e:
               print(f'❌ FAILED: {e}')
+              import traceback
+              traceback.print_exc()
               exit(1)
           
           print('\\n🎉 NBA API connection test passed!')
           "
 
-      - name: Run Full Prediction Script (Optional Test)
+      - name: Run Full Prediction Script
         run: |
-          echo "Running full prediction script as a final test..."
+          echo "Running full prediction script..."
           python scripts/update_frontend_data.py
         continue-on-error: true
         

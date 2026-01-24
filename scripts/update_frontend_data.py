@@ -11,7 +11,6 @@ from functools import wraps
 from datetime import datetime, timedelta
 from nba_api.stats.endpoints import leaguegamefinder, boxscoretraditionalv3, boxscoreadvancedv3, scoreboardv2
 from nba_api.stats.static import teams
-from nba_api.stats.library.http import NBAStatsHTTP
 import requests
 
 # Suppress the specific sklearn warning about feature names
@@ -21,35 +20,24 @@ warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
 # NBA API CONFIGURATION - Fix for GitHub Actions
 # =============================================================================
 # The NBA API blocks requests from cloud providers (GitHub Actions, AWS, etc.)
-# We need to configure proper headers to make requests look like a real browser
+# Per nba_api v1.1.0+ documentation, we must pass headers and timeout to each endpoint call
 
-def configure_nba_api_headers():
-    """Configure NBA API to use browser-like headers"""
-    # Get the singleton HTTP client
-    nba_http = NBAStatsHTTP()
-    
-    # Set headers to mimic a real browser request
-    # These headers make the request look like it's coming from Chrome on Windows
-    nba_http.headers = {
-        'Host': 'stats.nba.com',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Referer': 'https://www.nba.com/',
-        'Origin': 'https://www.nba.com',
-        'x-nba-stats-origin': 'stats',
-        'x-nba-stats-token': 'true'
-    }
-    
-    # Increase timeout for all requests
-    nba_http.timeout = 60
-    
-    print("  ✓ Configured NBA API with browser headers")
+# Browser-like headers to bypass NBA.com cloud IP blocking
+NBA_API_HEADERS = {
+    'Host': 'stats.nba.com',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Referer': 'https://www.nba.com/',
+    'Origin': 'https://www.nba.com',
+    'x-nba-stats-origin': 'stats',
+    'x-nba-stats-token': 'true'
+}
 
-# Configure headers on module import
-configure_nba_api_headers()
+# Timeout in seconds for all NBA API requests
+NBA_API_TIMEOUT = 90
 
 # =============================================================================
 # RETRY LOGIC FOR NBA API
@@ -113,7 +101,11 @@ LASTWEEK_JSON_PATH = "frontend/public/data/lastweek.json"
 @retry_on_timeout(max_retries=5, initial_delay=2)
 def fetch_rolling_stats(team_id):
     """Fetch rolling stats for a team (last 10 games)"""
-    gamefinder = leaguegamefinder.LeagueGameFinder(team_id_nullable=team_id)
+    gamefinder = leaguegamefinder.LeagueGameFinder(
+        team_id_nullable=team_id,
+        headers=NBA_API_HEADERS,
+        timeout=NBA_API_TIMEOUT
+    )
     games = gamefinder.get_data_frames()[0]
     
     # Sort and take last 10 completed games
@@ -124,8 +116,16 @@ def fetch_rolling_stats(team_id):
     for i, row in last_10.iterrows():
         g_id = row["GAME_ID"]
         try:
-            trad = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=g_id)
-            adv = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=g_id)
+            trad = boxscoretraditionalv3.BoxScoreTraditionalV3(
+                game_id=g_id,
+                headers=NBA_API_HEADERS,
+                timeout=NBA_API_TIMEOUT
+            )
+            adv = boxscoreadvancedv3.BoxScoreAdvancedV3(
+                game_id=g_id,
+                headers=NBA_API_HEADERS,
+                timeout=NBA_API_TIMEOUT
+            )
             time.sleep(0.4) 
             game_stats = process_game_stats(trad, adv, team_id)
             stats_list.append(game_stats)
@@ -349,7 +349,11 @@ def get_games_for_date(date_str):
     """Fetch games for a specific date"""
     print(f"\n📅 Fetching games for {date_str}...")
     
-    board = scoreboardv2.ScoreboardV2(game_date=date_str)
+    board = scoreboardv2.ScoreboardV2(
+        game_date=date_str,
+        headers=NBA_API_HEADERS,
+        timeout=NBA_API_TIMEOUT
+    )
     games_df = board.get_data_frames()[0]  # GameHeader dataframe
     linescore_df = board.get_data_frames()[1]  # LineScore dataframe (has PTS!)
     
@@ -600,7 +604,7 @@ def main():
     print("=" * 60)
     print("🏀 NBA PREDICTION TRACKING SYSTEM V5")
     print("=" * 60)
-    print("\n💡 NBA API configured with browser headers to work in GitHub Actions")
+    print(f"\n💡 Using browser headers on all NBA API requests (timeout: {NBA_API_TIMEOUT}s)")
     
     # Load model
     print("\n⚙️  Loading model...")
