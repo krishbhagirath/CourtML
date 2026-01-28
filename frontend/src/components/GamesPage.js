@@ -320,7 +320,8 @@ const GamesPage = () => {
                               /* Live Prediction View */
                               <>
                                 <div className="prediction">
-                                  <strong>PREDICTION: {game.prediction.winner.toUpperCase()} WINS</strong>
+                                  <strong>PREDICTION:</strong>
+                                  <span className="prediction-winner-name">{game.prediction.winner.toUpperCase()} WINS</span>
                                 </div>
                                 <div className="confidence-bar">
                                   <div
