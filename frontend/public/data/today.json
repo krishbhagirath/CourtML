@@ -1,17 +1,137 @@
 {
-  "date": "2026-01-22",
+  "date": "2026-01-28",
   "games": [
     {
-      "id": "0022500627",
-      "date": "2026-01-22",
+      "id": "0022500671",
+      "date": "2026-01-28",
       "time": "7:00 pm ET",
-      "venue": "Kia Center",
+      "venue": "Rocket Arena",
       "gameStatus": "scheduled",
       "homeTeam": {
+        "name": "Cavaliers",
+        "city": "Cleveland",
+        "abbreviation": "CLE",
+        "team_id": 1610612739
+      },
+      "awayTeam": {
+        "name": "Lakers",
+        "city": "Los Angeles",
+        "abbreviation": "LAL",
+        "team_id": 1610612747
+      },
+      "prediction": {
+        "winner": "Cleveland Cavaliers",
+        "confidence": 56.8,
+        "predictedHomeWin": true
+      }
+    },
+    {
+      "id": "0022500672",
+      "date": "2026-01-28",
+      "time": "7:00 pm ET",
+      "venue": "Gainbridge Fieldhouse",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Pacers",
+        "city": "Indiana",
+        "abbreviation": "IND",
+        "team_id": 1610612754
+      },
+      "awayTeam": {
+        "name": "Bulls",
+        "city": "Chicago",
+        "abbreviation": "CHI",
+        "team_id": 1610612741
+      },
+      "prediction": {
+        "winner": "Chicago Bulls",
+        "confidence": 60.5,
+        "predictedHomeWin": false
+      }
+    },
+    {
+      "id": "0022500673",
+      "date": "2026-01-28",
+      "time": "7:30 pm ET",
+      "venue": "TD Garden",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Celtics",
+        "city": "Boston",
+        "abbreviation": "BOS",
+        "team_id": 1610612738
+      },
+      "awayTeam": {
+        "name": "Hawks",
+        "city": "Atlanta",
+        "abbreviation": "ATL",
+        "team_id": 1610612737
+      },
+      "prediction": {
+        "winner": "Boston Celtics",
+        "confidence": 72.7,
+        "predictedHomeWin": true
+      }
+    },
+    {
+      "id": "0022500674",
+      "date": "2026-01-28",
+      "time": "7:30 pm ET",
+      "venue": "Kaseya Center",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Heat",
+        "city": "Miami",
+        "abbreviation": "MIA",
+        "team_id": 1610612748
+      },
+      "awayTeam": {
         "name": "Magic",
         "city": "Orlando",
         "abbreviation": "ORL",
         "team_id": 1610612753
+      },
+      "prediction": {
+        "winner": "Miami Heat",
+        "confidence": 54.7,
+        "predictedHomeWin": true
+      }
+    },
+    {
+      "id": "0022500675",
+      "date": "2026-01-28",
+      "time": "7:30 pm ET",
+      "venue": "Scotiabank Arena",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Raptors",
+        "city": "Toronto",
+        "abbreviation": "TOR",
+        "team_id": 1610612761
+      },
+      "awayTeam": {
+        "name": "Knicks",
+        "city": "New York",
+        "abbreviation": "NYK",
+        "team_id": 1610612752
+      },
+      "prediction": {
+        "winner": "Toronto Raptors",
+        "confidence": 71.8,
+        "predictedHomeWin": true
+      }
+    },
+    {
+      "id": "0022500676",
+      "date": "2026-01-28",
+      "time": "8:00 pm ET",
+      "venue": "FedExForum",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Grizzlies",
+        "city": "Memphis",
+        "abbreviation": "MEM",
+        "team_id": 1610612763
       },
       "awayTeam": {
         "name": "Hornets",
@@ -21,62 +141,14 @@
       },
       "prediction": {
         "winner": "Charlotte Hornets",
-        "confidence": 52.0,
+        "confidence": 65.6,
         "predictedHomeWin": false
       }
     },
     {
-      "id": "0022500628",
-      "date": "2026-01-22",
-      "time": "7:00 pm ET",
-      "venue": "Xfinity Mobile Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "76ers",
-        "city": "Philadelphia",
-        "abbreviation": "PHI",
-        "team_id": 1610612755
-      },
-      "awayTeam": {
-        "name": "Rockets",
-        "city": "Houston",
-        "abbreviation": "HOU",
-        "team_id": 1610612745
-      },
-      "prediction": {
-        "winner": "Philadelphia 76ers",
-        "confidence": 64.8,
-        "predictedHomeWin": true
-      }
-    },
-    {
-      "id": "0022500629",
-      "date": "2026-01-22",
-      "time": "7:00 pm ET",
-      "venue": "Capital One Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Wizards",
-        "city": "Washington",
-        "abbreviation": "WAS",
-        "team_id": 1610612764
-      },
-      "awayTeam": {
-        "name": "Nuggets",
-        "city": "Denver",
-        "abbreviation": "DEN",
-        "team_id": 1610612743
-      },
-      "prediction": {
-        "winner": "Denver Nuggets",
-        "confidence": 63.8,
-        "predictedHomeWin": false
-      }
-    },
-    {
-      "id": "0022500630",
-      "date": "2026-01-22",
-      "time": "7:30 pm ET",
+      "id": "0022500677",
+      "date": "2026-01-28",
+      "time": "8:30 pm ET",
       "venue": "American Airlines Center",
       "gameStatus": "scheduled",
       "homeTeam": {
@@ -86,44 +158,20 @@
         "team_id": 1610612742
       },
       "awayTeam": {
-        "name": "Warriors",
-        "city": "Golden State",
-        "abbreviation": "GSW",
-        "team_id": 1610612744
-      },
-      "prediction": {
-        "winner": "Golden State Warriors",
-        "confidence": 72.8,
-        "predictedHomeWin": false
-      }
-    },
-    {
-      "id": "0022500631",
-      "date": "2026-01-22",
-      "time": "8:00 pm ET",
-      "venue": "Target Center",
-      "gameStatus": "scheduled",
-      "homeTeam": {
         "name": "Timberwolves",
         "city": "Minnesota",
         "abbreviation": "MIN",
         "team_id": 1610612750
       },
-      "awayTeam": {
-        "name": "Bulls",
-        "city": "Chicago",
-        "abbreviation": "CHI",
-        "team_id": 1610612741
-      },
       "prediction": {
         "winner": "Minnesota Timberwolves",
-        "confidence": 76.1,
-        "predictedHomeWin": true
+        "confidence": 58.6,
+        "predictedHomeWin": false
       }
     },
     {
-      "id": "0022500632",
-      "date": "2026-01-22",
+      "id": "0022500678",
+      "date": "2026-01-28",
       "time": "9:00 pm ET",
       "venue": "Delta Center",
       "gameStatus": "scheduled",
@@ -134,6 +182,30 @@
         "team_id": 1610612762
       },
       "awayTeam": {
+        "name": "Warriors",
+        "city": "Golden State",
+        "abbreviation": "GSW",
+        "team_id": 1610612744
+      },
+      "prediction": {
+        "winner": "Golden State Warriors",
+        "confidence": 74.6,
+        "predictedHomeWin": false
+      }
+    },
+    {
+      "id": "0022500679",
+      "date": "2026-01-28",
+      "time": "9:30 pm ET",
+      "venue": "Toyota Center",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Rockets",
+        "city": "Houston",
+        "abbreviation": "HOU",
+        "team_id": 1610612745
+      },
+      "awayTeam": {
         "name": "Spurs",
         "city": "San Antonio",
         "abbreviation": "SAS",
@@ -141,56 +213,8 @@
       },
       "prediction": {
         "winner": "San Antonio Spurs",
-        "confidence": 56.0,
+        "confidence": 50.8,
         "predictedHomeWin": false
-      }
-    },
-    {
-      "id": "0022500633",
-      "date": "2026-01-22",
-      "time": "10:00 pm ET",
-      "venue": "Intuit Dome",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Clippers",
-        "city": "Los Angeles",
-        "abbreviation": "LAC",
-        "team_id": 1610612746
-      },
-      "awayTeam": {
-        "name": "Lakers",
-        "city": "Los Angeles",
-        "abbreviation": "LAL",
-        "team_id": 1610612747
-      },
-      "prediction": {
-        "winner": "Los Angeles Lakers",
-        "confidence": 54.3,
-        "predictedHomeWin": false
-      }
-    },
-    {
-      "id": "0022500634",
-      "date": "2026-01-22",
-      "time": "10:00 pm ET",
-      "venue": "Moda Center",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Trail Blazers",
-        "city": "Portland",
-        "abbreviation": "POR",
-        "team_id": 1610612757
-      },
-      "awayTeam": {
-        "name": "Heat",
-        "city": "Miami",
-        "abbreviation": "MIA",
-        "team_id": 1610612748
-      },
-      "prediction": {
-        "winner": "Portland Trail Blazers",
-        "confidence": 59.5,
-        "predictedHomeWin": true
       }
     }
   ]

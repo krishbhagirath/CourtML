@@ -101,7 +101,11 @@
         "confidence": 52.0,
         "predictedHomeWin": false
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 97,
+        "away_score": 124,
+        "winner": "Charlotte Hornets"
+      }
     },
     {
       "game_id": "0022500628",
@@ -112,7 +116,11 @@
         "confidence": 64.8,
         "predictedHomeWin": true
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 128,
+        "away_score": 122,
+        "winner": "Philadelphia 76ers"
+      }
     },
     {
       "game_id": "0022500629",
@@ -123,7 +131,11 @@
         "confidence": 63.8,
         "predictedHomeWin": false
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 97,
+        "away_score": 107,
+        "winner": "Denver Nuggets"
+      }
     },
     {
       "game_id": "0022500630",
@@ -134,7 +146,11 @@
         "confidence": 72.8,
         "predictedHomeWin": false
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 123,
+        "away_score": 115,
+        "winner": "Dallas Mavericks"
+      }
     },
     {
       "game_id": "0022500631",
@@ -145,7 +161,11 @@
         "confidence": 76.1,
         "predictedHomeWin": true
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 115,
+        "away_score": 120,
+        "winner": "Chicago Bulls"
+      }
     },
     {
       "game_id": "0022500632",
@@ -156,7 +176,11 @@
         "confidence": 56.0,
         "predictedHomeWin": false
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 109,
+        "away_score": 126,
+        "winner": "San Antonio Spurs"
+      }
     },
     {
       "game_id": "0022500633",
@@ -167,7 +191,11 @@
         "confidence": 54.3,
         "predictedHomeWin": false
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 112,
+        "away_score": 104,
+        "winner": "Los Angeles Clippers"
+      }
     },
     {
       "game_id": "0022500634",
@@ -177,6 +205,111 @@
         "winner": "Portland Trail Blazers",
         "confidence": 59.5,
         "predictedHomeWin": true
+      },
+      "actual_result": {
+        "home_score": 127,
+        "away_score": 110,
+        "winner": "Portland Trail Blazers"
+      }
+    }
+  ],
+  "2026-01-28": [
+    {
+      "game_id": "0022500671",
+      "home_team_id": 1610612739,
+      "away_team_id": 1610612747,
+      "prediction": {
+        "winner": "Cleveland Cavaliers",
+        "confidence": 56.8,
+        "predictedHomeWin": true
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500672",
+      "home_team_id": 1610612754,
+      "away_team_id": 1610612741,
+      "prediction": {
+        "winner": "Chicago Bulls",
+        "confidence": 60.5,
+        "predictedHomeWin": false
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500673",
+      "home_team_id": 1610612738,
+      "away_team_id": 1610612737,
+      "prediction": {
+        "winner": "Boston Celtics",
+        "confidence": 72.7,
+        "predictedHomeWin": true
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500674",
+      "home_team_id": 1610612748,
+      "away_team_id": 1610612753,
+      "prediction": {
+        "winner": "Miami Heat",
+        "confidence": 54.7,
+        "predictedHomeWin": true
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500675",
+      "home_team_id": 1610612761,
+      "away_team_id": 1610612752,
+      "prediction": {
+        "winner": "Toronto Raptors",
+        "confidence": 71.8,
+        "predictedHomeWin": true
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500676",
+      "home_team_id": 1610612763,
+      "away_team_id": 1610612766,
+      "prediction": {
+        "winner": "Charlotte Hornets",
+        "confidence": 65.6,
+        "predictedHomeWin": false
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500677",
+      "home_team_id": 1610612742,
+      "away_team_id": 1610612750,
+      "prediction": {
+        "winner": "Minnesota Timberwolves",
+        "confidence": 58.6,
+        "predictedHomeWin": false
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500678",
+      "home_team_id": 1610612762,
+      "away_team_id": 1610612744,
+      "prediction": {
+        "winner": "Golden State Warriors",
+        "confidence": 74.6,
+        "predictedHomeWin": false
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500679",
+      "home_team_id": 1610612745,
+      "away_team_id": 1610612759,
+      "prediction": {
+        "winner": "San Antonio Spurs",
+        "confidence": 50.8,
+        "predictedHomeWin": false
       },
       "actual_result": null
     }
