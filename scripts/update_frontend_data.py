@@ -19,6 +19,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
 MODEL_PATH = "models/hist_gbm_v5/model_v5.pkl"
 SCALER_PATH = "models/hist_gbm_v5/scaler_v5.pkl"
 PREDICTORS_PATH = "models/hist_gbm_v5/predictors_v5.pkl"
+FEATURE_IMPORTANCE_PATH = "models/hist_gbm_v5/feature_importance_v5.pkl"
 PREDICTIONS_HISTORY_PATH = "data/predictions_history.json"
 TODAY_JSON_PATH = "frontend/public/data/today.json"
 LASTWEEK_JSON_PATH = "frontend/public/data/lastweek.json"
@@ -191,7 +192,7 @@ def process_game_stats(trad, adv, team_id):
 
     return stats
 
-def predict_matchup(home_id, away_id, model, scaler, predictors):
+def predict_matchup(home_id, away_id, model, scaler, predictors, feature_importances=None):
     """Generate prediction for a matchup"""
     try:
         home_name = teams.find_team_name_by_id(home_id)['full_name']
@@ -278,6 +279,12 @@ def predict_matchup(home_id, away_id, model, scaler, predictors):
                 # Calculate absolute difference
                 diff = abs(home_val - away_val)
                 
+                # Weight by feature importance if available
+                if feature in feature_importances:
+                    importance_weighted_diff = diff * feature_importances[feature]
+                else:
+                    importance_weighted_diff = diff
+                
                 # Get friendly name
                 friendly_name = feature_name_map.get(feature, feature.replace('_10_team', '').replace('_', ' ').title())
                 
@@ -286,11 +293,15 @@ def predict_matchup(home_id, away_id, model, scaler, predictors):
                     'homeValue': round(home_val, 1),
                     'awayValue': round(away_val, 1),
                     'difference': round(diff, 1),
+                    'importanceScore': round(importance_weighted_diff, 3),
                     'homeAdvantage': home_val > away_val
                 })
     
-    # Sort by difference and get top 7
-    top_features = sorted(feature_contributions, key=lambda x: x['difference'], reverse=True)[:7]
+    # Sort by importance score (or difference if no importance) and get top 7
+    if feature_importances:
+        top_features = sorted(feature_contributions, key=lambda x: x['importanceScore'], reverse=True)[:7]
+    else:
+        top_features = sorted(feature_contributions, key=lambda x: x['difference'], reverse=True)[:7]
     
     return {
         "winner": winner,
@@ -367,7 +378,7 @@ def get_games_for_date(date_str):
     print(f"  Found {len(game_list)} games.")
     return game_list
 
-def generate_todays_predictions(target_date, model, scaler, predictors, history):
+def generate_todays_predictions(target_date, model, scaler, predictors, history, feature_importances=None):
     """Generate predictions for target date's games and update history"""
     games = get_games_for_date(target_date)
     
@@ -384,7 +395,7 @@ def generate_todays_predictions(target_date, model, scaler, predictors, history)
             home_team = teams.find_team_name_by_id(game["home_id"])
             away_team = teams.find_team_name_by_id(game["away_id"])
             
-            pred_result = predict_matchup(game["home_id"], game["away_id"], model, scaler, predictors)
+            pred_result = predict_matchup(game["home_id"], game["away_id"], model, scaler, predictors, feature_importances)
             
             game_obj = {
                 "id": game["game_id"],
@@ -578,7 +589,14 @@ def main():
         model = joblib.load(MODEL_PATH)
         scaler = joblib.load(SCALER_PATH)
         predictors = joblib.load(PREDICTORS_PATH)
-        print("  ✓ Model loaded successfully")
+        
+        # Load feature importance if available
+        try:
+            feature_importances = joblib.load(FEATURE_IMPORTANCE_PATH)
+            print("  ✓ Model and feature importance loaded successfully")
+        except FileNotFoundError:
+            feature_importances = None
+            print("  ✓ Model loaded successfully (no feature importance file found)")
     except Exception as e:
         print(f"  ✗ Error loading model: {e}")
         return
@@ -588,7 +606,7 @@ def main():
     print(f"  ✓ Loaded predictions history ({len(history)} days tracked)")
     
     # Generate today's predictions
-    today_json = generate_todays_predictions(target_date, model, scaler, predictors, history)
+    today_json = generate_todays_predictions(target_date, model, scaler, predictors, history, feature_importances)
     
     if today_json:
         os.makedirs(os.path.dirname(TODAY_JSON_PATH), exist_ok=True)
