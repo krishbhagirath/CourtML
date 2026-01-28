@@ -21,8 +21,59 @@
       },
       "prediction": {
         "winner": "Cleveland Cavaliers",
-        "confidence": 56.8,
-        "predictedHomeWin": true
+        "confidence": 59.5,
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Usg% Max",
+            "homeValue": 33.8,
+            "awayValue": 43.9,
+            "difference": 10.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 15.8,
+            "awayValue": 25.7,
+            "difference": 9.9,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 40.1,
+            "awayValue": 48.0,
+            "difference": 7.9,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 13.8,
+            "awayValue": 21.2,
+            "difference": 7.4,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 143.0,
+            "awayValue": 138.2,
+            "difference": 4.8,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 146.3,
+            "awayValue": 151.1,
+            "difference": 4.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Assists",
+            "homeValue": 29.4,
+            "awayValue": 25.3,
+            "difference": 4.1,
+            "homeAdvantage": true
+          }
+        ]
       }
     },
     {
@@ -46,7 +97,58 @@
       "prediction": {
         "winner": "Chicago Bulls",
         "confidence": 60.5,
-        "predictedHomeWin": false
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 130.9,
+            "awayValue": 151.3,
+            "difference": 20.4,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 106.9,
+            "awayValue": 119.7,
+            "difference": 12.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 106.9,
+            "awayValue": 119.7,
+            "difference": 12.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 18.7,
+            "awayValue": 10.3,
+            "difference": 8.4,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 53.8,
+            "awayValue": 49.1,
+            "difference": 4.6,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 39.2,
+            "awayValue": 34.7,
+            "difference": 4.6,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 17.5,
+            "awayValue": 13.0,
+            "difference": 4.6,
+            "homeAdvantage": true
+          }
+        ]
       }
     },
     {
@@ -70,7 +172,58 @@
       "prediction": {
         "winner": "Boston Celtics",
         "confidence": 72.7,
-        "predictedHomeWin": true
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Assists",
+            "homeValue": 24.5,
+            "awayValue": 30.7,
+            "difference": 6.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 36.6,
+            "awayValue": 30.5,
+            "difference": 6.1,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 12.4,
+            "awayValue": 18.2,
+            "difference": 5.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 30.9,
+            "awayValue": 26.4,
+            "difference": 4.5,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 115.8,
+            "awayValue": 111.6,
+            "difference": 4.3,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 115.8,
+            "awayValue": 111.6,
+            "difference": 4.3,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 137.2,
+            "awayValue": 141.5,
+            "difference": 4.3,
+            "homeAdvantage": false
+          }
+        ]
       }
     },
     {
@@ -94,7 +247,58 @@
       "prediction": {
         "winner": "Miami Heat",
         "confidence": 54.7,
-        "predictedHomeWin": true
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max",
+            "homeValue": 139.1,
+            "awayValue": 147.7,
+            "difference": 8.6,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 15.2,
+            "awayValue": 21.0,
+            "difference": 5.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 50.4,
+            "awayValue": 44.7,
+            "difference": 5.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 113.1,
+            "awayValue": 110.5,
+            "difference": 2.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 113.1,
+            "awayValue": 110.5,
+            "difference": 2.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 15.0,
+            "awayValue": 17.6,
+            "difference": 2.6,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Assists",
+            "homeValue": 28.1,
+            "awayValue": 26.3,
+            "difference": 1.8,
+            "homeAdvantage": true
+          }
+        ]
       }
     },
     {
@@ -118,7 +322,58 @@
       "prediction": {
         "winner": "Toronto Raptors",
         "confidence": 71.8,
-        "predictedHomeWin": true
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Orb% Max",
+            "homeValue": 14.6,
+            "awayValue": 33.6,
+            "difference": 19.0,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 18.2,
+            "awayValue": 29.9,
+            "difference": 11.7,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 51.6,
+            "awayValue": 42.1,
+            "difference": 9.4,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 137.4,
+            "awayValue": 144.9,
+            "difference": 7.5,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Assists",
+            "homeValue": 31.5,
+            "awayValue": 25.7,
+            "difference": 5.8,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 141.7,
+            "awayValue": 137.0,
+            "difference": 4.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 14.6,
+            "awayValue": 10.0,
+            "difference": 4.6,
+            "homeAdvantage": true
+          }
+        ]
       }
     },
     {
@@ -142,7 +397,58 @@
       "prediction": {
         "winner": "Charlotte Hornets",
         "confidence": 65.6,
-        "predictedHomeWin": false
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 135.6,
+            "awayValue": 153.0,
+            "difference": 17.3,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 111.6,
+            "awayValue": 122.8,
+            "difference": 11.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 111.6,
+            "awayValue": 122.8,
+            "difference": 11.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 132.1,
+            "awayValue": 141.8,
+            "difference": 9.7,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 11.4,
+            "awayValue": 21.0,
+            "difference": 9.6,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 29.4,
+            "awayValue": 34.8,
+            "difference": 5.4,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 17.6,
+            "awayValue": 22.3,
+            "difference": 4.8,
+            "homeAdvantage": false
+          }
+        ]
       }
     },
     {
@@ -165,8 +471,59 @@
       },
       "prediction": {
         "winner": "Minnesota Timberwolves",
-        "confidence": 58.6,
-        "predictedHomeWin": false
+        "confidence": 58.7,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 134.9,
+            "awayValue": 150.7,
+            "difference": 15.8,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 57.5,
+            "awayValue": 47.1,
+            "difference": 10.4,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 24.2,
+            "awayValue": 31.7,
+            "difference": 7.5,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 134.8,
+            "awayValue": 141.1,
+            "difference": 6.3,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 26.9,
+            "awayValue": 22.3,
+            "difference": 4.6,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 21.6,
+            "awayValue": 17.9,
+            "difference": 3.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 32.0,
+            "awayValue": 34.3,
+            "difference": 2.3,
+            "homeAdvantage": false
+          }
+        ]
       }
     },
     {
@@ -190,7 +547,58 @@
       "prediction": {
         "winner": "Golden State Warriors",
         "confidence": 74.6,
-        "predictedHomeWin": false
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "+/- Max",
+            "homeValue": 8.2,
+            "awayValue": 19.4,
+            "difference": 11.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 21.6,
+            "awayValue": 11.6,
+            "difference": 10.0,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 19.3,
+            "awayValue": 27.5,
+            "difference": 8.2,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 13.6,
+            "awayValue": 21.5,
+            "difference": 7.9,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 111.6,
+            "awayValue": 117.7,
+            "difference": 6.0,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 111.6,
+            "awayValue": 117.7,
+            "difference": 6.0,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 30.8,
+            "awayValue": 35.6,
+            "difference": 4.8,
+            "homeAdvantage": false
+          }
+        ]
       }
     },
     {
@@ -214,7 +622,58 @@
       "prediction": {
         "winner": "San Antonio Spurs",
         "confidence": 50.8,
-        "predictedHomeWin": false
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 133.9,
+            "awayValue": 142.2,
+            "difference": 8.3,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 32.2,
+            "awayValue": 37.3,
+            "difference": 5.1,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 18.7,
+            "awayValue": 23.3,
+            "difference": 4.6,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 29.1,
+            "awayValue": 33.4,
+            "difference": 4.3,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 12.5,
+            "awayValue": 16.5,
+            "difference": 4.0,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 30.1,
+            "awayValue": 26.5,
+            "difference": 3.6,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Assists",
+            "homeValue": 23.8,
+            "awayValue": 25.7,
+            "difference": 1.9,
+            "homeAdvantage": false
+          }
+        ]
       }
     }
   ]

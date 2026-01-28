@@ -237,10 +237,66 @@ def predict_matchup(home_id, away_id, model, scaler, predictors):
     
     print(f"  → {winner} ({confidence:.1f}%)")
     
+    # Calculate top differentiating features for THIS specific game
+    feature_contributions = []
+    
+    # User-friendly names for features
+    feature_name_map = {
+        'ortg_10_team': 'Off Rating', 'ortg_10_opp': 'Off Rating',
+        'drtg_10_team': 'Def Rating', 'drtg_10_opp': 'Def Rating',
+        'ts%_10_team': 'True Shooting %', 'ts%_10_opp': 'True Shooting %',
+        'efg%_10_team': 'Effective FG %', 'efg%_10_opp': 'Effective FG %',
+        'fg%_10_team': 'Field Goal %', 'fg%_10_opp': 'Field Goal %',
+        '3p%_10_team': '3-Point %', '3p%_10_opp': '3-Point %',
+        'ft%_10_team': 'Free Throw %', 'ft%_10_opp': 'Free Throw %',
+        'trb%_10_team': 'Rebound %', 'trb%_10_opp': 'Rebound %',
+        'ast%_10_team': 'Assist %', 'ast%_10_opp': 'Assist %',
+        'stl%_10_team': 'Steal %', 'stl%_10_opp': 'Steal %',
+        'blk%_10_team': 'Block %', 'blk%_10_opp': 'Block %',
+        'tov%_10_team': 'Turnover %', 'tov%_10_opp': 'Turnover %',
+        'ast_10_team': 'Assists', 'ast_10_opp': 'Assists',
+        'pts_max_10_team': 'Max Points', 'pts_max_10_opp': 'Max Points',
+    }
+    
+    # Calculate differences for each feature
+    for feature in predictors:
+        if feature == 'home_next':
+            continue  # Skip home advantage indicator
+        
+        # Get the raw feature value
+        feature_val = X.iloc[0][feature]
+        
+        # Try to find corresponding team/opp pair to get both values
+        if '_team' in feature:
+            base_feature = feature.replace('_team', '')
+            opp_feature = f"{base_feature}_opp"
+            
+            if opp_feature in X.columns:
+                home_val = float(X[feature].iloc[0])
+                away_val = float(X[opp_feature].iloc[0])
+                
+                # Calculate absolute difference
+                diff = abs(home_val - away_val)
+                
+                # Get friendly name
+                friendly_name = feature_name_map.get(feature, feature.replace('_10_team', '').replace('_', ' ').title())
+                
+                feature_contributions.append({
+                    'name': friendly_name,
+                    'homeValue': round(home_val, 1),
+                    'awayValue': round(away_val, 1),
+                    'difference': round(diff, 1),
+                    'homeAdvantage': home_val > away_val
+                })
+    
+    # Sort by difference and get top 7
+    top_features = sorted(feature_contributions, key=lambda x: x['difference'], reverse=True)[:7]
+    
     return {
         "winner": winner,
         "confidence": round(confidence, 1),
-        "predictedHomeWin": predicted_home_win
+        "predictedHomeWin": predicted_home_win,
+        "keyDifferences": top_features
     }
 
 # =============================================================================

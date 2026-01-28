@@ -4,6 +4,7 @@ import {
   LAL, GSW, BOS, MIA, CHI, MIL, BKN, NYK, PHX, LAC, DAL, HOU, POR, UTA,
   ATL, CHA, CLE, DEN, DET, IND, MEM, MIN, NOP, OKC, ORL, PHI, SAC, SAS, TOR, WAS
 } from 'react-nba-logos';
+import PredictionChart from './PredictionChart';
 import './GamesPage.css';
 
 // "7:30p" -> minutes since midnight; unknown -> very large so it sorts last
@@ -39,6 +40,7 @@ const GamesPage = () => {
   const [todayData, setTodayData] = useState(null);
   const [lastWeekData, setLastWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [expandedGames, setExpandedGames] = useState(new Set());
 
   // Load today.json and lastweek.json
   useEffect(() => {
@@ -170,6 +172,19 @@ const GamesPage = () => {
     const LogoComponent = teamLogos[teamName];
     return LogoComponent ? <LogoComponent size={40} /> : <div className="team-logo-placeholder">{teamName?.charAt(0)}</div>;
   };
+
+  const toggleGameStats = (gameId) => {
+    setExpandedGames(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(gameId)) {
+        newSet.delete(gameId);
+      } else {
+        newSet.add(gameId);
+      }
+      return newSet;
+    });
+  };
+
 
   return (
     <div
@@ -314,6 +329,28 @@ const GamesPage = () => {
                                   />
                                 </div>
                                 <div className="confidence-value">{game.prediction.confidence}% Confidence</div>
+
+                                {/* Stats Toggle Button */}
+                                {game.prediction.keyDifferences && (
+                                  <>
+                                    <button
+                                      className={`stats-toggle-btn ${expandedGames.has(game.id) ? 'expanded' : ''}`}
+                                      onClick={() => toggleGameStats(game.id)}
+                                    >
+                                      <span>{expandedGames.has(game.id) ? 'Hide' : 'View'} Stats Breakdown</span>
+                                      <span className="arrow">▼</span>
+                                    </button>
+
+                                    {/* Stats Chart */}
+                                    {expandedGames.has(game.id) && (
+                                      <PredictionChart
+                                        homeTeam={game.homeTeam.name}
+                                        awayTeam={game.awayTeam.name}
+                                        keyDifferences={game.prediction.keyDifferences}
+                                      />
+                                    )}
+                                  </>
+                                )}
                               </>
                             )}
                           </>
