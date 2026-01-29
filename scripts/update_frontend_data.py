@@ -329,7 +329,7 @@ def save_predictions_history(history):
 
 def get_games_for_date(date_str):
     """Fetch games for a specific date"""
-    print(f"\n📅 Fetching games for {date_str}...")
+    print(f"\n[FETCH] Fetching games for {date_str}...")
     
     board = scoreboardv2.ScoreboardV2(game_date=date_str)
     games_df = board.get_data_frames()[0]  # GameHeader dataframe
@@ -385,7 +385,7 @@ def generate_todays_predictions(target_date, model, scaler, predictors, history,
     if not games:
         return None
     
-    print(f"\n🔮 Generating predictions for {len(games)} games...")
+    print(f"\nGenerating predictions for {len(games)} games...")
     
     today_games = []
     predictions_for_history = []
@@ -431,7 +431,7 @@ def generate_todays_predictions(target_date, model, scaler, predictors, history,
                 })
                 
         except Exception as e:
-            print(f"  ⚠️ Error processing game {game['game_id']}: {e}")
+            print(f"  [ERROR] Error processing game {game['game_id']}: {e}")
             continue
     
     # Update history
@@ -447,7 +447,7 @@ def generate_todays_predictions(target_date, model, scaler, predictors, history,
 
 def fetch_last_7_days_results(target_date, history):
     """Fetch results for last 7 days from target_date and evaluate predictions"""
-    print("\n📊 Fetching last 7 days of results...")
+    print("\nFetching last 7 days of results...")
     
     target_dt = datetime.strptime(target_date, '%Y-%m-%d')
     # Reverse to go from oldest to newest (7 days ago -> yesterday)
@@ -549,15 +549,15 @@ def fetch_last_7_days_results(target_date, history):
                 
                 # Print evaluation
                 if correct is not None:
-                    status = "✅" if correct else "❌"
+                    status = "[OK]" if correct else "[FAIL]"
                     print(f"    {status} {home_team['abbreviation']} {home_score}-{away_score} {away_team['abbreviation']}: Predicted {prediction['winner']}")
                 elif home_score and away_score:
-                    print(f"    ℹ️  {home_team['abbreviation']} {home_score}-{away_score} {away_team['abbreviation']}: No prediction found")
+                    print(f"    [INFO] {home_team['abbreviation']} {home_score}-{away_score} {away_team['abbreviation']}: No prediction found")
             
             week_data["currentWeek"][day_name] = day_games
             
         except Exception as e:
-            print(f"    ⚠️ Error fetching games for {date_str}: {e}")
+            print(f"    [ERROR] Error fetching games for {date_str}: {e}")
             week_data["currentWeek"][day_name] = []
             continue
     
@@ -572,19 +572,19 @@ def main():
     if args.date:
         try:
             target_date = datetime.strptime(args.date, '%Y-%m-%d').strftime('%Y-%m-%d')
-            print(f"🎯 Running for custom date: {target_date}")
+            print(f"Running for custom date: {target_date}")
         except ValueError:
-            print("❌ Invalid date format. Use YYYY-MM-DD")
+            print("Invalid date format. Use YYYY-MM-DD")
             return
     else:
         target_date = datetime.now().strftime('%Y-%m-%d')
     
     print("=" * 60)
-    print("🏀 NBA PREDICTION TRACKING SYSTEM V5")
+    print("NBA PREDICTION TRACKING SYSTEM V5")
     print("=" * 60)
     
     # Load model
-    print("\n⚙️  Loading model...")
+    print("\nLoading model...")
     try:
         model = joblib.load(MODEL_PATH)
         scaler = joblib.load(SCALER_PATH)
@@ -593,17 +593,17 @@ def main():
         # Load feature importance if available
         try:
             feature_importances = joblib.load(FEATURE_IMPORTANCE_PATH)
-            print("  ✓ Model and feature importance loaded successfully")
+            print("  [OK] Model and feature importance loaded successfully")
         except FileNotFoundError:
             feature_importances = None
-            print("  ✓ Model loaded successfully (no feature importance file found)")
+            print("  [OK] Model loaded successfully (no feature importance file found)")
     except Exception as e:
-        print(f"  ✗ Error loading model: {e}")
+        print(f"  [ERROR] Error loading model: {e}")
         return
     
     # Load predictions history
     history = load_predictions_history()
-    print(f"  ✓ Loaded predictions history ({len(history)} days tracked)")
+    print(f"  [OK] Loaded predictions history ({len(history)} days tracked)")
     
     # Generate today's predictions
     today_json = generate_todays_predictions(target_date, model, scaler, predictors, history, feature_importances)
@@ -612,7 +612,7 @@ def main():
         os.makedirs(os.path.dirname(TODAY_JSON_PATH), exist_ok=True)
         with open(TODAY_JSON_PATH, 'w') as f:
             json.dump(today_json, f, indent=2)
-        print(f"\n✓ Saved today's predictions to {TODAY_JSON_PATH}")
+        print(f"\n[OK] Saved today's predictions to {TODAY_JSON_PATH}")
     
     # Fetch and evaluate last 7 days
     lastweek_json = fetch_last_7_days_results(target_date, history)
@@ -620,14 +620,14 @@ def main():
     os.makedirs(os.path.dirname(LASTWEEK_JSON_PATH), exist_ok=True)
     with open(LASTWEEK_JSON_PATH, 'w') as f:
         json.dump(lastweek_json, f, indent=2)
-    print(f"\n✓ Saved last week's results to {LASTWEEK_JSON_PATH}")
+    print(f"\n[OK] Saved last week's results to {LASTWEEK_JSON_PATH}")
     
     # Save updated history
     save_predictions_history(history)
-    print(f"✓ Updated predictions history")
+    print(f"[OK] Updated predictions history")
     
     print("\n" + "=" * 60)
-    print("✅ COMPLETE!")
+    print("COMPLETE!")
     print("=" * 60)
 
 if __name__ == "__main__":

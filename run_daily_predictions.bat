@@ -1,49 +1,54 @@
 @echo off
+SETLOCAL
 REM NBA Prediction Automation - Daily Runner
 REM Runs at 6 AM daily via Windows Task Scheduler
 
-echo ============================================================
-echo NBA PREDICTION AUTOMATION - %date% %time%
-echo ============================================================
+SET PROJECT_DIR=C:\Users\seema\Personal Projects\NBA Match Predictor
+SET PYTHON_EXE=C:\Python313\python.exe
+SET GIT_EXE="C:\Program Files\Git\cmd\git.exe"
+SET LOG_FILE=%PROJECT_DIR%\automation_log.txt
+SET PYTHONUNBUFFERED=1
+
+echo ============================================================ >> "%LOG_FILE%"
+echo NBA PREDICTION AUTOMATION - %date% %time% >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
 
 REM Navigate to project directory
-cd /d "C:\Users\seema\Personal Projects\NBA Match Predictor"
+cd /d "%PROJECT_DIR%"
 
-REM Activate virtual environment if you have one (optional)
-REM call venv\Scripts\activate
-
-echo.
-echo [1/4] Running prediction script...
-python scripts\update_frontend_data.py
+echo. >> "%LOG_FILE%"
+echo [1/4] Running prediction script... >> "%LOG_FILE%"
+"%PYTHON_EXE%" scripts\update_frontend_data.py >> "%LOG_FILE%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo ERROR: Prediction script failed!
+    echo ERROR: Prediction script failed! >> "%LOG_FILE%"
     exit /b 1
 )
 
-echo.
-echo [2/4] Adding changed files...
-git add data/predictions_history.json
-git add frontend/public/data/today.json
-git add frontend/public/data/lastweek.json
+echo. >> "%LOG_FILE%"
+echo [2/4] Adding changed files... >> "%LOG_FILE%"
+%GIT_EXE% add data\predictions_history.json >> "%LOG_FILE%" 2>&1
+%GIT_EXE% add frontend\public\data\today.json >> "%LOG_FILE%" 2>&1
+%GIT_EXE% add frontend\public\data\lastweek.json >> "%LOG_FILE%" 2>&1
 
-echo.
-echo [3/4] Committing changes...
-git commit -m "Update daily predictions [automated from local scheduler] - %date%"
+echo. >> "%LOG_FILE%"
+echo [3/4] Committing changes... >> "%LOG_FILE%"
+%GIT_EXE% commit -m "Update daily predictions [automated] - %date% %time%" >> "%LOG_FILE%" 2>&1
 if %ERRORLEVEL% EQU 0 (
-    echo Commit successful!
+    echo Commit successful! >> "%LOG_FILE%"
 ) else (
-    echo No changes to commit
+    echo No changes to commit >> "%LOG_FILE%"
 )
 
-echo.
-echo [4/4] Pushing to GitHub...
-git push origin main
+echo. >> "%LOG_FILE%"
+echo [4/4] Pushing to GitHub... >> "%LOG_FILE%"
+%GIT_EXE% push origin main >> "%LOG_FILE%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo WARNING: Push failed - check network connection
+    echo WARNING: Push failed - check network connection >> "%LOG_FILE%"
     exit /b 1
 )
 
-echo.
-echo ============================================================
-echo COMPLETE! Predictions updated and pushed to GitHub
-echo ============================================================
+echo. >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
+echo COMPLETE! >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
+ENDLOCAL
