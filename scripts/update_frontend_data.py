@@ -43,7 +43,7 @@ def fetch_rolling_stats(team_id):
         try:
             trad = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=g_id)
             adv = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=g_id)
-            time.sleep(0.4) 
+            time.sleep(0.6)  # Increased delay to prevent timeouts
             game_stats = process_game_stats(trad, adv, team_id)
             stats_list.append(game_stats)
         except Exception as e:
@@ -204,7 +204,9 @@ def predict_matchup(home_id, away_id, model, scaler, predictors, feature_importa
     print(f"  Analyzing: {home_name} vs {away_name}...")
     
     home_rolling = fetch_rolling_stats(home_id)
+    time.sleep(1.0)  # Delay between team stat fetches
     away_rolling = fetch_rolling_stats(away_id)
+    time.sleep(1.0)  # Delay before returning
     
     if home_rolling is None or away_rolling is None:
         return None
@@ -236,7 +238,7 @@ def predict_matchup(home_id, away_id, model, scaler, predictors, feature_importa
         
     confidence = prob * 100
     
-    print(f"  → {winner} ({confidence:.1f}%)")
+    print(f"  -> {winner} ({confidence:.1f}%)")
     
     # Calculate top differentiating features for THIS specific game
     feature_contributions = []
@@ -332,6 +334,7 @@ def get_games_for_date(date_str):
     print(f"\n[FETCH] Fetching games for {date_str}...")
     
     board = scoreboardv2.ScoreboardV2(game_date=date_str)
+    time.sleep(0.5)  # Delay after fetching scoreboard
     games_df = board.get_data_frames()[0]  # GameHeader dataframe
     linescore_df = board.get_data_frames()[1]  # LineScore dataframe (has PTS!)
     
