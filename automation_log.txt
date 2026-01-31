@@ -1,0 +1,440 @@
+============================================================ 
+NBA PREDICTION AUTOMATION - 2026-01-29 14:19:35.71 
+============================================================ 
+ 
+[1/4] Running prediction script... 
+============================================================
+NBA PREDICTION TRACKING SYSTEM V5
+============================================================
+
+Loading model...
+  [OK] Model and feature importance loaded successfully
+  [OK] Loaded predictions history (4 days tracked)
+
+[FETCH] Fetching games for 2026-01-29...
+  Found 8 games.
+
+Generating predictions for 8 games...
+  Analyzing: Philadelphia 76ers vs Sacramento Kings...
+  [ERROR] Error processing game 0022500680: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+  Analyzing: Washington Wizards vs Milwaukee Bucks...
+  [ERROR] Error processing game 0022500681: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+  Analyzing: Chicago Bulls vs Miami Heat...
+  [ERROR] Error processing game 0022500529: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+  Analyzing: Atlanta Hawks vs Houston Rockets...
+  [ERROR] Error processing game 0022500682: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+  Analyzing: Dallas Mavericks vs Charlotte Hornets...
+  [ERROR] Error processing game 0022500683: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+  Analyzing: Denver Nuggets vs Brooklyn Nets...
+  [ERROR] Error processing game 0022500684: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+  Analyzing: Phoenix Suns vs Detroit Pistons...
+  [ERROR] Error processing game 0022500685: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+  Analyzing: Minnesota Timberwolves vs Oklahoma City Thunder...
+  [ERROR] Error processing game 0022500686: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+[OK] Saved today's predictions to frontend/public/data/today.json
+
+Fetching last 7 days of results...
+
+  Thursday (2026-01-22):
+
+[FETCH] Fetching games for 2026-01-22...
+    [ERROR] Error fetching games for 2026-01-22: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Friday (2026-01-23):
+
+[FETCH] Fetching games for 2026-01-23...
+^C============================================================ 
+NBA PREDICTION AUTOMATION - 2026-01-30 11:06:46.09 
+============================================================ 
+ 
+[1/4] Running prediction script... 
+============================================================
+NBA PREDICTION TRACKING SYSTEM V5
+============================================================
+
+Loading model...
+  [OK] Model and feature importance loaded successfully
+  [OK] Loaded predictions history (4 days tracked)
+
+[FETCH] Fetching games for 2026-01-30...
+  Found 9 games.
+
+Generating predictions for 9 games...
+  Analyzing: Washington Wizards vs Los Angeles Lakers...
+  -> Los Angeles Lakers (78.6%)
+  Analyzing: Orlando Magic vs Toronto Raptors...
+  -> Toronto Raptors (53.7%)
+  Analyzing: Boston Celtics vs Sacramento Kings...
+  -> Boston Celtics (59.6%)
+  Analyzing: New York Knicks vs Portland Trail Blazers...
+  -> New York Knicks (62.7%)
+  Analyzing: New Orleans Pelicans vs Memphis Grizzlies...
+  -> New Orleans Pelicans (64.0%)
+  Analyzing: Phoenix Suns vs Cleveland Cavaliers...
+  -> Cleveland Cavaliers (56.5%)
+  Analyzing: Denver Nuggets vs Los Angeles Clippers...
+  -> Denver Nuggets (51.9%)
+  Analyzing: Utah Jazz vs Brooklyn Nets...
+  -> Utah Jazz (65.2%)
+  Analyzing: Golden State Warriors vs Detroit Pistons...
+  -> Golden State Warriors (76.0%)
+
+[OK] Saved today's predictions to frontend/public/data/today.json
+
+Fetching last 7 days of results...
+
+  Friday (2026-01-23):
+
+[FETCH] Fetching games for 2026-01-23...
+  Found 8 games.
+    [INFO] DET 104-111 HOU: No prediction found
+    [INFO] ATL 110-103 PHX: No prediction found
+    [INFO] BKN 126-130 BOS: No prediction found
+    [INFO] CLE 123-118 SAC: No prediction found
+    [INFO] MEM 127-133 NOP: No prediction found
+    [INFO] OKC 114-117 IND: No prediction found
+    [INFO] MIL 100-102 DEN: No prediction found
+    [INFO] POR 98-110 TOR: No prediction found
+
+  Saturday (2026-01-24):
+
+[FETCH] Fetching games for 2026-01-24...
+  Found 6 games.
+    [INFO] CHA 119-115 WAS: No prediction found
+    [INFO] PHI 109-112 NYK: No prediction found
+    [INFO] ORL 105-119 CLE: No prediction found
+    [INFO] CHI 114-111 BOS: No prediction found
+    [INFO] DAL 110-116 LAL: No prediction found
+    [INFO] UTA 116-147 MIA: No prediction found
+
+  Sunday (2026-01-25):
+
+[FETCH] Fetching games for 2026-01-25...
+  Found 6 games.
+    [INFO] DET 139-116 SAC: No prediction found
+    [INFO] MIN 85-111 GSW: No prediction found
+    [INFO] OKC 101-103 TOR: No prediction found
+    [INFO] SAS 95-104 NOP: No prediction found
+    [INFO] PHX 102-111 MIA: No prediction found
+    [INFO] LAC 126-89 BKN: No prediction found
+
+  Monday (2026-01-26):
+
+[FETCH] Fetching games for 2026-01-26...
+  Found 7 games.
+    [INFO] ATL 132-116 IND: No prediction found
+    [INFO] CHA 130-93 PHI: No prediction found
+    [INFO] CLE 114-98 ORL: No prediction found
+    [INFO] BOS 102-94 POR: No prediction found
+    [INFO] CHI 118-129 LAL: No prediction found
+    [INFO] HOU 108-99 MEM: No prediction found
+    [INFO] MIN 108-83 GSW: No prediction found
+
+  Tuesday (2026-01-27):
+
+[FETCH] Fetching games for 2026-01-27...
+  Found 9 games.
+    [INFO] WAS 115-111 POR: No prediction found
+    [INFO] NYK 103-87 SAC: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] OKC 104-95 NOP: No prediction found
+    [INFO] DEN 107-109 DET: No prediction found
+    [INFO] PHX 106-102 BKN: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+
+  Wednesday (2026-01-28):
+
+[FETCH] Fetching games for 2026-01-28...
+  Found 9 games.
+    [OK] CLE 129-99 LAL: Predicted Cleveland Cavaliers
+    [FAIL] IND 113-110 CHI: Predicted Chicago Bulls
+    [FAIL] BOS 106-117 ATL: Predicted Boston Celtics
+    [FAIL] MIA 124-133 ORL: Predicted Miami Heat
+    [FAIL] TOR 92-119 NYK: Predicted Toronto Raptors
+    [OK] MEM 97-112 CHA: Predicted Charlotte Hornets
+    [OK] DAL 105-118 MIN: Predicted Minnesota Timberwolves
+    [OK] UTA 124-140 GSW: Predicted Golden State Warriors
+    [OK] HOU 99-111 SAS: Predicted San Antonio Spurs
+
+  Thursday (2026-01-29):
+
+[FETCH] Fetching games for 2026-01-29...
+  Found 8 games.
+    [OK] PHI 113-111 SAC: Predicted Philadelphia 76ers
+    [FAIL] WAS 109-99 MIL: Predicted Milwaukee Bucks
+    [INFO] CHI 113-116 MIA: No prediction found
+    [FAIL] ATL 86-104 HOU: Predicted Atlanta Hawks
+    [OK] DAL 121-123 CHA: Predicted Charlotte Hornets
+    [OK] DEN 107-103 BKN: Predicted Denver Nuggets
+    [OK] PHX 114-96 DET: Predicted Phoenix Suns
+    [FAIL] MIN 123-111 OKC: Predicted Oklahoma City Thunder
+
+[OK] Saved last week's results to frontend/public/data/lastweek.json
+[OK] Updated predictions history
+
+============================================================
+COMPLETE!
+============================================================
+ 
+[2/4] Adding changed files... 
+ 
+[3/4] Committing changes... 
+[main ddadd0e] Update daily predictions [automated] - 2026-01-30 11:11:05.36
+ 3 files changed, 1411 insertions(+), 798 deletions(-)
+Commit successful! 
+ 
+[4/4] Pushing to GitHub... 
+remote: Permission to krishbhagirath/CourtML.git denied to bhagirak.
+fatal: unable to access 'https://github.com/krishbhagirath/CourtML.git/': The requested URL returned error: 403
+WARNING: Push failed - check network connection 
+============================================================ 
+NBA PREDICTION AUTOMATION - 2026-01-30 11:26:34.49 
+============================================================ 
+ 
+[1/4] Running prediction script... 
+============================================================
+NBA PREDICTION TRACKING SYSTEM V5
+============================================================
+
+Loading model...
+  [OK] Model and feature importance loaded successfully
+  [OK] Loaded predictions history (5 days tracked)
+
+[FETCH] Fetching games for 2026-01-30...
+  Found 9 games.
+
+Generating predictions for 9 games...
+  Analyzing: Washington Wizards vs Los Angeles Lakers...
+  -> Los Angeles Lakers (78.6%)
+  Analyzing: Orlando Magic vs Toronto Raptors...
+  -> Toronto Raptors (53.7%)
+  Analyzing: Boston Celtics vs Sacramento Kings...
+  -> Boston Celtics (59.6%)
+  Analyzing: New York Knicks vs Portland Trail Blazers...
+  -> New York Knicks (62.7%)
+  Analyzing: New Orleans Pelicans vs Memphis Grizzlies...
+  -> New Orleans Pelicans (72.5%)
+  Analyzing: Phoenix Suns vs Cleveland Cavaliers...
+  -> Cleveland Cavaliers (56.5%)
+  Analyzing: Denver Nuggets vs Los Angeles Clippers...
+  [ERROR] Error processing game 0022500695: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+  Analyzing: Utah Jazz vs Brooklyn Nets...
+  [ERROR] Error processing game 0022500694: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+  Analyzing: Golden State Warriors vs Detroit Pistons...
+  [ERROR] Error processing game 0022500696: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+[OK] Saved today's predictions to frontend/public/data/today.json
+
+Fetching last 7 days of results...
+
+  Friday (2026-01-23):
+
+[FETCH] Fetching games for 2026-01-23...
+    [ERROR] Error fetching games for 2026-01-23: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Saturday (2026-01-24):
+
+[FETCH] Fetching games for 2026-01-24...
+    [ERROR] Error fetching games for 2026-01-24: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Sunday (2026-01-25):
+
+[FETCH] Fetching games for 2026-01-25...
+    [ERROR] Error fetching games for 2026-01-25: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Monday (2026-01-26):
+
+[FETCH] Fetching games for 2026-01-26...
+    [ERROR] Error fetching games for 2026-01-26: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Tuesday (2026-01-27):
+
+[FETCH] Fetching games for 2026-01-27...
+    [ERROR] Error fetching games for 2026-01-27: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Wednesday (2026-01-28):
+
+[FETCH] Fetching games for 2026-01-28...
+    [ERROR] Error fetching games for 2026-01-28: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+
+  Thursday (2026-01-29):
+
+[FETCH] Fetching games for 2026-01-29...
+  Found 8 games.
+    [OK] PHI 113-111 SAC: Predicted Philadelphia 76ers
+    [FAIL] WAS 109-99 MIL: Predicted Milwaukee Bucks
+    [INFO] CHI 113-116 MIA: No prediction found
+    [FAIL] ATL 86-104 HOU: Predicted Atlanta Hawks
+    [OK] DAL 121-123 CHA: Predicted Charlotte Hornets
+    [OK] DEN 107-103 BKN: Predicted Denver Nuggets
+    [OK] PHX 114-96 DET: Predicted Phoenix Suns
+    [FAIL] MIN 123-111 OKC: Predicted Oklahoma City Thunder
+
+[OK] Saved last week's results to frontend/public/data/lastweek.json
+[OK] Updated predictions history
+
+============================================================
+COMPLETE!
+============================================================
+ 
+[2/4] Adding changed files... 
+ 
+[3/4] Committing changes... 
+[main c2e6da3] Update daily predictions [automated] - 2026-01-30 11:38:23.31
+ 3 files changed, 66 insertions(+), 1605 deletions(-)
+Commit successful! 
+ 
+[4/4] Pushing to GitHub... 
+To https://github.com/krishbhagirath/CourtML.git
+   f1785fc..c2e6da3  main -> main
+ 
+============================================================ 
+COMPLETE! 
+============================================================ 
+============================================================ 
+NBA PREDICTION AUTOMATION - 2026-01-31 12:12:26.78 
+============================================================ 
+ 
+[1/4] Running prediction script... 
+============================================================
+NBA PREDICTION TRACKING SYSTEM V5
+============================================================
+
+Loading model...
+  [OK] Model and feature importance loaded successfully
+  [OK] Loaded predictions history (5 days tracked)
+
+[FETCH] Fetching games for 2026-01-31...
+  Found 6 games.
+
+Generating predictions for 6 games...
+  Analyzing: Charlotte Hornets vs San Antonio Spurs...
+  -> Charlotte Hornets (65.1%)
+  Analyzing: Indiana Pacers vs Atlanta Hawks...
+  -> Indiana Pacers (58.4%)
+  Analyzing: Philadelphia 76ers vs New Orleans Pelicans...
+  -> Philadelphia 76ers (65.2%)
+  Analyzing: Miami Heat vs Chicago Bulls...
+  -> Chicago Bulls (57.5%)
+  Analyzing: Memphis Grizzlies vs Minnesota Timberwolves...
+  -> Memphis Grizzlies (51.2%)
+  Analyzing: Houston Rockets vs Dallas Mavericks...
+  -> Dallas Mavericks (55.2%)
+
+[OK] Saved today's predictions to frontend/public/data/today.json
+
+Fetching last 7 days of results...
+
+  Saturday (2026-01-24):
+
+[FETCH] Fetching games for 2026-01-24...
+  Found 6 games.
+    [INFO] CHA 119-115 WAS: No prediction found
+    [INFO] PHI 109-112 NYK: No prediction found
+    [INFO] ORL 105-119 CLE: No prediction found
+    [INFO] CHI 114-111 BOS: No prediction found
+    [INFO] DAL 110-116 LAL: No prediction found
+    [INFO] UTA 116-147 MIA: No prediction found
+
+  Sunday (2026-01-25):
+
+[FETCH] Fetching games for 2026-01-25...
+  Found 6 games.
+    [INFO] DET 139-116 SAC: No prediction found
+    [INFO] MIN 85-111 GSW: No prediction found
+    [INFO] OKC 101-103 TOR: No prediction found
+    [INFO] SAS 95-104 NOP: No prediction found
+    [INFO] PHX 102-111 MIA: No prediction found
+    [INFO] LAC 126-89 BKN: No prediction found
+
+  Monday (2026-01-26):
+
+[FETCH] Fetching games for 2026-01-26...
+  Found 7 games.
+    [INFO] ATL 132-116 IND: No prediction found
+    [INFO] CHA 130-93 PHI: No prediction found
+    [INFO] CLE 114-98 ORL: No prediction found
+    [INFO] BOS 102-94 POR: No prediction found
+    [INFO] CHI 118-129 LAL: No prediction found
+    [INFO] HOU 108-99 MEM: No prediction found
+    [INFO] MIN 108-83 GSW: No prediction found
+
+  Tuesday (2026-01-27):
+
+[FETCH] Fetching games for 2026-01-27...
+  Found 9 games.
+    [INFO] WAS 115-111 POR: No prediction found
+    [INFO] NYK 103-87 SAC: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] OKC 104-95 NOP: No prediction found
+    [INFO] DEN 107-109 DET: No prediction found
+    [INFO] PHX 106-102 BKN: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+
+  Wednesday (2026-01-28):
+
+[FETCH] Fetching games for 2026-01-28...
+  Found 9 games.
+    [OK] CLE 129-99 LAL: Predicted Cleveland Cavaliers
+    [FAIL] IND 113-110 CHI: Predicted Chicago Bulls
+    [FAIL] BOS 106-117 ATL: Predicted Boston Celtics
+    [FAIL] MIA 124-133 ORL: Predicted Miami Heat
+    [FAIL] TOR 92-119 NYK: Predicted Toronto Raptors
+    [OK] MEM 97-112 CHA: Predicted Charlotte Hornets
+    [OK] DAL 105-118 MIN: Predicted Minnesota Timberwolves
+    [OK] UTA 124-140 GSW: Predicted Golden State Warriors
+    [OK] HOU 99-111 SAS: Predicted San Antonio Spurs
+
+  Thursday (2026-01-29):
+
+[FETCH] Fetching games for 2026-01-29...
+  Found 8 games.
+    [OK] PHI 113-111 SAC: Predicted Philadelphia 76ers
+    [FAIL] WAS 109-99 MIL: Predicted Milwaukee Bucks
+    [INFO] CHI 113-116 MIA: No prediction found
+    [FAIL] ATL 86-104 HOU: Predicted Atlanta Hawks
+    [OK] DAL 121-123 CHA: Predicted Charlotte Hornets
+    [OK] DEN 107-103 BKN: Predicted Denver Nuggets
+    [OK] PHX 114-96 DET: Predicted Phoenix Suns
+    [FAIL] MIN 123-111 OKC: Predicted Oklahoma City Thunder
+
+  Friday (2026-01-30):
+
+[FETCH] Fetching games for 2026-01-30...
+  Found 9 games.
+    [OK] WAS 111-142 LAL: Predicted Los Angeles Lakers
+    [FAIL] ORL 130-120 TOR: Predicted Toronto Raptors
+    [OK] BOS 112-93 SAC: Predicted Boston Celtics
+    [OK] NYK 127-97 POR: Predicted New York Knicks
+    [OK] NOP 114-106 MEM: Predicted New Orleans Pelicans
+    [FAIL] PHX 126-113 CLE: Predicted Cleveland Cavaliers
+    [OK] DEN 122-109 LAC: Predicted Denver Nuggets
+    [FAIL] UTA 99-109 BKN: Predicted Utah Jazz
+    [FAIL] GSW 124-131 DET: Predicted Golden State Warriors
+
+[OK] Saved last week's results to frontend/public/data/lastweek.json
+[OK] Updated predictions history
+
+============================================================
+COMPLETE!
+============================================================
+ 
+[2/4] Adding changed files... 
+ 
+[3/4] Committing changes... 
+[main 1c1fde3] Update daily predictions [automated] - 2026-01-31 12:15:53.35
+ 3 files changed, 1012 insertions(+), 738 deletions(-)
+Commit successful! 
+ 
+[4/4] Pushing to GitHub... 
+To https://github.com/krishbhagirath/CourtML.git
+   a70d8ad..1c1fde3  main -> main
+ 
+============================================================ 
+COMPLETE! 
+============================================================ 

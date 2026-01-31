@@ -8,6 +8,7 @@ SET PYTHON_EXE=C:\Python313\python.exe
 SET GIT_EXE="C:\Program Files\Git\cmd\git.exe"
 SET LOG_FILE=%PROJECT_DIR%\automation_log.txt
 SET PYTHONUNBUFFERED=1
+SET PYTHONUTF8=1
 
 echo ============================================================ >> "%LOG_FILE%"
 echo NBA PREDICTION AUTOMATION - %date% %time% >> "%LOG_FILE%"
@@ -32,7 +33,7 @@ echo [2/4] Adding changed files... >> "%LOG_FILE%"
 
 echo. >> "%LOG_FILE%"
 echo [3/4] Committing changes... >> "%LOG_FILE%"
-%GIT_EXE% commit -m "Update daily predictions [automated] - %date% %time%" >> "%LOG_FILE%" 2>&1
+%GIT_EXE% commit --author="NBA Bot <nba-bot@courtml.local>" -m "Update daily predictions [automated] - %date% %time%" >> "%LOG_FILE%" 2>&1
 if %ERRORLEVEL% EQU 0 (
     echo Commit successful! >> "%LOG_FILE%"
 ) else (
