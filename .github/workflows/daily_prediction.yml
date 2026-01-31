@@ -1,10 +1,11 @@
 name: Daily NBA Predictions
 
-on:
-  schedule:
-    # Run at 11:00 UTC (6:00 AM EST) every day
-    - cron: '0 11 * * *'
-  workflow_dispatch: # Button to run manually
+# DISABLED: Using local Windows Task Scheduler instead
+# on:
+#   schedule:
+#     # Run at 11:00 UTC (6:00 AM EST) every day
+#     - cron: '0 11 * * *'
+#   workflow_dispatch: # Button to run manually
 
 jobs:
   predict-and-deploy:
