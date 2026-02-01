@@ -438,3 +438,164 @@ To https://github.com/krishbhagirath/CourtML.git
 ============================================================ 
 COMPLETE! 
 ============================================================ 
+============================================================ 
+NBA PREDICTION AUTOMATION - 2026-02-01 15:42:52.85 
+============================================================ 
+ 
+[1/4] Running prediction script... 
+============================================================
+NBA PREDICTION TRACKING SYSTEM V5
+============================================================
+
+Loading model...
+  [OK] Model and feature importance loaded successfully
+  [OK] Loaded predictions history (6 days tracked)
+
+[FETCH] Fetching games for 2026-02-01...
+  Found 14 games.
+
+Generating predictions for 14 games...
+  Analyzing: Boston Celtics vs Milwaukee Bucks...
+  -> Boston Celtics (77.0%)
+  Analyzing: Detroit Pistons vs Brooklyn Nets...
+  -> Detroit Pistons (79.1%)
+  Analyzing: Miami Heat vs Chicago Bulls...
+  -> Chicago Bulls (57.1%)
+  Analyzing: Toronto Raptors vs Utah Jazz...
+  -> Toronto Raptors (74.8%)
+  Analyzing: Washington Wizards vs Sacramento Kings...
+  -> Sacramento Kings (59.0%)
+  Analyzing: New York Knicks vs Los Angeles Lakers...
+  -> Los Angeles Lakers (53.6%)
+  Analyzing: New York Knicks vs Los Angeles Lakers...
+  -> Los Angeles Lakers (53.6%)
+  Analyzing: New York Knicks vs Los Angeles Lakers...
+  -> Los Angeles Lakers (53.6%)
+  Analyzing: Phoenix Suns vs Los Angeles Clippers...
+  -> Phoenix Suns (60.1%)
+  Analyzing: San Antonio Spurs vs Orlando Magic...
+  -> San Antonio Spurs (54.8%)
+  Analyzing: Portland Trail Blazers vs Cleveland Cavaliers...
+  -> Portland Trail Blazers (50.4%)
+  Analyzing: Denver Nuggets vs Oklahoma City Thunder...
+  -> Oklahoma City Thunder (52.9%)
+  Analyzing: Denver Nuggets vs Oklahoma City Thunder...
+  -> Oklahoma City Thunder (52.9%)
+  Analyzing: Denver Nuggets vs Oklahoma City Thunder...
+  -> Oklahoma City Thunder (52.9%)
+
+[OK] Saved today's predictions to frontend/public/data/today.json
+
+Fetching last 7 days of results...
+
+  Sunday (2026-01-25):
+
+[FETCH] Fetching games for 2026-01-25...
+  Found 6 games.
+    [INFO] DET 139-116 SAC: No prediction found
+    [INFO] MIN 85-111 GSW: No prediction found
+    [INFO] OKC 101-103 TOR: No prediction found
+    [INFO] SAS 95-104 NOP: No prediction found
+    [INFO] PHX 102-111 MIA: No prediction found
+    [INFO] LAC 126-89 BKN: No prediction found
+
+  Monday (2026-01-26):
+
+[FETCH] Fetching games for 2026-01-26...
+  Found 7 games.
+    [INFO] ATL 132-116 IND: No prediction found
+    [INFO] CHA 130-93 PHI: No prediction found
+    [INFO] CLE 114-98 ORL: No prediction found
+    [INFO] BOS 102-94 POR: No prediction found
+    [INFO] CHI 118-129 LAL: No prediction found
+    [INFO] HOU 108-99 MEM: No prediction found
+    [INFO] MIN 108-83 GSW: No prediction found
+
+  Tuesday (2026-01-27):
+
+[FETCH] Fetching games for 2026-01-27...
+  Found 9 games.
+    [INFO] WAS 115-111 POR: No prediction found
+    [INFO] NYK 103-87 SAC: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] PHI 139-122 MIL: No prediction found
+    [INFO] OKC 104-95 NOP: No prediction found
+    [INFO] DEN 107-109 DET: No prediction found
+    [INFO] PHX 106-102 BKN: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+    [INFO] UTA 103-115 LAC: No prediction found
+
+  Wednesday (2026-01-28):
+
+[FETCH] Fetching games for 2026-01-28...
+  Found 9 games.
+    [OK] CLE 129-99 LAL: Predicted Cleveland Cavaliers
+    [FAIL] IND 113-110 CHI: Predicted Chicago Bulls
+    [FAIL] BOS 106-117 ATL: Predicted Boston Celtics
+    [FAIL] MIA 124-133 ORL: Predicted Miami Heat
+    [FAIL] TOR 92-119 NYK: Predicted Toronto Raptors
+    [OK] MEM 97-112 CHA: Predicted Charlotte Hornets
+    [OK] DAL 105-118 MIN: Predicted Minnesota Timberwolves
+    [OK] UTA 124-140 GSW: Predicted Golden State Warriors
+    [OK] HOU 99-111 SAS: Predicted San Antonio Spurs
+
+  Thursday (2026-01-29):
+
+[FETCH] Fetching games for 2026-01-29...
+  Found 8 games.
+    [OK] PHI 113-111 SAC: Predicted Philadelphia 76ers
+    [FAIL] WAS 109-99 MIL: Predicted Milwaukee Bucks
+    [INFO] CHI 113-116 MIA: No prediction found
+    [FAIL] ATL 86-104 HOU: Predicted Atlanta Hawks
+    [OK] DAL 121-123 CHA: Predicted Charlotte Hornets
+    [OK] DEN 107-103 BKN: Predicted Denver Nuggets
+    [OK] PHX 114-96 DET: Predicted Phoenix Suns
+    [FAIL] MIN 123-111 OKC: Predicted Oklahoma City Thunder
+
+  Friday (2026-01-30):
+
+[FETCH] Fetching games for 2026-01-30...
+  Found 9 games.
+    [OK] WAS 111-142 LAL: Predicted Los Angeles Lakers
+    [FAIL] ORL 130-120 TOR: Predicted Toronto Raptors
+    [OK] BOS 112-93 SAC: Predicted Boston Celtics
+    [OK] NYK 127-97 POR: Predicted New York Knicks
+    [OK] NOP 114-106 MEM: Predicted New Orleans Pelicans
+    [FAIL] PHX 126-113 CLE: Predicted Cleveland Cavaliers
+    [OK] DEN 122-109 LAC: Predicted Denver Nuggets
+    [FAIL] UTA 99-109 BKN: Predicted Utah Jazz
+    [FAIL] GSW 124-131 DET: Predicted Golden State Warriors
+
+  Saturday (2026-01-31):
+
+[FETCH] Fetching games for 2026-01-31...
+  Found 6 games.
+    [OK] CHA 111-106 SAS: Predicted Charlotte Hornets
+    [OK] IND 129-124 ATL: Predicted Indiana Pacers
+    [OK] PHI 124-114 NOP: Predicted Philadelphia 76ers
+    [OK] MIA 118-125 CHI: Predicted Chicago Bulls
+    [FAIL] MEM 114-131 MIN: Predicted Memphis Grizzlies
+    [FAIL] HOU 111-107 DAL: Predicted Dallas Mavericks
+
+[OK] Saved last week's results to frontend/public/data/lastweek.json
+[OK] Updated predictions history
+
+============================================================
+COMPLETE!
+============================================================
+ 
+[2/4] Adding changed files... 
+ 
+[3/4] Committing changes... 
+[main a27166e] Update daily predictions [automated] - 2026-02-01 15:48:22.84
+ Author: NBA Bot <nba-bot@courtml.local>
+ 3 files changed, 2105 insertions(+), 427 deletions(-)
+Commit successful! 
+ 
+[4/4] Pushing to GitHub... 
+To https://github.com/krishbhagirath/CourtML.git
+   de29f52..a27166e  main -> main
+ 
+============================================================ 
+COMPLETE! 
+============================================================ 

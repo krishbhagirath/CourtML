@@ -342,6 +342,9 @@ def get_games_for_date(date_str):
         print("  No games found for this date.")
         return []
     
+    # Remove duplicate game IDs (NBA API sometimes returns duplicates)
+    games_df = games_df.drop_duplicates(subset=['GAME_ID'], keep='first')
+    
     game_list = []
     for i, row in games_df.iterrows():
         game_id = row["GAME_ID"]
