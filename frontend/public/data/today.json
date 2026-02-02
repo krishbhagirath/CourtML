@@ -1,1150 +1,330 @@
 {
-  "date": "2026-02-01",
+  "date": "2026-02-02",
   "games": [
     {
-      "id": "0022500702",
-      "date": "2026-02-01",
-      "time": "3:30 pm ET",
-      "venue": "TD Garden",
+      "id": "0022500712",
+      "date": "2026-02-02",
+      "time": "3:00 pm ET",
+      "venue": "Spectrum Center",
       "gameStatus": "scheduled",
       "homeTeam": {
-        "name": "Celtics",
-        "city": "Boston",
-        "abbreviation": "BOS",
-        "team_id": 1610612738
+        "name": "Hornets",
+        "city": "Charlotte",
+        "abbreviation": "CHA",
+        "team_id": 1610612766
       },
       "awayTeam": {
-        "name": "Bucks",
-        "city": "Milwaukee",
-        "abbreviation": "MIL",
-        "team_id": 1610612749
+        "name": "Pelicans",
+        "city": "New Orleans",
+        "abbreviation": "NOP",
+        "team_id": 1610612740
       },
       "prediction": {
-        "winner": "Boston Celtics",
-        "confidence": 77.0,
+        "winner": "Charlotte Hornets",
+        "confidence": 68.8,
         "predictedHomeWin": true,
         "keyDifferences": [
           {
+            "name": "Ast% Max",
+            "homeValue": 54.0,
+            "awayValue": 36.4,
+            "difference": 17.5,
+            "importanceScore": 17.51,
+            "homeAdvantage": true
+          },
+          {
             "name": "+/- Max",
-            "homeValue": 19.0,
-            "awayValue": 7.4,
-            "difference": 11.6,
-            "importanceScore": 11.6,
+            "homeValue": 20.7,
+            "awayValue": 12.1,
+            "difference": 8.6,
+            "importanceScore": 8.6,
             "homeAdvantage": true
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 145.4,
-            "awayValue": 135.3,
-            "difference": 10.0,
-            "importanceScore": 10.04,
-            "homeAdvantage": true
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 12.2,
-            "awayValue": 20.9,
-            "difference": 8.7,
-            "importanceScore": 8.7,
-            "homeAdvantage": false
           },
           {
             "name": "Off Rating",
-            "homeValue": 116.0,
-            "awayValue": 108.8,
-            "difference": 7.3,
-            "importanceScore": 7.27,
+            "homeValue": 120.8,
+            "awayValue": 113.0,
+            "difference": 7.8,
+            "importanceScore": 7.85,
             "homeAdvantage": true
           },
           {
             "name": "Drtg Opp",
-            "homeValue": 116.0,
-            "awayValue": 108.8,
-            "difference": 7.3,
-            "importanceScore": 7.27,
+            "homeValue": 120.8,
+            "awayValue": 113.0,
+            "difference": 7.8,
+            "importanceScore": 7.85,
             "homeAdvantage": true
           },
           {
-            "name": "Orb% Max",
-            "homeValue": 19.1,
-            "awayValue": 12.5,
-            "difference": 6.6,
-            "importanceScore": 6.65,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 30.3,
-            "awayValue": 24.7,
+            "name": "Usg% Max",
+            "homeValue": 32.9,
+            "awayValue": 27.3,
             "difference": 5.6,
-            "importanceScore": 5.6,
+            "importanceScore": 5.58,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Assists",
+            "homeValue": 28.4,
+            "awayValue": 23.7,
+            "difference": 4.7,
+            "importanceScore": 4.7,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 23.3,
+            "awayValue": 18.6,
+            "difference": 4.6,
+            "importanceScore": 4.62,
             "homeAdvantage": true
           }
         ]
       }
     },
     {
-      "id": "0022500704",
-      "date": "2026-02-01",
-      "time": "6:00 pm ET",
-      "venue": "Little Caesars Arena",
+      "id": "0022500713",
+      "date": "2026-02-02",
+      "time": "7:00 pm ET",
+      "venue": "Gainbridge Fieldhouse",
       "gameStatus": "scheduled",
       "homeTeam": {
-        "name": "Pistons",
-        "city": "Detroit",
-        "abbreviation": "DET",
-        "team_id": 1610612765
+        "name": "Pacers",
+        "city": "Indiana",
+        "abbreviation": "IND",
+        "team_id": 1610612754
       },
       "awayTeam": {
-        "name": "Nets",
-        "city": "Brooklyn",
-        "abbreviation": "BKN",
-        "team_id": 1610612751
+        "name": "Rockets",
+        "city": "Houston",
+        "abbreviation": "HOU",
+        "team_id": 1610612745
       },
       "prediction": {
-        "winner": "Detroit Pistons",
-        "confidence": 79.1,
+        "winner": "Indiana Pacers",
+        "confidence": 51.9,
         "predictedHomeWin": true,
         "keyDifferences": [
           {
-            "name": "Drtg Max",
-            "homeValue": 123.4,
-            "awayValue": 138.8,
-            "difference": 15.4,
-            "importanceScore": 15.39,
-            "homeAdvantage": false
-          },
-          {
             "name": "Ast% Max",
-            "homeValue": 48.4,
-            "awayValue": 37.5,
-            "difference": 10.9,
-            "importanceScore": 10.86,
+            "homeValue": 51.9,
+            "awayValue": 37.3,
+            "difference": 14.6,
+            "importanceScore": 14.58,
             "homeAdvantage": true
-          },
-          {
-            "name": "+/- Max",
-            "homeValue": 15.6,
-            "awayValue": 7.4,
-            "difference": 8.2,
-            "importanceScore": 8.2,
-            "homeAdvantage": true
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 10.6,
-            "awayValue": 18.2,
-            "difference": 7.6,
-            "importanceScore": 7.6,
-            "homeAdvantage": false
           },
           {
             "name": "Drtg Max Opp",
-            "homeValue": 139.2,
-            "awayValue": 131.7,
+            "homeValue": 129.3,
+            "awayValue": 141.0,
+            "difference": 11.6,
+            "importanceScore": 11.64,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 37.0,
+            "awayValue": 29.5,
             "difference": 7.5,
             "importanceScore": 7.51,
             "homeAdvantage": true
           },
           {
-            "name": "Trb% Max",
-            "homeValue": 23.2,
-            "awayValue": 19.0,
-            "difference": 4.1,
-            "importanceScore": 4.14,
+            "name": "Drtg Max",
+            "homeValue": 138.6,
+            "awayValue": 131.3,
+            "difference": 7.4,
+            "importanceScore": 7.38,
             "homeAdvantage": true
           },
           {
-            "name": "Orb% Max",
-            "homeValue": 17.6,
-            "awayValue": 14.5,
-            "difference": 3.0,
-            "importanceScore": 3.03,
+            "name": "+/- Max Opp",
+            "homeValue": 18.0,
+            "awayValue": 11.9,
+            "difference": 6.1,
+            "importanceScore": 6.1,
             "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 23.7,
+            "awayValue": 19.0,
+            "difference": 4.7,
+            "importanceScore": 4.72,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 24.5,
+            "awayValue": 28.9,
+            "difference": 4.4,
+            "importanceScore": 4.4,
+            "homeAdvantage": false
           }
         ]
       }
     },
     {
-      "id": "0022500705",
-      "date": "2026-02-01",
-      "time": "6:00 pm ET",
-      "venue": "Kaseya Center",
+      "id": "0022500714",
+      "date": "2026-02-02",
+      "time": "7:30 pm ET",
+      "venue": "FedExForum",
       "gameStatus": "scheduled",
       "homeTeam": {
-        "name": "Heat",
-        "city": "Miami",
-        "abbreviation": "MIA",
-        "team_id": 1610612748
+        "name": "Grizzlies",
+        "city": "Memphis",
+        "abbreviation": "MEM",
+        "team_id": 1610612763
       },
       "awayTeam": {
-        "name": "Bulls",
-        "city": "Chicago",
-        "abbreviation": "CHI",
-        "team_id": 1610612741
+        "name": "Timberwolves",
+        "city": "Minnesota",
+        "abbreviation": "MIN",
+        "team_id": 1610612750
       },
       "prediction": {
-        "winner": "Chicago Bulls",
-        "confidence": 57.1,
+        "winner": "Minnesota Timberwolves",
+        "confidence": 58.9,
         "predictedHomeWin": false,
         "keyDifferences": [
           {
-            "name": "Drtg Max Opp",
-            "homeValue": 137.5,
-            "awayValue": 144.8,
-            "difference": 7.3,
-            "importanceScore": 7.32,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Orb% Max",
-            "homeValue": 16.2,
-            "awayValue": 11.5,
-            "difference": 4.7,
-            "importanceScore": 4.73,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 114.0,
-            "awayValue": 118.7,
-            "difference": 4.6,
-            "importanceScore": 4.65,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Opp",
-            "homeValue": 114.0,
-            "awayValue": 118.7,
-            "difference": 4.6,
-            "importanceScore": 4.65,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 13.5,
-            "awayValue": 9.0,
-            "difference": 4.5,
-            "importanceScore": 4.5,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Assists",
-            "homeValue": 28.3,
-            "awayValue": 32.2,
-            "difference": 3.9,
-            "importanceScore": 3.9,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 18.1,
-            "awayValue": 21.8,
-            "difference": 3.6,
-            "importanceScore": 3.65,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500706",
-      "date": "2026-02-01",
-      "time": "6:00 pm ET",
-      "venue": "Scotiabank Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Raptors",
-        "city": "Toronto",
-        "abbreviation": "TOR",
-        "team_id": 1610612761
-      },
-      "awayTeam": {
-        "name": "Jazz",
-        "city": "Utah",
-        "abbreviation": "UTA",
-        "team_id": 1610612762
-      },
-      "prediction": {
-        "winner": "Toronto Raptors",
-        "confidence": 74.8,
-        "predictedHomeWin": true,
-        "keyDifferences": [
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 15.2,
-            "awayValue": 21.7,
-            "difference": 6.5,
-            "importanceScore": 6.5,
+            "name": "Max Points",
+            "homeValue": 22.6,
+            "awayValue": 33.1,
+            "difference": 10.5,
+            "importanceScore": 10.544,
             "homeAdvantage": false
           },
           {
             "name": "Ast% Max",
-            "homeValue": 48.6,
-            "awayValue": 43.0,
-            "difference": 5.6,
-            "importanceScore": 5.63,
+            "homeValue": 54.2,
+            "awayValue": 43.8,
+            "difference": 10.4,
+            "importanceScore": 10.419,
             "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 14.7,
+            "awayValue": 8.1,
+            "difference": 6.6,
+            "importanceScore": 6.567,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 134.5,
+            "awayValue": 140.9,
+            "difference": 6.4,
+            "importanceScore": 6.403,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 30.3,
+            "awayValue": 36.2,
+            "difference": 5.9,
+            "importanceScore": 5.912,
+            "homeAdvantage": false
           },
           {
             "name": "+/- Max",
-            "homeValue": 13.8,
-            "awayValue": 8.5,
-            "difference": 5.3,
-            "importanceScore": 5.3,
-            "homeAdvantage": true
+            "homeValue": 10.7,
+            "awayValue": 15.8,
+            "difference": 5.1,
+            "importanceScore": 5.133,
+            "homeAdvantage": false
           },
           {
             "name": "Drtg Max Opp",
-            "homeValue": 142.6,
-            "awayValue": 147.5,
-            "difference": 4.9,
-            "importanceScore": 4.91,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 33.5,
-            "awayValue": 30.1,
-            "difference": 3.4,
-            "importanceScore": 3.35,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 26.4,
-            "awayValue": 28.8,
-            "difference": 2.4,
-            "importanceScore": 2.4,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Blk Opp",
-            "homeValue": 4.1,
-            "awayValue": 6.5,
-            "difference": 2.4,
-            "importanceScore": 2.4,
+            "homeValue": 141.1,
+            "awayValue": 145.4,
+            "difference": 4.2,
+            "importanceScore": 4.246,
             "homeAdvantage": false
           }
         ]
       }
     },
     {
-      "id": "0022500707",
-      "date": "2026-02-01",
-      "time": "6:00 pm ET",
-      "venue": "Capital One Arena",
+      "id": "0022500715",
+      "date": "2026-02-02",
+      "time": "10:00 pm ET",
+      "venue": "Intuit Dome",
       "gameStatus": "scheduled",
       "homeTeam": {
-        "name": "Wizards",
-        "city": "Washington",
-        "abbreviation": "WAS",
-        "team_id": 1610612764
-      },
-      "awayTeam": {
-        "name": "Kings",
-        "city": "Sacramento",
-        "abbreviation": "SAC",
-        "team_id": 1610612758
-      },
-      "prediction": {
-        "winner": "Sacramento Kings",
-        "confidence": 59.0,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 126.8,
-            "awayValue": 143.9,
-            "difference": 17.1,
-            "importanceScore": 17.13,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 41.4,
-            "awayValue": 35.5,
-            "difference": 5.9,
-            "importanceScore": 5.86,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 106.7,
-            "awayValue": 111.7,
-            "difference": 5.0,
-            "importanceScore": 4.95,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Opp",
-            "homeValue": 106.7,
-            "awayValue": 111.7,
-            "difference": 5.0,
-            "importanceScore": 4.95,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 31.8,
-            "awayValue": 29.3,
-            "difference": 2.4,
-            "importanceScore": 2.43,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Ft Max",
-            "homeValue": 4.6,
-            "awayValue": 6.8,
-            "difference": 2.2,
-            "importanceScore": 2.2,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Blk Opp",
-            "homeValue": 5.4,
-            "awayValue": 3.7,
-            "difference": 1.7,
-            "importanceScore": 1.7,
-            "homeAdvantage": true
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500708",
-      "date": "2026-02-01",
-      "time": "7:00 pm ET",
-      "venue": "Madison Square Garden",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Knicks",
-        "city": "New York",
-        "abbreviation": "NYK",
-        "team_id": 1610612752
-      },
-      "awayTeam": {
-        "name": "Lakers",
-        "city": "Los Angeles",
-        "abbreviation": "LAL",
-        "team_id": 1610612747
-      },
-      "prediction": {
-        "winner": "Los Angeles Lakers",
-        "confidence": 53.6,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Orb% Max",
-            "homeValue": 32.4,
-            "awayValue": 17.3,
-            "difference": 15.1,
-            "importanceScore": 15.13,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 31.4,
-            "awayValue": 20.3,
-            "difference": 11.0,
-            "importanceScore": 11.02,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 36.7,
-            "awayValue": 47.5,
-            "difference": 10.8,
-            "importanceScore": 10.78,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 135.3,
-            "awayValue": 145.8,
-            "difference": 10.6,
-            "importanceScore": 10.56,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 25.0,
-            "awayValue": 33.5,
-            "difference": 8.5,
-            "importanceScore": 8.5,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 32.0,
-            "awayValue": 39.9,
-            "difference": 7.9,
-            "importanceScore": 7.87,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 114.1,
-            "awayValue": 119.1,
-            "difference": 5.0,
-            "importanceScore": 5.02,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500708",
-      "date": "2026-02-01",
-      "time": "7:00 pm ET",
-      "venue": "Madison Square Garden",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Knicks",
-        "city": "New York",
-        "abbreviation": "NYK",
-        "team_id": 1610612752
-      },
-      "awayTeam": {
-        "name": "Lakers",
-        "city": "Los Angeles",
-        "abbreviation": "LAL",
-        "team_id": 1610612747
-      },
-      "prediction": {
-        "winner": "Los Angeles Lakers",
-        "confidence": 53.6,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Orb% Max",
-            "homeValue": 32.4,
-            "awayValue": 17.3,
-            "difference": 15.1,
-            "importanceScore": 15.13,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 31.4,
-            "awayValue": 20.3,
-            "difference": 11.0,
-            "importanceScore": 11.02,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 36.7,
-            "awayValue": 47.5,
-            "difference": 10.8,
-            "importanceScore": 10.78,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 135.3,
-            "awayValue": 145.8,
-            "difference": 10.6,
-            "importanceScore": 10.56,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 25.0,
-            "awayValue": 33.5,
-            "difference": 8.5,
-            "importanceScore": 8.5,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 32.0,
-            "awayValue": 39.9,
-            "difference": 7.9,
-            "importanceScore": 7.87,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 114.1,
-            "awayValue": 119.1,
-            "difference": 5.0,
-            "importanceScore": 5.02,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500708",
-      "date": "2026-02-01",
-      "time": "7:00 pm ET",
-      "venue": "Madison Square Garden",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Knicks",
-        "city": "New York",
-        "abbreviation": "NYK",
-        "team_id": 1610612752
-      },
-      "awayTeam": {
-        "name": "Lakers",
-        "city": "Los Angeles",
-        "abbreviation": "LAL",
-        "team_id": 1610612747
-      },
-      "prediction": {
-        "winner": "Los Angeles Lakers",
-        "confidence": 53.6,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Orb% Max",
-            "homeValue": 32.4,
-            "awayValue": 17.3,
-            "difference": 15.1,
-            "importanceScore": 15.13,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 31.4,
-            "awayValue": 20.3,
-            "difference": 11.0,
-            "importanceScore": 11.02,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 36.7,
-            "awayValue": 47.5,
-            "difference": 10.8,
-            "importanceScore": 10.78,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 135.3,
-            "awayValue": 145.8,
-            "difference": 10.6,
-            "importanceScore": 10.56,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 25.0,
-            "awayValue": 33.5,
-            "difference": 8.5,
-            "importanceScore": 8.5,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 32.0,
-            "awayValue": 39.9,
-            "difference": 7.9,
-            "importanceScore": 7.87,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 114.1,
-            "awayValue": 119.1,
-            "difference": 5.0,
-            "importanceScore": 5.02,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500709",
-      "date": "2026-02-01",
-      "time": "8:00 pm ET",
-      "venue": "Mortgage Matchup Center",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Suns",
-        "city": "Phoenix",
-        "abbreviation": "PHX",
-        "team_id": 1610612756
-      },
-      "awayTeam": {
         "name": "Clippers",
         "city": "Los Angeles",
         "abbreviation": "LAC",
         "team_id": 1610612746
       },
-      "prediction": {
-        "winner": "Phoenix Suns",
-        "confidence": 60.1,
-        "predictedHomeWin": true,
-        "keyDifferences": [
-          {
-            "name": "Drtg Max",
-            "homeValue": 138.3,
-            "awayValue": 150.0,
-            "difference": 11.7,
-            "importanceScore": 11.66,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 34.6,
-            "awayValue": 40.1,
-            "difference": 5.5,
-            "importanceScore": 5.49,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 147.8,
-            "awayValue": 142.8,
-            "difference": 5.0,
-            "importanceScore": 4.95,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 22.9,
-            "awayValue": 18.9,
-            "difference": 4.0,
-            "importanceScore": 4.02,
-            "homeAdvantage": true
-          },
-          {
-            "name": "+/- Max",
-            "homeValue": 14.4,
-            "awayValue": 17.7,
-            "difference": 3.3,
-            "importanceScore": 3.3,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Blk Opp",
-            "homeValue": 3.3,
-            "awayValue": 6.0,
-            "difference": 2.7,
-            "importanceScore": 2.7,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Orb% Max",
-            "homeValue": 18.0,
-            "awayValue": 15.8,
-            "difference": 2.2,
-            "importanceScore": 2.17,
-            "homeAdvantage": true
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500703",
-      "date": "2026-02-01",
-      "time": "9:00 pm ET",
-      "venue": "Frost Bank Center",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Spurs",
-        "city": "San Antonio",
-        "abbreviation": "SAS",
-        "team_id": 1610612759
-      },
       "awayTeam": {
-        "name": "Magic",
-        "city": "Orlando",
-        "abbreviation": "ORL",
-        "team_id": 1610612753
+        "name": "76ers",
+        "city": "Philadelphia",
+        "abbreviation": "PHI",
+        "team_id": 1610612755
       },
       "prediction": {
-        "winner": "San Antonio Spurs",
-        "confidence": 54.8,
+        "winner": "Los Angeles Clippers",
+        "confidence": 69.6,
         "predictedHomeWin": true,
         "keyDifferences": [
           {
             "name": "Drtg Max Opp",
-            "homeValue": 142.0,
-            "awayValue": 129.0,
-            "difference": 13.0,
-            "importanceScore": 13.02,
+            "homeValue": 144.9,
+            "awayValue": 133.2,
+            "difference": 11.8,
+            "importanceScore": 11.76,
             "homeAdvantage": true
-          },
-          {
-            "name": "Drtg Max",
-            "homeValue": 143.3,
-            "awayValue": 153.1,
-            "difference": 9.8,
-            "importanceScore": 9.8,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 38.6,
-            "awayValue": 46.9,
-            "difference": 8.3,
-            "importanceScore": 8.3,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Orb% Max",
-            "homeValue": 15.9,
-            "awayValue": 21.0,
-            "difference": 5.0,
-            "importanceScore": 5.04,
-            "homeAdvantage": false
           },
           {
             "name": "+/- Max",
-            "homeValue": 15.7,
-            "awayValue": 11.8,
-            "difference": 3.9,
-            "importanceScore": 3.9,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Usg% Max",
-            "homeValue": 34.7,
-            "awayValue": 32.2,
-            "difference": 2.5,
-            "importanceScore": 2.51,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Off Rating",
-            "homeValue": 113.5,
-            "awayValue": 111.5,
-            "difference": 2.0,
-            "importanceScore": 2.0,
-            "homeAdvantage": true
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500710",
-      "date": "2026-02-01",
-      "time": "9:00 pm ET",
-      "venue": "Moda Center",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Trail Blazers",
-        "city": "Portland",
-        "abbreviation": "POR",
-        "team_id": 1610612757
-      },
-      "awayTeam": {
-        "name": "Cavaliers",
-        "city": "Cleveland",
-        "abbreviation": "CLE",
-        "team_id": 1610612739
-      },
-      "prediction": {
-        "winner": "Portland Trail Blazers",
-        "confidence": 50.4,
-        "predictedHomeWin": true,
-        "keyDifferences": [
-          {
-            "name": "Trb% Max",
-            "homeValue": 31.6,
-            "awayValue": 15.9,
-            "difference": 15.6,
-            "importanceScore": 15.65,
+            "homeValue": 18.3,
+            "awayValue": 10.7,
+            "difference": 7.6,
+            "importanceScore": 7.6,
             "homeAdvantage": true
           },
           {
             "name": "Drtg Max",
-            "homeValue": 130.1,
-            "awayValue": 142.3,
-            "difference": 12.2,
-            "importanceScore": 12.21,
-            "homeAdvantage": false
+            "homeValue": 149.9,
+            "awayValue": 143.3,
+            "difference": 6.6,
+            "importanceScore": 6.59,
+            "homeAdvantage": true
           },
           {
-            "name": "Assists",
-            "homeValue": 21.6,
-            "awayValue": 29.1,
-            "difference": 7.5,
-            "importanceScore": 7.5,
+            "name": "Ast% Max",
+            "homeValue": 42.9,
+            "awayValue": 39.7,
+            "difference": 3.2,
+            "importanceScore": 3.21,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 28.2,
+            "awayValue": 31.1,
+            "difference": 2.9,
+            "importanceScore": 2.9,
             "homeAdvantage": false
           },
           {
             "name": "Off Rating",
-            "homeValue": 109.0,
-            "awayValue": 115.9,
-            "difference": 6.8,
-            "importanceScore": 6.85,
-            "homeAdvantage": false
+            "homeValue": 118.2,
+            "awayValue": 115.3,
+            "difference": 2.8,
+            "importanceScore": 2.83,
+            "homeAdvantage": true
           },
           {
             "name": "Drtg Opp",
-            "homeValue": 109.0,
-            "awayValue": 115.9,
-            "difference": 6.8,
-            "importanceScore": 6.85,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 24.7,
-            "awayValue": 29.6,
-            "difference": 4.9,
-            "importanceScore": 4.9,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 36.9,
-            "awayValue": 41.2,
-            "difference": 4.4,
-            "importanceScore": 4.36,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500711",
-      "date": "2026-02-01",
-      "time": "9:30 pm ET",
-      "venue": "Ball Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Nuggets",
-        "city": "Denver",
-        "abbreviation": "DEN",
-        "team_id": 1610612743
-      },
-      "awayTeam": {
-        "name": "Thunder",
-        "city": "Oklahoma City",
-        "abbreviation": "OKC",
-        "team_id": 1610612760
-      },
-      "prediction": {
-        "winner": "Oklahoma City Thunder",
-        "confidence": 52.9,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Drtg Max",
-            "homeValue": 140.5,
-            "awayValue": 129.3,
-            "difference": 11.2,
-            "importanceScore": 11.24,
+            "homeValue": 118.2,
+            "awayValue": 115.3,
+            "difference": 2.8,
+            "importanceScore": 2.83,
             "homeAdvantage": true
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 137.8,
-            "awayValue": 144.6,
-            "difference": 6.8,
-            "importanceScore": 6.8,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max",
-            "homeValue": 14.5,
-            "awayValue": 17.9,
-            "difference": 3.4,
-            "importanceScore": 3.4,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 29.1,
-            "awayValue": 32.2,
-            "difference": 3.1,
-            "importanceScore": 3.1,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 10.3,
-            "awayValue": 7.6,
-            "difference": 2.7,
-            "importanceScore": 2.7,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 19.4,
-            "awayValue": 21.8,
-            "difference": 2.4,
-            "importanceScore": 2.38,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 38.8,
-            "awayValue": 40.5,
-            "difference": 1.7,
-            "importanceScore": 1.71,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500711",
-      "date": "2026-02-01",
-      "time": "9:30 pm ET",
-      "venue": "Ball Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Nuggets",
-        "city": "Denver",
-        "abbreviation": "DEN",
-        "team_id": 1610612743
-      },
-      "awayTeam": {
-        "name": "Thunder",
-        "city": "Oklahoma City",
-        "abbreviation": "OKC",
-        "team_id": 1610612760
-      },
-      "prediction": {
-        "winner": "Oklahoma City Thunder",
-        "confidence": 52.9,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Drtg Max",
-            "homeValue": 140.5,
-            "awayValue": 129.3,
-            "difference": 11.2,
-            "importanceScore": 11.24,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 137.8,
-            "awayValue": 144.6,
-            "difference": 6.8,
-            "importanceScore": 6.8,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max",
-            "homeValue": 14.5,
-            "awayValue": 17.9,
-            "difference": 3.4,
-            "importanceScore": 3.4,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 29.1,
-            "awayValue": 32.2,
-            "difference": 3.1,
-            "importanceScore": 3.1,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 10.3,
-            "awayValue": 7.6,
-            "difference": 2.7,
-            "importanceScore": 2.7,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 19.4,
-            "awayValue": 21.8,
-            "difference": 2.4,
-            "importanceScore": 2.38,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 38.8,
-            "awayValue": 40.5,
-            "difference": 1.7,
-            "importanceScore": 1.71,
-            "homeAdvantage": false
-          }
-        ]
-      }
-    },
-    {
-      "id": "0022500711",
-      "date": "2026-02-01",
-      "time": "9:30 pm ET",
-      "venue": "Ball Arena",
-      "gameStatus": "scheduled",
-      "homeTeam": {
-        "name": "Nuggets",
-        "city": "Denver",
-        "abbreviation": "DEN",
-        "team_id": 1610612743
-      },
-      "awayTeam": {
-        "name": "Thunder",
-        "city": "Oklahoma City",
-        "abbreviation": "OKC",
-        "team_id": 1610612760
-      },
-      "prediction": {
-        "winner": "Oklahoma City Thunder",
-        "confidence": 52.9,
-        "predictedHomeWin": false,
-        "keyDifferences": [
-          {
-            "name": "Drtg Max",
-            "homeValue": 140.5,
-            "awayValue": 129.3,
-            "difference": 11.2,
-            "importanceScore": 11.24,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Drtg Max Opp",
-            "homeValue": 137.8,
-            "awayValue": 144.6,
-            "difference": 6.8,
-            "importanceScore": 6.8,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max",
-            "homeValue": 14.5,
-            "awayValue": 17.9,
-            "difference": 3.4,
-            "importanceScore": 3.4,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Max Points",
-            "homeValue": 29.1,
-            "awayValue": 32.2,
-            "difference": 3.1,
-            "importanceScore": 3.1,
-            "homeAdvantage": false
-          },
-          {
-            "name": "+/- Max Opp",
-            "homeValue": 10.3,
-            "awayValue": 7.6,
-            "difference": 2.7,
-            "importanceScore": 2.7,
-            "homeAdvantage": true
-          },
-          {
-            "name": "Trb% Max",
-            "homeValue": 19.4,
-            "awayValue": 21.8,
-            "difference": 2.4,
-            "importanceScore": 2.38,
-            "homeAdvantage": false
-          },
-          {
-            "name": "Ast% Max",
-            "homeValue": 38.8,
-            "awayValue": 40.5,
-            "difference": 1.7,
-            "importanceScore": 1.71,
-            "homeAdvantage": false
           }
         ]
       }
