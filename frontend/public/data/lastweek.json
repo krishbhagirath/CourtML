@@ -1,186 +1,23 @@
 {
   "weekDates": [
-    "2026-01-26",
     "2026-01-27",
     "2026-01-28",
     "2026-01-29",
     "2026-01-30",
     "2026-01-31",
-    "2026-02-01"
+    "2026-02-01",
+    "2026-02-02"
   ],
   "orderedDays": [
-    "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday"
+    "Sunday",
+    "Monday"
   ],
   "currentWeek": {
-    "Monday": [
-      {
-        "id": "0022500659",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "State Farm Arena",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Hawks",
-          "city": "Atlanta",
-          "abbreviation": "ATL",
-          "team_id": 1610612737
-        },
-        "awayTeam": {
-          "name": "Pacers",
-          "city": "Indiana",
-          "abbreviation": "IND",
-          "team_id": 1610612754
-        },
-        "finalScore": {
-          "home": 132,
-          "away": 116
-        }
-      },
-      {
-        "id": "0022500657",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "Spectrum Center",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Hornets",
-          "city": "Charlotte",
-          "abbreviation": "CHA",
-          "team_id": 1610612766
-        },
-        "awayTeam": {
-          "name": "76ers",
-          "city": "Philadelphia",
-          "abbreviation": "PHI",
-          "team_id": 1610612755
-        },
-        "finalScore": {
-          "home": 130,
-          "away": 93
-        }
-      },
-      {
-        "id": "0022500658",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "Rocket Arena",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Cavaliers",
-          "city": "Cleveland",
-          "abbreviation": "CLE",
-          "team_id": 1610612739
-        },
-        "awayTeam": {
-          "name": "Magic",
-          "city": "Orlando",
-          "abbreviation": "ORL",
-          "team_id": 1610612753
-        },
-        "finalScore": {
-          "home": 114,
-          "away": 98
-        }
-      },
-      {
-        "id": "0022500660",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "TD Garden",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Celtics",
-          "city": "Boston",
-          "abbreviation": "BOS",
-          "team_id": 1610612738
-        },
-        "awayTeam": {
-          "name": "Trail Blazers",
-          "city": "Portland",
-          "abbreviation": "POR",
-          "team_id": 1610612757
-        },
-        "finalScore": {
-          "home": 102,
-          "away": 94
-        }
-      },
-      {
-        "id": "0022500661",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "United Center",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Bulls",
-          "city": "Chicago",
-          "abbreviation": "CHI",
-          "team_id": 1610612741
-        },
-        "awayTeam": {
-          "name": "Lakers",
-          "city": "Los Angeles",
-          "abbreviation": "LAL",
-          "team_id": 1610612747
-        },
-        "finalScore": {
-          "home": 118,
-          "away": 129
-        }
-      },
-      {
-        "id": "0022500662",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "Toyota Center",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Rockets",
-          "city": "Houston",
-          "abbreviation": "HOU",
-          "team_id": 1610612745
-        },
-        "awayTeam": {
-          "name": "Grizzlies",
-          "city": "Memphis",
-          "abbreviation": "MEM",
-          "team_id": 1610612763
-        },
-        "finalScore": {
-          "home": 108,
-          "away": 99
-        }
-      },
-      {
-        "id": "0022500663",
-        "date": "2026-01-26",
-        "time": "Final",
-        "venue": "Target Center",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Timberwolves",
-          "city": "Minnesota",
-          "abbreviation": "MIN",
-          "team_id": 1610612750
-        },
-        "awayTeam": {
-          "name": "Warriors",
-          "city": "Golden State",
-          "abbreviation": "GSW",
-          "team_id": 1610612744
-        },
-        "finalScore": {
-          "home": 108,
-          "away": 83
-        }
-      }
-    ],
     "Tuesday": [
       {
         "id": "0022500664",
@@ -1522,6 +1359,120 @@
           "winner": "Oklahoma City Thunder",
           "confidence": 52.9,
           "correct": true
+        }
+      }
+    ],
+    "Monday": [
+      {
+        "id": "0022500712",
+        "date": "2026-02-02",
+        "time": "Final",
+        "venue": "Spectrum Center",
+        "gameStatus": "final",
+        "homeTeam": {
+          "name": "Hornets",
+          "city": "Charlotte",
+          "abbreviation": "CHA",
+          "team_id": 1610612766
+        },
+        "awayTeam": {
+          "name": "Pelicans",
+          "city": "New Orleans",
+          "abbreviation": "NOP",
+          "team_id": 1610612740
+        },
+        "finalScore": {
+          "home": 102,
+          "away": 95
+        },
+        "prediction": {
+          "winner": "Charlotte Hornets",
+          "confidence": 68.8,
+          "correct": true
+        }
+      },
+      {
+        "id": "0022500713",
+        "date": "2026-02-02",
+        "time": "Final",
+        "venue": "Gainbridge Fieldhouse",
+        "gameStatus": "final",
+        "homeTeam": {
+          "name": "Pacers",
+          "city": "Indiana",
+          "abbreviation": "IND",
+          "team_id": 1610612754
+        },
+        "awayTeam": {
+          "name": "Rockets",
+          "city": "Houston",
+          "abbreviation": "HOU",
+          "team_id": 1610612745
+        },
+        "finalScore": {
+          "home": 114,
+          "away": 118
+        },
+        "prediction": {
+          "winner": "Indiana Pacers",
+          "confidence": 51.9,
+          "correct": false
+        }
+      },
+      {
+        "id": "0022500714",
+        "date": "2026-02-02",
+        "time": "Final",
+        "venue": "FedExForum",
+        "gameStatus": "final",
+        "homeTeam": {
+          "name": "Grizzlies",
+          "city": "Memphis",
+          "abbreviation": "MEM",
+          "team_id": 1610612763
+        },
+        "awayTeam": {
+          "name": "Timberwolves",
+          "city": "Minnesota",
+          "abbreviation": "MIN",
+          "team_id": 1610612750
+        },
+        "finalScore": {
+          "home": 137,
+          "away": 128
+        },
+        "prediction": {
+          "winner": "Minnesota Timberwolves",
+          "confidence": 58.9,
+          "correct": false
+        }
+      },
+      {
+        "id": "0022500715",
+        "date": "2026-02-02",
+        "time": "Final",
+        "venue": "Intuit Dome",
+        "gameStatus": "final",
+        "homeTeam": {
+          "name": "Clippers",
+          "city": "Los Angeles",
+          "abbreviation": "LAC",
+          "team_id": 1610612746
+        },
+        "awayTeam": {
+          "name": "76ers",
+          "city": "Philadelphia",
+          "abbreviation": "PHI",
+          "team_id": 1610612755
+        },
+        "finalScore": {
+          "home": 113,
+          "away": 128
+        },
+        "prediction": {
+          "winner": "Los Angeles Clippers",
+          "confidence": 69.6,
+          "correct": false
         }
       }
     ]
