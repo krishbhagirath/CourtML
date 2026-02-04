@@ -3791,7 +3791,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 124,
+        "away_score": 121,
+        "winner": "Detroit Pistons"
+      }
     },
     {
       "game_id": "0022500717",
@@ -3860,7 +3864,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 122,
+        "away_score": 131,
+        "winner": "Utah Jazz"
+      }
     },
     {
       "game_id": "0022500718",
@@ -3929,7 +3937,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 101,
+        "away_score": 132,
+        "winner": "New York Knicks"
+      }
     },
     {
       "game_id": "0022500719",
@@ -3998,7 +4010,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 109,
+        "away_score": 125,
+        "winner": "Los Angeles Lakers"
+      }
     },
     {
       "game_id": "0022500720",
@@ -4067,7 +4083,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 115,
+        "away_score": 127,
+        "winner": "Atlanta Hawks"
+      }
     },
     {
       "game_id": "0022500721",
@@ -4136,7 +4156,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 100,
+        "away_score": 110,
+        "winner": "Boston Celtics"
+      }
     },
     {
       "game_id": "0022500722",
@@ -4205,7 +4229,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 131,
+        "away_score": 115,
+        "winner": "Milwaukee Bucks"
+      }
     },
     {
       "game_id": "0022500723",
@@ -4274,7 +4302,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 128,
+        "away_score": 92,
+        "winner": "Oklahoma City Thunder"
+      }
     },
     {
       "game_id": "0022500724",
@@ -4343,7 +4375,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 94,
+        "away_score": 113,
+        "winner": "Philadelphia 76ers"
+      }
     },
     {
       "game_id": "0022500725",
@@ -4409,6 +4445,495 @@
             "difference": 4.3,
             "importanceScore": 4.26,
             "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": {
+        "home_score": 125,
+        "away_score": 130,
+        "winner": "Phoenix Suns"
+      }
+    }
+  ],
+  "2026-02-04": [
+    {
+      "game_id": "0022500726",
+      "home_team_id": 1610612752,
+      "away_team_id": 1610612743,
+      "prediction": {
+        "winner": "New York Knicks",
+        "confidence": 74.4,
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Orb% Max",
+            "homeValue": 35.1,
+            "awayValue": 13.2,
+            "difference": 21.9,
+            "importanceScore": 21.89,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 125.9,
+            "awayValue": 142.8,
+            "difference": 16.9,
+            "importanceScore": 16.92,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 33.3,
+            "awayValue": 20.9,
+            "difference": 12.4,
+            "importanceScore": 12.39,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 20.2,
+            "awayValue": 14.1,
+            "difference": 6.1,
+            "importanceScore": 6.1,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 6.4,
+            "awayValue": 11.5,
+            "difference": 5.1,
+            "importanceScore": 5.1,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 25.3,
+            "awayValue": 28.4,
+            "difference": 3.1,
+            "importanceScore": 3.1,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ft Max",
+            "homeValue": 4.7,
+            "awayValue": 7.7,
+            "difference": 3.0,
+            "importanceScore": 3.0,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500727",
+      "home_team_id": 1610612761,
+      "away_team_id": 1610612750,
+      "prediction": {
+        "winner": "Toronto Raptors",
+        "confidence": 61.6,
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Max Points",
+            "homeValue": 26.7,
+            "awayValue": 34.1,
+            "difference": 7.4,
+            "importanceScore": 7.4,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 136.4,
+            "awayValue": 143.6,
+            "difference": 7.1,
+            "importanceScore": 7.15,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 49.7,
+            "awayValue": 42.8,
+            "difference": 6.9,
+            "importanceScore": 6.92,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 141.7,
+            "awayValue": 136.1,
+            "difference": 5.5,
+            "importanceScore": 5.53,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 14.4,
+            "awayValue": 9.0,
+            "difference": 5.4,
+            "importanceScore": 5.4,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Assists",
+            "homeValue": 29.3,
+            "awayValue": 24.9,
+            "difference": 4.4,
+            "importanceScore": 4.4,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 17.4,
+            "awayValue": 20.5,
+            "difference": 3.1,
+            "importanceScore": 3.15,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500728",
+      "home_team_id": 1610612745,
+      "away_team_id": 1610612738,
+      "prediction": {
+        "winner": "Boston Celtics",
+        "confidence": 55.2,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max",
+            "homeValue": 131.0,
+            "awayValue": 138.9,
+            "difference": 7.9,
+            "importanceScore": 7.92,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 31.4,
+            "awayValue": 38.0,
+            "difference": 6.6,
+            "importanceScore": 6.6,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 15.5,
+            "awayValue": 20.4,
+            "difference": 4.9,
+            "importanceScore": 4.9,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 112.9,
+            "awayValue": 117.2,
+            "difference": 4.3,
+            "importanceScore": 4.35,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 112.9,
+            "awayValue": 117.2,
+            "difference": 4.3,
+            "importanceScore": 4.35,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 141.0,
+            "awayValue": 144.3,
+            "difference": 3.4,
+            "importanceScore": 3.36,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Ft Max",
+            "homeValue": 7.2,
+            "awayValue": 4.7,
+            "difference": 2.5,
+            "importanceScore": 2.5,
+            "homeAdvantage": true
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500729",
+      "home_team_id": 1610612749,
+      "away_team_id": 1610612740,
+      "prediction": {
+        "winner": "New Orleans Pelicans",
+        "confidence": 67.0,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Ast% Max",
+            "homeValue": 48.4,
+            "awayValue": 36.2,
+            "difference": 12.2,
+            "importanceScore": 12.25,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 146.4,
+            "awayValue": 136.6,
+            "difference": 9.8,
+            "importanceScore": 9.83,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 21.5,
+            "awayValue": 14.2,
+            "difference": 7.3,
+            "importanceScore": 7.3,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 33.2,
+            "awayValue": 27.3,
+            "difference": 6.0,
+            "importanceScore": 5.95,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 107.8,
+            "awayValue": 111.3,
+            "difference": 3.5,
+            "importanceScore": 3.53,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 107.8,
+            "awayValue": 111.3,
+            "difference": 3.5,
+            "importanceScore": 3.53,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 9.0,
+            "awayValue": 11.9,
+            "difference": 2.9,
+            "importanceScore": 2.9,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500730",
+      "home_team_id": 1610612759,
+      "away_team_id": 1610612760,
+      "prediction": {
+        "winner": "Oklahoma City Thunder",
+        "confidence": 57.5,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max",
+            "homeValue": 151.3,
+            "awayValue": 129.7,
+            "difference": 21.6,
+            "importanceScore": 21.63,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 140.2,
+            "awayValue": 148.5,
+            "difference": 8.3,
+            "importanceScore": 8.33,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 16.1,
+            "awayValue": 8.0,
+            "difference": 8.1,
+            "importanceScore": 8.1,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 26.1,
+            "awayValue": 31.5,
+            "difference": 5.4,
+            "importanceScore": 5.4,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 114.3,
+            "awayValue": 117.9,
+            "difference": 3.6,
+            "importanceScore": 3.64,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 114.3,
+            "awayValue": 117.9,
+            "difference": 3.6,
+            "importanceScore": 3.64,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 15.6,
+            "awayValue": 12.0,
+            "difference": 3.6,
+            "importanceScore": 3.61,
+            "homeAdvantage": true
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500731",
+      "home_team_id": 1610612758,
+      "away_team_id": 1610612763,
+      "prediction": {
+        "winner": "Sacramento Kings",
+        "confidence": 57.6,
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "Ast% Max",
+            "homeValue": 34.8,
+            "awayValue": 54.7,
+            "difference": 19.9,
+            "importanceScore": 19.942,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 141.0,
+            "awayValue": 133.8,
+            "difference": 7.2,
+            "importanceScore": 7.221,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 22.2,
+            "awayValue": 17.2,
+            "difference": 5.0,
+            "importanceScore": 4.959,
+            "homeAdvantage": true
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 17.6,
+            "awayValue": 13.9,
+            "difference": 3.7,
+            "importanceScore": 3.711,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 19.3,
+            "awayValue": 16.1,
+            "difference": 3.2,
+            "importanceScore": 3.192,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Assists",
+            "homeValue": 25.4,
+            "awayValue": 28.6,
+            "difference": 3.2,
+            "importanceScore": 3.156,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 111.9,
+            "awayValue": 115.0,
+            "difference": 3.1,
+            "importanceScore": 3.124,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    },
+    {
+      "game_id": "0022500732",
+      "home_team_id": 1610612746,
+      "away_team_id": 1610612739,
+      "prediction": {
+        "winner": "Cleveland Cavaliers",
+        "confidence": 54.1,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Assists",
+            "homeValue": 24.2,
+            "awayValue": 29.9,
+            "difference": 5.7,
+            "importanceScore": 5.7,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Max",
+            "homeValue": 145.7,
+            "awayValue": 141.2,
+            "difference": 4.4,
+            "importanceScore": 4.44,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 19.0,
+            "awayValue": 23.1,
+            "difference": 4.1,
+            "importanceScore": 4.06,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 14.8,
+            "awayValue": 10.9,
+            "difference": 3.9,
+            "importanceScore": 3.9,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Max Points",
+            "homeValue": 27.6,
+            "awayValue": 31.3,
+            "difference": 3.7,
+            "importanceScore": 3.7,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 16.9,
+            "awayValue": 19.4,
+            "difference": 2.5,
+            "importanceScore": 2.5,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Usg% Max",
+            "homeValue": 36.6,
+            "awayValue": 34.9,
+            "difference": 1.8,
+            "importanceScore": 1.8,
+            "homeAdvantage": true
           }
         ]
       },
