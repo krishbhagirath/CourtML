@@ -9138,7 +9138,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 93,
+        "away_score": 110,
+        "winner": "Milwaukee Bucks"
+      }
     },
     {
       "game_id": "0022500790",
@@ -9207,7 +9211,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 119,
+        "away_score": 135,
+        "winner": "Portland Trail Blazers"
+      }
     },
     {
       "game_id": "0022500791",
@@ -9276,7 +9284,12 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 124,
+        "away_score": 104,
+        "winner": "Los Angeles Lakers"
+      }
     }
-  ]
+  ],
+  "2026-02-13": []
 }
