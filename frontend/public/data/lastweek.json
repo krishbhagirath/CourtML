@@ -1,137 +1,23 @@
 {
   "weekDates": [
-    "2026-02-08",
     "2026-02-09",
     "2026-02-10",
     "2026-02-11",
     "2026-02-12",
     "2026-02-13",
-    "2026-02-14"
+    "2026-02-14",
+    "2026-02-15"
   ],
   "orderedDays": [
-    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday"
   ],
   "currentWeek": {
-    "Sunday": [
-      {
-        "id": "0022500757",
-        "date": "2026-02-08",
-        "time": "Final",
-        "venue": "TD Garden",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Celtics",
-          "city": "Boston",
-          "abbreviation": "BOS",
-          "team_id": 1610612738
-        },
-        "awayTeam": {
-          "name": "Knicks",
-          "city": "New York",
-          "abbreviation": "NYK",
-          "team_id": 1610612752
-        },
-        "finalScore": {
-          "home": 89,
-          "away": 111
-        },
-        "prediction": {
-          "winner": "Boston Celtics",
-          "confidence": 69.7,
-          "correct": false
-        }
-      },
-      {
-        "id": "0022500758",
-        "date": "2026-02-08",
-        "time": "Final",
-        "venue": "Capital One Arena",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Wizards",
-          "city": "Washington",
-          "abbreviation": "WAS",
-          "team_id": 1610612764
-        },
-        "awayTeam": {
-          "name": "Heat",
-          "city": "Miami",
-          "abbreviation": "MIA",
-          "team_id": 1610612748
-        },
-        "finalScore": {
-          "home": 101,
-          "away": 132
-        },
-        "prediction": {
-          "winner": "Miami Heat",
-          "confidence": 68.5,
-          "correct": true
-        }
-      },
-      {
-        "id": "0022500759",
-        "date": "2026-02-08",
-        "time": "Final",
-        "venue": "Scotiabank Arena",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Raptors",
-          "city": "Toronto",
-          "abbreviation": "TOR",
-          "team_id": 1610612761
-        },
-        "awayTeam": {
-          "name": "Pacers",
-          "city": "Indiana",
-          "abbreviation": "IND",
-          "team_id": 1610612754
-        },
-        "finalScore": {
-          "home": 122,
-          "away": 104
-        },
-        "prediction": {
-          "winner": "Toronto Raptors",
-          "confidence": 59.2,
-          "correct": true
-        }
-      },
-      {
-        "id": "0022500760",
-        "date": "2026-02-08",
-        "time": "Final",
-        "venue": "Target Center",
-        "gameStatus": "final",
-        "homeTeam": {
-          "name": "Timberwolves",
-          "city": "Minnesota",
-          "abbreviation": "MIN",
-          "team_id": 1610612750
-        },
-        "awayTeam": {
-          "name": "Clippers",
-          "city": "Los Angeles",
-          "abbreviation": "LAC",
-          "team_id": 1610612746
-        },
-        "finalScore": {
-          "home": 96,
-          "away": 115
-        },
-        "prediction": {
-          "winner": "Minnesota Timberwolves",
-          "confidence": 68.2,
-          "correct": false
-        }
-      }
-    ],
     "Monday": [
       {
         "id": "0022500761",
@@ -1009,6 +895,7 @@
       }
     ],
     "Friday": [],
-    "Saturday": []
+    "Saturday": [],
+    "Sunday": []
   }
 }
