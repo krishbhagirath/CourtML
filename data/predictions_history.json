@@ -10884,5 +10884,76 @@
       },
       "actual_result": null
     }
+  ],
+  "2026-02-22": [
+    {
+      "game_id": "0022500817",
+      "home_team_id": 1610612760,
+      "away_team_id": 1610612739,
+      "prediction": {
+        "winner": "Cleveland Cavaliers",
+        "confidence": 58.8,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 138.1,
+            "awayValue": 157.9,
+            "difference": 19.9,
+            "importanceScore": 19.872,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 15.9,
+            "awayValue": 35.4,
+            "difference": 19.6,
+            "importanceScore": 19.569,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 15.1,
+            "awayValue": 25.8,
+            "difference": 10.6,
+            "importanceScore": 10.639,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 20.8,
+            "awayValue": 30.9,
+            "difference": 10.1,
+            "importanceScore": 10.083,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 114.9,
+            "awayValue": 122.3,
+            "difference": 7.4,
+            "importanceScore": 7.356,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 114.9,
+            "awayValue": 122.3,
+            "difference": 7.4,
+            "importanceScore": 7.356,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Assists",
+            "homeValue": 25.7,
+            "awayValue": 32.5,
+            "difference": 6.8,
+            "importanceScore": 6.833,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    }
   ]
 }
