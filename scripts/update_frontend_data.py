@@ -282,7 +282,7 @@ def predict_matchup(home_id, away_id, model, scaler, predictors, feature_importa
                 diff = abs(home_val - away_val)
                 
                 # Weight by feature importance if available
-                if feature in feature_importances:
+                if feature_importances and feature in feature_importances:
                     importance_weighted_diff = diff * feature_importances[feature]
                 else:
                     importance_weighted_diff = diff

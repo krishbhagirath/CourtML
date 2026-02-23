@@ -84,6 +84,88 @@
       }
     },
     {
+      "id": "0022500829",
+      "date": "2026-02-23",
+      "time": "8:00 pm ET",
+      "venue": "FedExForum",
+      "gameStatus": "scheduled",
+      "homeTeam": {
+        "name": "Grizzlies",
+        "city": "Memphis",
+        "abbreviation": "MEM",
+        "team_id": 1610612763
+      },
+      "awayTeam": {
+        "name": "Kings",
+        "city": "Sacramento",
+        "abbreviation": "SAC",
+        "team_id": 1610612758
+      },
+      "prediction": {
+        "winner": "Memphis Grizzlies",
+        "confidence": 62.7,
+        "predictedHomeWin": true,
+        "keyDifferences": [
+          {
+            "name": "+/- Max Opp",
+            "homeValue": 13.3,
+            "awayValue": 25.4,
+            "difference": 12.0,
+            "importanceScore": 12.042,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 117.0,
+            "awayValue": 106.0,
+            "difference": 11.1,
+            "importanceScore": 11.071,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 117.0,
+            "awayValue": 106.0,
+            "difference": 11.1,
+            "importanceScore": 11.071,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 49.2,
+            "awayValue": 40.4,
+            "difference": 8.8,
+            "importanceScore": 8.808,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Drtg Max Opp",
+            "homeValue": 147.7,
+            "awayValue": 140.9,
+            "difference": 6.8,
+            "importanceScore": 6.787,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Assists",
+            "homeValue": 29.2,
+            "awayValue": 23.8,
+            "difference": 5.4,
+            "importanceScore": 5.417,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Trb% Max",
+            "homeValue": 16.2,
+            "awayValue": 21.4,
+            "difference": 5.2,
+            "importanceScore": 5.229,
+            "homeAdvantage": false
+          }
+        ]
+      }
+    },
+    {
       "id": "0022500830",
       "date": "2026-02-23",
       "time": "9:30 pm ET",
