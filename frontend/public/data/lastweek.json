@@ -1,24 +1,23 @@
 {
   "weekDates": [
-    "2026-02-16",
     "2026-02-17",
     "2026-02-18",
     "2026-02-19",
     "2026-02-20",
     "2026-02-21",
-    "2026-02-22"
+    "2026-02-22",
+    "2026-02-23"
   ],
   "orderedDays": [
-    "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday"
+    "Sunday",
+    "Monday"
   ],
   "currentWeek": {
-    "Monday": [],
     "Tuesday": [],
     "Wednesday": [],
     "Thursday": [
@@ -966,6 +965,7 @@
           "away": 111
         }
       }
-    ]
+    ],
+    "Monday": []
   }
 }
