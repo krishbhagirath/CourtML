@@ -14708,5 +14708,76 @@
       },
       "actual_result": null
     }
+  ],
+  "2026-03-08": [
+    {
+      "game_id": "0022500922",
+      "home_team_id": 1610612747,
+      "away_team_id": 1610612752,
+      "prediction": {
+        "winner": "New York Knicks",
+        "confidence": 51.5,
+        "predictedHomeWin": false,
+        "keyDifferences": [
+          {
+            "name": "Drtg Max",
+            "homeValue": 151.8,
+            "awayValue": 117.4,
+            "difference": 34.4,
+            "importanceScore": 34.375,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Ast% Max",
+            "homeValue": 56.5,
+            "awayValue": 44.2,
+            "difference": 12.3,
+            "importanceScore": 12.288,
+            "homeAdvantage": true
+          },
+          {
+            "name": "Orb% Max",
+            "homeValue": 13.9,
+            "awayValue": 21.1,
+            "difference": 7.2,
+            "importanceScore": 7.15,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Off Rating",
+            "homeValue": 115.7,
+            "awayValue": 122.5,
+            "difference": 6.8,
+            "importanceScore": 6.85,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Drtg Opp",
+            "homeValue": 115.7,
+            "awayValue": 122.5,
+            "difference": 6.8,
+            "importanceScore": 6.85,
+            "homeAdvantage": false
+          },
+          {
+            "name": "Assists",
+            "homeValue": 26.5,
+            "awayValue": 32.5,
+            "difference": 6.0,
+            "importanceScore": 6.0,
+            "homeAdvantage": false
+          },
+          {
+            "name": "+/- Max",
+            "homeValue": 13.9,
+            "awayValue": 18.0,
+            "difference": 4.1,
+            "importanceScore": 4.125,
+            "homeAdvantage": false
+          }
+        ]
+      },
+      "actual_result": null
+    }
   ]
 }
