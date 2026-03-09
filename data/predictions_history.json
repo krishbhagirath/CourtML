@@ -14568,7 +14568,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 115,
+        "away_score": 114,
+        "winner": "Orlando Magic"
+      }
     },
     {
       "game_id": "0022500900",
@@ -14637,7 +14641,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 112,
+        "away_score": 122,
+        "winner": "Utah Jazz"
+      }
     },
     {
       "game_id": "0022500906",
@@ -14706,7 +14714,11 @@
           }
         ]
       },
-      "actual_result": null
+      "actual_result": {
+        "home_score": 120,
+        "away_score": 113,
+        "winner": "Denver Nuggets"
+      }
     }
   ],
   "2026-03-08": [
@@ -14779,5 +14791,6 @@
       },
       "actual_result": null
     }
-  ]
+  ],
+  "2026-03-09": []
 }
