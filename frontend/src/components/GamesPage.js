@@ -198,7 +198,7 @@ const GamesPage = () => {
         <div className="nav-container">
           <Link to="/" className="nav-logo">
             <img
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/National_Basketball_Association_logo.svg/451px-National_Basketball_Association_logo.svg.png"
+              src={`${process.env.PUBLIC_URL}/nba_logo_wiki.svg`}
               alt="NBA Logo"
               style={{ height: '40px', verticalAlign: 'middle', marginRight: '8px' }}
             />
