@@ -87,7 +87,7 @@ const ModelPage = ({ loading, performance }) => {
           </section>
         </>
       ) : (
-        <div className="empty"><p>No graded picks yet. Results appear here the morning after the first predicted games.</p></div>
+        <div className="empty"><p>No graded picks yet. The record fills in the morning after the first predicted games.</p></div>
       )}
 
       <section className="panel prose">

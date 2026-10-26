@@ -807,28 +807,6 @@ main.shell {
   border-color: var(--ink);
 }
 
-.hero-record {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-  color: var(--ink-2);
-  text-decoration: none;
-}
-
-.hero-record:hover .hero-record-text {
-  text-decoration: underline;
-}
-
-.hero-record-value {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2rem;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
 
 .hero-art {
   position: relative;

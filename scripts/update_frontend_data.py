@@ -70,6 +70,8 @@ LASTWEEK_JSON_PATH = "frontend/public/data/lastweek.json"
 PERFORMANCE_JSON_PATH = "frontend/public/data/performance.json"
 
 ROLLING_WINDOW = 10
+# Public track record counts picks from this date on (earlier picks used the old feature pipeline)
+TRACKING_START = "2026-10-26"
 MIN_GAMES_FOR_PREDICTION = 5
 # Bump when process_game_stats changes so stale cache entries are recomputed
 FEATURE_VERSION = 2
@@ -551,6 +553,8 @@ def build_last_week(target_date, finals, history):
 def build_performance(history, target_date):
     graded = []
     for date_str, games in history.items():
+        if date_str < TRACKING_START:
+            continue
         for g in games:
             actual = g.get("actual_result")
             if actual and actual.get("winner") and g.get("prediction"):
@@ -575,7 +579,7 @@ def build_performance(history, target_date):
 
     return {
         "generatedAt": datetime.now().isoformat(timespec="seconds"),
-        "trackingSince": min((g["date"] for g in graded), default=None),
+        "trackingSince": TRACKING_START,
         "overall": record(graded),
         "last7Days": record([g for g in graded if cutoff <= g["date"] < target_date]),
         "homeTeamBaseline": round(np.mean([g["home_won"] for g in graded]), 4) if graded else None,

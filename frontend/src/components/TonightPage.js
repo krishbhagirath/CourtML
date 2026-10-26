@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProbabilityBar from './ProbabilityBar';
 import TeamMark from './TeamMark';
-import { formatDate, formatPct, formatStat, isoLocal, normalizePrediction } from '../data';
+import { formatDate, formatStat, isoLocal, normalizePrediction } from '../data';
 
 const KeyFactors = ({ game, factors }) => (
   <table className="factors">
@@ -79,13 +79,12 @@ const GameRow = ({ game }) => {
   );
 };
 
-const TonightPage = ({ loading, today, performance }) => {
+const TonightPage = ({ loading, today }) => {
   if (loading) return <p className="page-status">Loading games…</p>;
   if (!today) return <p className="page-status">Couldn't load today's games. Refresh the page to try again.</p>;
 
   const isCurrent = today.date === isoLocal(new Date());
   const games = today.games || [];
-  const record = performance?.overall;
 
   return (
     <>
@@ -94,12 +93,6 @@ const TonightPage = ({ loading, today, performance }) => {
         <p className="page-sub">
           {isCurrent && `${formatDate(today.date)}. `}
           {games.length} {games.length === 1 ? 'game' : 'games'}
-          {record?.games > 0 && (
-            <>
-              {'. Model record: '}
-              <Link to="/model">{record.correct}–{record.games - record.correct} ({formatPct(record.accuracy)})</Link>
-            </>
-          )}
         </p>
       </section>
 

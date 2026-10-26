@@ -1,227 +1,46 @@
 {
-  "generatedAt": "2026-10-26T12:19:53",
-  "trackingSince": "2026-01-18",
+  "generatedAt": "2026-10-26T14:00:18",
+  "trackingSince": "2026-10-26",
   "overall": {
-    "games": 209,
-    "correct": 125,
-    "accuracy": 0.5981
+    "games": 0,
+    "correct": 0,
+    "accuracy": null
   },
   "last7Days": {
     "games": 0,
     "correct": 0,
     "accuracy": null
   },
-  "homeTeamBaseline": 0.4928,
+  "homeTeamBaseline": null,
   "byConfidence": [
     {
       "range": "50\u201360%",
-      "games": 96,
-      "correct": 54,
-      "accuracy": 0.5625,
-      "avgConfidence": 54.9
+      "games": 0,
+      "correct": 0,
+      "accuracy": null,
+      "avgConfidence": null
     },
     {
       "range": "60\u201370%",
-      "games": 59,
-      "correct": 31,
-      "accuracy": 0.5254,
-      "avgConfidence": 64.9
+      "games": 0,
+      "correct": 0,
+      "accuracy": null,
+      "avgConfidence": null
     },
     {
       "range": "70\u201380%",
-      "games": 41,
-      "correct": 29,
-      "accuracy": 0.7073,
-      "avgConfidence": 73.7
+      "games": 0,
+      "correct": 0,
+      "accuracy": null,
+      "avgConfidence": null
     },
     {
       "range": "80\u2013100%",
-      "games": 13,
-      "correct": 11,
-      "accuracy": 0.8462,
-      "avgConfidence": 85.4
+      "games": 0,
+      "correct": 0,
+      "accuracy": null,
+      "avgConfidence": null
     }
   ],
-  "daily": [
-    {
-      "date": "2026-01-22",
-      "games": 8,
-      "correct": 5,
-      "accuracy": 0.625
-    },
-    {
-      "date": "2026-01-28",
-      "games": 9,
-      "correct": 5,
-      "accuracy": 0.5556
-    },
-    {
-      "date": "2026-01-29",
-      "games": 7,
-      "correct": 4,
-      "accuracy": 0.5714
-    },
-    {
-      "date": "2026-01-30",
-      "games": 9,
-      "correct": 5,
-      "accuracy": 0.5556
-    },
-    {
-      "date": "2026-01-31",
-      "games": 6,
-      "correct": 4,
-      "accuracy": 0.6667
-    },
-    {
-      "date": "2026-02-01",
-      "games": 10,
-      "correct": 5,
-      "accuracy": 0.5
-    },
-    {
-      "date": "2026-02-02",
-      "games": 4,
-      "correct": 1,
-      "accuracy": 0.25
-    },
-    {
-      "date": "2026-02-03",
-      "games": 10,
-      "correct": 6,
-      "accuracy": 0.6
-    },
-    {
-      "date": "2026-02-04",
-      "games": 7,
-      "correct": 3,
-      "accuracy": 0.4286
-    },
-    {
-      "date": "2026-02-05",
-      "games": 8,
-      "correct": 6,
-      "accuracy": 0.75
-    },
-    {
-      "date": "2026-02-06",
-      "games": 6,
-      "correct": 3,
-      "accuracy": 0.5
-    },
-    {
-      "date": "2026-02-07",
-      "games": 10,
-      "correct": 7,
-      "accuracy": 0.7
-    },
-    {
-      "date": "2026-02-08",
-      "games": 4,
-      "correct": 2,
-      "accuracy": 0.5
-    },
-    {
-      "date": "2026-02-09",
-      "games": 10,
-      "correct": 5,
-      "accuracy": 0.5
-    },
-    {
-      "date": "2026-02-10",
-      "games": 4,
-      "correct": 3,
-      "accuracy": 0.75
-    },
-    {
-      "date": "2026-02-11",
-      "games": 14,
-      "correct": 9,
-      "accuracy": 0.6429
-    },
-    {
-      "date": "2026-02-12",
-      "games": 3,
-      "correct": 1,
-      "accuracy": 0.3333
-    },
-    {
-      "date": "2026-02-19",
-      "games": 9,
-      "correct": 4,
-      "accuracy": 0.4444
-    },
-    {
-      "date": "2026-02-20",
-      "games": 8,
-      "correct": 5,
-      "accuracy": 0.625
-    },
-    {
-      "date": "2026-02-21",
-      "games": 5,
-      "correct": 4,
-      "accuracy": 0.8
-    },
-    {
-      "date": "2026-02-23",
-      "games": 3,
-      "correct": 2,
-      "accuracy": 0.6667
-    },
-    {
-      "date": "2026-02-24",
-      "games": 10,
-      "correct": 7,
-      "accuracy": 0.7
-    },
-    {
-      "date": "2026-02-25",
-      "games": 5,
-      "correct": 3,
-      "accuracy": 0.6
-    },
-    {
-      "date": "2026-02-26",
-      "games": 8,
-      "correct": 3,
-      "accuracy": 0.375
-    },
-    {
-      "date": "2026-02-27",
-      "games": 3,
-      "correct": 2,
-      "accuracy": 0.6667
-    },
-    {
-      "date": "2026-02-28",
-      "games": 3,
-      "correct": 1,
-      "accuracy": 0.3333
-    },
-    {
-      "date": "2026-03-01",
-      "games": 9,
-      "correct": 6,
-      "accuracy": 0.6667
-    },
-    {
-      "date": "2026-03-02",
-      "games": 3,
-      "correct": 1,
-      "accuracy": 0.3333
-    },
-    {
-      "date": "2026-03-03",
-      "games": 5,
-      "correct": 4,
-      "accuracy": 0.8
-    },
-    {
-      "date": "2026-03-05",
-      "games": 3,
-      "correct": 3,
-      "accuracy": 1.0
-    }
-  ]
+  "daily": []
 }
