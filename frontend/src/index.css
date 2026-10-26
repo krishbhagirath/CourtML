@@ -1,13 +1,81 @@
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #14213d;
+  --ink-2: #4a5570;
+  --muted: #6b7489;
+  --line: #dde2ea;
+  --line-strong: #c3cad6;
+  --accent: #1d4ed8;
+  --chart: #1d4ed8;
+  --hit: #157347;
+  --miss: #b42318;
+  --notice-bg: #fff6e0;
+  --notice-ink: #6b4a00;
+  --radius-lg: 14px;
+  --radius-sm: 6px;
+  --font-body: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1626;
+    --surface: #152036;
+    --ink: #e8edf6;
+    --ink-2: #b4bed0;
+    --muted: #8a96ad;
+    --line: #24324d;
+    --line-strong: #34456a;
+    --accent: #7aa2ff;
+    --chart: #5b8def;
+    --hit: #4cc38a;
+    --miss: #ff7a6b;
+    --notice-bg: #2c2412;
+    --notice-ink: #f3d48a;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} 
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

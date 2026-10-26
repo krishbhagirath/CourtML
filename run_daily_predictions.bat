@@ -21,8 +21,8 @@ echo. >> "%LOG_FILE%"
 echo [1/4] Running prediction script... >> "%LOG_FILE%"
 "%PYTHON_EXE%" scripts\update_frontend_data.py >> "%LOG_FILE%" 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo ERROR: Prediction script failed! >> "%LOG_FILE%"
-    exit /b 1
+    REM The script only writes files it fully built, so commit whatever it did update
+    echo WARNING: Prediction script reported errors - committing partial updates >> "%LOG_FILE%"
 )
 
 echo. >> "%LOG_FILE%"
@@ -30,6 +30,7 @@ echo [2/4] Adding changed files... >> "%LOG_FILE%"
 %GIT_EXE% add data\predictions_history.json >> "%LOG_FILE%" 2>&1
 %GIT_EXE% add frontend\public\data\today.json >> "%LOG_FILE%" 2>&1
 %GIT_EXE% add frontend\public\data\lastweek.json >> "%LOG_FILE%" 2>&1
+%GIT_EXE% add frontend\public\data\performance.json >> "%LOG_FILE%" 2>&1
 
 echo. >> "%LOG_FILE%"
 echo [3/4] Committing changes... >> "%LOG_FILE%"

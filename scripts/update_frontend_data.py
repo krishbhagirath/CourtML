@@ -1,18 +1,61 @@
-import pandas as pd
-import numpy as np
-import joblib
-import time
-import warnings
+"""
+NBA Prediction Tracking System V5 - daily pipeline.
+
+1. Pull one league-wide team game log (current + previous season).
+2. Build each team's last-10-game rolling stats from cached box scores.
+3. Predict today's games -> frontend/public/data/today.json
+4. Grade past predictions -> frontend/public/data/lastweek.json, performance.json
+
+Box scores never change once a game is final, so they are cached on disk in
+data/boxscore_cache/. After the first run, a day only fetches the box scores of
+the previous night's games instead of ~20 per team.
+"""
+import argparse
 import json
 import os
-import argparse
+import time
+import warnings
 from datetime import datetime, timedelta
-from nba_api.stats.endpoints import leaguegamefinder, boxscoretraditionalv3, boxscoreadvancedv3, scoreboardv2
+
+import joblib
+import numpy as np
+import pandas as pd
+from nba_api.stats.endpoints import boxscoreadvancedv3, boxscoretraditionalv3, leaguegamefinder, scoreboardv2
 from nba_api.stats.static import teams
+from requests.exceptions import ConnectionError, ReadTimeout, Timeout
 
 # Suppress the specific sklearn warning about feature names
 warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
 
+# Custom headers to reduce rate-limiting / blocking by stats.nba.com
+CUSTOM_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                   "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Referer": "https://www.nba.com/",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Origin": "https://www.nba.com",
+    "x-nba-stats-origin": "stats",
+    "x-nba-stats-token": "true",
+}
+API_TIMEOUT = 30
+API_DELAY = 0.8  # seconds between stats.nba.com calls
+
+
+def retry_api_call(func, max_retries=3, base_delay=2.0, label="API call"):
+    """Retry an API call with exponential backoff on connection errors."""
+    for attempt in range(max_retries + 1):
+        try:
+            result = func()
+            time.sleep(API_DELAY)
+            return result
+        except (ConnectionError, ConnectionResetError, Timeout, ReadTimeout, OSError) as e:
+            if attempt == max_retries:
+                print(f"  [ERROR] {label} failed after {max_retries + 1} attempts: {e}")
+                raise
+            delay = base_delay * (2 ** attempt)
+            print(f"  [RETRY] {label} attempt {attempt + 1} failed ({type(e).__name__}), retrying in {delay}s...")
+            time.sleep(delay)
 
 
 # --- Config ---
@@ -21,620 +64,585 @@ SCALER_PATH = "models/hist_gbm_v5/scaler_v5.pkl"
 PREDICTORS_PATH = "models/hist_gbm_v5/predictors_v5.pkl"
 FEATURE_IMPORTANCE_PATH = "models/hist_gbm_v5/feature_importance_v5.pkl"
 PREDICTIONS_HISTORY_PATH = "data/predictions_history.json"
+BOXSCORE_CACHE_DIR = "data/boxscore_cache"
 TODAY_JSON_PATH = "frontend/public/data/today.json"
 LASTWEEK_JSON_PATH = "frontend/public/data/lastweek.json"
+PERFORMANCE_JSON_PATH = "frontend/public/data/performance.json"
+
+ROLLING_WINDOW = 10
+MIN_GAMES_FOR_PREDICTION = 5
+# Bump when process_game_stats changes so stale cache entries are recomputed
+FEATURE_VERSION = 2
+# SEASON_ID prefixes: 2 = regular season, 4 = playoffs, 5 = play-in (training data has no preseason)
+COMPETITIVE_SEASON_PREFIXES = ("2", "4", "5")
+
+# Stats shown in the UI "key factors" panel: (base stat, label, higher is better, format)
+KEY_FACTOR_STATS = [
+    ("ortg", "Offensive rating", True, "num"),
+    ("drtg", "Defensive rating", False, "num"),
+    ("total", "Points per game", True, "num"),
+    ("ts%", "True shooting %", True, "frac"),
+    ("efg%", "Effective FG %", True, "frac"),
+    ("fg%", "Field goal %", True, "frac"),
+    ("3p%_opp", "Opp. 3P% allowed", False, "frac"),
+    ("trb%", "Rebound %", True, "pct"),
+    ("ast", "Assists", True, "num"),
+    ("tov%", "Turnover %", False, "pct"),
+    ("pts_max", "Top scorer points", True, "num"),
+    ("blk_opp", "Shots blocked against", False, "num"),
+]
+
 
 # =============================================================================
-# HELPER FUNCTIONS (from predict_v5.py)
+# BOX SCORE -> TEAM-GAME STATS
+# Mirrors the basketball-reference columns the model was trained on
+# (see data/nba_games_raw.csv). Formulas were checked against that file.
 # =============================================================================
 
-def fetch_rolling_stats(team_id):
-    """Fetch rolling stats for a team (last 10 games)"""
-    gamefinder = leaguegamefinder.LeagueGameFinder(team_id_nullable=team_id)
-    games = gamefinder.get_data_frames()[0]
-    
-    # Sort and take last 10 completed games
-    games = games.sort_values("GAME_DATE").tail(15) 
-    last_10 = games.tail(10)
-    stats_list = []
-    
-    for i, row in last_10.iterrows():
-        g_id = row["GAME_ID"]
-        try:
-            trad = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=g_id)
-            adv = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=g_id)
-            time.sleep(0.6)  # Increased delay to prevent timeouts
-            game_stats = process_game_stats(trad, adv, team_id)
-            stats_list.append(game_stats)
-        except Exception as e:
-            continue
-            
-    if not stats_list:
+def _parse_minutes(value):
+    """'34:12' or 'PT34M12.00S' -> 34.2 minutes."""
+    if value is None or (isinstance(value, float) and np.isnan(value)):
+        return 0.0
+    s = str(value).strip()
+    if not s:
+        return 0.0
+    if s.startswith("PT"):
+        s = s[2:].rstrip("S")
+        mins, _, secs = s.partition("M")
+        return float(mins or 0) + float(secs or 0) / 60
+    if ":" in s:
+        mins, secs = s.split(":", 1)
+        return float(mins or 0) + float(secs or 0) / 60
+    return float(s)
+
+
+def _safe_div(a, b):
+    return a / b if b else 0.0
+
+
+def _team_totals(t_row, a_row):
+    def g(row, col, scale=1.0):
+        if row is None or col not in row.index or pd.isna(row[col]):
+            return 0.0
+        return float(row[col]) * scale
+
+    return {
+        "fg": g(t_row, "fieldGoalsMade"), "fga": g(t_row, "fieldGoalsAttempted"),
+        "fg%": g(t_row, "fieldGoalsPercentage"),
+        "3p": g(t_row, "threePointersMade"), "3pa": g(t_row, "threePointersAttempted"),
+        "3p%": g(t_row, "threePointersPercentage"),
+        "ft": g(t_row, "freeThrowsMade"), "fta": g(t_row, "freeThrowsAttempted"),
+        "ft%": g(t_row, "freeThrowsPercentage"),
+        "orb": g(t_row, "reboundsOffensive"), "drb": g(t_row, "reboundsDefensive"),
+        "trb": g(t_row, "reboundsTotal"), "ast": g(t_row, "assists"), "stl": g(t_row, "steals"),
+        "blk": g(t_row, "blocks"), "tov": g(t_row, "turnovers"), "pf": g(t_row, "foulsPersonal"),
+        "pts": g(t_row, "points"), "+/-": g(t_row, "plusMinusPoints"),
+        "ts%": g(a_row, "trueShootingPercentage"), "efg%": g(a_row, "effectiveFieldGoalPercentage"),
+        "orb%": g(a_row, "offensiveReboundPercentage", 100), "drb%": g(a_row, "defensiveReboundPercentage", 100),
+        "trb%": g(a_row, "reboundPercentage", 100), "ast%": g(a_row, "assistPercentage", 100),
+        "ortg": g(a_row, "offensiveRating"), "drtg": g(a_row, "defensiveRating"),
+        "poss": g(a_row, "possessions"),
+        "mp": (_parse_minutes(t_row["minutes"]) if t_row is not None and "minutes" in t_row.index else 0.0) or 240.0,
+    }
+
+
+def _add_derived_team_stats(tm, opp):
+    """Rate stats nba_api's advanced box score does not provide."""
+    opp_poss = opp["poss"] or _safe_div(100 * opp["pts"], opp["ortg"])
+    return {
+        "3par": _safe_div(tm["3pa"], tm["fga"]),
+        "ftr": _safe_div(tm["fta"], tm["fga"]),
+        "tov%": 100 * _safe_div(tm["tov"], tm["fga"] + 0.44 * tm["fta"] + tm["tov"]),
+        "stl%": 100 * _safe_div(tm["stl"], opp_poss),
+        "blk%": 100 * _safe_div(tm["blk"], opp["fga"] - opp["3pa"]),
+        "usg%": 100.0,
+        "total": tm["pts"],
+    }
+
+
+def _player_drtg(p, tm, opp, team_poss):
+    """Dean Oliver individual defensive rating (basketball-reference definition)."""
+    mp = p["mp"]
+    if mp <= 0 or not opp["fga"] or not team_poss:
         return None
-        
-    df = pd.DataFrame(stats_list)
-    rolling = df.mean().to_frame().T
-    cols = {c: f"{c}_10" for c in df.columns}
-    rolling = rolling.rename(columns=cols)
-    
-    return rolling
+    dor = _safe_div(opp["orb"], opp["orb"] + tm["drb"])
+    dfg = _safe_div(opp["fg"], opp["fga"])
+    fmwt = _safe_div(dfg * (1 - dor), dfg * (1 - dor) + (1 - dfg) * dor)
+    opp_ft_miss = (1 - _safe_div(opp["ft"], opp["fta"])) if opp["fta"] else 0.0
+    stops1 = p["stl"] + p["blk"] * fmwt * (1 - 1.07 * dor) + p["drb"] * (1 - fmwt)
+    stops2 = (
+        ((opp["fga"] - opp["fg"] - tm["blk"]) / tm["mp"]) * fmwt * (1 - 1.07 * dor)
+        + ((opp["tov"] - tm["stl"]) / tm["mp"])
+    ) * mp + _safe_div(p["pf"], tm["pf"]) * 0.4 * opp["fta"] * opp_ft_miss ** 2
+    stop_pct = ((stops1 + stops2) * opp["mp"]) / (team_poss * mp)
+    team_drtg = 100 * opp["pts"] / team_poss
+    scoring_poss = opp["fg"] + (1 - opp_ft_miss ** 2) * opp["fta"] * 0.4
+    d_pts_per_scposs = _safe_div(opp["pts"], scoring_poss)
+    return team_drtg + 0.2 * (100 * d_pts_per_scposs * (1 - stop_pct) - team_drtg)
 
-def process_game_stats(trad, adv, team_id):
-    """Process game stats from traditional and advanced box scores"""
+
+def _player_maxes(p_trad, p_adv, tm, opp):
+    """Per-team max over players, matching basketball-reference box score maxes."""
+    if p_trad.empty:
+        return {}
+    df = p_trad.copy()
+    if not p_adv.empty:
+        adv_cols = ["personId", "trueShootingPercentage", "effectiveFieldGoalPercentage",
+                    "offensiveReboundPercentage", "defensiveReboundPercentage", "reboundPercentage",
+                    "assistPercentage", "usagePercentage", "offensiveRating"]
+        df = df.merge(p_adv[[c for c in adv_cols if c in p_adv.columns]], on="personId", how="left")
+
+    col = lambda name: pd.to_numeric(df[name], errors="coerce").fillna(0.0) if name in df.columns else pd.Series(0.0, index=df.index)
+    players = pd.DataFrame({
+        "mp": df["minutes"].map(_parse_minutes) if "minutes" in df.columns else 0.0,
+        "fg": col("fieldGoalsMade"), "fga": col("fieldGoalsAttempted"), "fg%": col("fieldGoalsPercentage"),
+        "3p": col("threePointersMade"), "3pa": col("threePointersAttempted"), "3p%": col("threePointersPercentage"),
+        "ft": col("freeThrowsMade"), "fta": col("freeThrowsAttempted"), "ft%": col("freeThrowsPercentage"),
+        "orb": col("reboundsOffensive"), "drb": col("reboundsDefensive"), "trb": col("reboundsTotal"),
+        "ast": col("assists"), "stl": col("steals"), "blk": col("blocks"), "tov": col("turnovers"),
+        "pf": col("foulsPersonal"), "pts": col("points"), "+/-": col("plusMinusPoints"),
+        "ts%": col("trueShootingPercentage"), "efg%": col("effectiveFieldGoalPercentage"),
+        "orb%": col("offensiveReboundPercentage") * 100, "drb%": col("defensiveReboundPercentage") * 100,
+        "trb%": col("reboundPercentage") * 100, "ast%": col("assistPercentage") * 100,
+        "usg%": col("usagePercentage") * 100, "ortg": col("offensiveRating"),
+    })
+    played = players[players["mp"] > 0]
+    if played.empty:
+        return {}
+
+    opp_poss = opp["poss"] or _safe_div(100 * opp["pts"], opp["ortg"])
+    team_poss = np.mean([v for v in (tm["poss"], opp["poss"]) if v]) if (tm["poss"] or opp["poss"]) else 0.0
+    shooters = played[played["fga"] > 0]
+    tov_denom = played["fga"] + 0.44 * played["fta"] + played["tov"]
+    derived = {
+        "3par": (shooters["3pa"] / shooters["fga"]),
+        "ftr": (shooters["fta"] / shooters["fga"]),
+        "tov%": 100 * played["tov"][tov_denom > 0] / tov_denom[tov_denom > 0],
+        "stl%": 100 * played["stl"] * (tm["mp"] / 5) / (played["mp"] * opp_poss) if opp_poss else pd.Series(dtype=float),
+        "blk%": 100 * played["blk"] * (tm["mp"] / 5) / (played["mp"] * (opp["fga"] - opp["3pa"]))
+                if opp["fga"] - opp["3pa"] else pd.Series(dtype=float),
+        "drtg": pd.Series([_player_drtg(r, tm, opp, team_poss) for _, r in played.iterrows()], dtype=float),
+    }
+
+    maxes = {f"{k}_max": float(played[k].max()) for k in players.columns if k != "mp"}
+    for k, series in derived.items():
+        series = series.dropna()
+        maxes[f"{k}_max"] = float(series.max()) if not series.empty else 0.0
+    return maxes
+
+
+def process_game_stats(trad, adv):
+    """Return {team_id: stats} for both teams, each with the opponent's stats suffixed '_opp'."""
     t_rows = trad.team_stats.get_data_frame()
     p_rows = trad.player_stats.get_data_frame()
     a_t_rows = adv.team_stats.get_data_frame()
     a_p_rows = adv.player_stats.get_data_frame()
-    
-    all_teams = t_rows["teamId"].unique()
-    opp_id = [t for t in all_teams if t != team_id][0] if len(all_teams) > 1 else None
-    
-    team_row_t = t_rows[t_rows["teamId"] == team_id]
-    team_row_a = a_t_rows[a_t_rows["teamId"] == team_id]
-    
-    # Simple Helper
-    def val(df, col):
-        if not df.empty and col in df.columns:
-            return float(df.iloc[0][col])
-        return 0.0
 
-    stats = {}
-    # Traditional
-    stats["fg"] = val(team_row_t, "fieldGoalsMade")
-    stats["fga"] = val(team_row_t, "fieldGoalsAttempted")
-    stats["fg%"] = val(team_row_t, "fieldGoalsPercentage")
-    stats["3p"] = val(team_row_t, "threePointersMade")
-    stats["3pa"] = val(team_row_t, "threePointersAttempted")
-    stats["3p%"] = val(team_row_t, "threePointersPercentage")
-    stats["ft"] = val(team_row_t, "freeThrowsMade")
-    stats["fta"] = val(team_row_t, "freeThrowsAttempted")
-    stats["ft%"] = val(team_row_t, "freeThrowsPercentage")
-    stats["orb"] = val(team_row_t, "reboundsOffensive")
-    stats["drb"] = val(team_row_t, "reboundsDefensive")
-    stats["trb"] = val(team_row_t, "reboundsTotal")
-    stats["ast"] = val(team_row_t, "assists")
-    stats["stl"] = val(team_row_t, "steals")
-    stats["blk"] = val(team_row_t, "blocks")
-    stats["tov"] = val(team_row_t, "turnovers")
-    stats["pf"] = val(team_row_t, "foulsPersonal")
-    stats["pts"] = val(team_row_t, "points")
-    stats["+/-"] = val(team_row_t, "plusMinusPoints")
-    
-    # Advanced
-    stats["ts%"] = val(team_row_a, "trueShootingPercentage")
-    stats["efg%"] = val(team_row_a, "effectiveFieldGoalPercentage")
-    stats["3par"] = val(team_row_a, "threePointersAttemptedPercentage")
-    stats["ftr"] = val(team_row_a, "freeThrowsAttemptedRate")
-    stats["orb%"] = val(team_row_a, "offensiveReboundPercentage") * 100
-    stats["drb%"] = val(team_row_a, "defensiveReboundPercentage") * 100
-    stats["trb%"] = val(team_row_a, "reboundPercentage") * 100
-    stats["ast%"] = val(team_row_a, "assistPercentage") * 100
-    stats["stl%"] = val(team_row_a, "stealPercentage") * 100
-    stats["blk%"] = val(team_row_a, "blockPercentage") * 100
-    stats["tov%"] = val(team_row_a, "turnoverPercentage") * 100
-    stats["usg%"] = 100.0
-    stats["ortg"] = val(team_row_a, "offensiveRating")
-    stats["drtg"] = val(team_row_a, "defensiveRating")
-    
-    # Opponent
-    if opp_id:
-        opp_row_t = t_rows[t_rows["teamId"] == opp_id]
-        opp_row_a = a_t_rows[a_t_rows["teamId"] == opp_id]
-        
-        stats["mp_opp"] = 240.0
-        stats["fg_opp"] = val(opp_row_t, "fieldGoalsMade")
-        stats["fga_opp"] = val(opp_row_t, "fieldGoalsAttempted")
-        stats["fg%_opp"] = val(opp_row_t, "fieldGoalsPercentage")
-        stats["3p_opp"] = val(opp_row_t, "threePointersMade")
-        stats["3pa_opp"] = val(opp_row_t, "threePointersAttempted")
-        stats["3p%_opp"] = val(opp_row_t, "threePointersPercentage")
-        stats["ft_opp"] = val(opp_row_t, "freeThrowsMade")
-        stats["fta_opp"] = val(opp_row_t, "freeThrowsAttempted")
-        stats["ft%_opp"] = val(opp_row_t, "freeThrowsPercentage")
-        stats["orb_opp"] = val(opp_row_t, "reboundsOffensive")
-        stats["drb_opp"] = val(opp_row_t, "reboundsDefensive")
-        stats["trb_opp"] = val(opp_row_t, "reboundsTotal")
-        stats["ast_opp"] = val(opp_row_t, "assists")
-        stats["stl_opp"] = val(opp_row_t, "steals")
-        stats["blk_opp"] = val(opp_row_t, "blocks")
-        stats["tov_opp"] = val(opp_row_t, "turnovers")
-        stats["pf_opp"] = val(opp_row_t, "foulsPersonal")
-        stats["pts_opp"] = val(opp_row_t, "points")
-        stats["+/-_opp"] = val(opp_row_t, "plusMinusPoints")
-        
-        stats["ts%_opp"] = val(opp_row_a, "trueShootingPercentage")
-        stats["efg%_opp"] = val(opp_row_a, "effectiveFieldGoalPercentage")
-        stats["3par_opp"] = val(opp_row_a, "threePointersAttemptedPercentage")
-        stats["ftr_opp"] = val(opp_row_a, "freeThrowsAttemptedRate")
-        stats["orb%_opp"] = val(opp_row_a, "offensiveReboundPercentage") * 100
-        stats["drb%_opp"] = val(opp_row_a, "defensiveReboundPercentage") * 100
-        stats["trb%_opp"] = val(opp_row_a, "reboundPercentage") * 100
-        stats["ast%_opp"] = val(opp_row_a, "assistPercentage") * 100
-        stats["stl%_opp"] = val(opp_row_a, "stealPercentage") * 100
-        stats["blk%_opp"] = val(opp_row_a, "blockPercentage") * 100
-        stats["tov%_opp"] = val(opp_row_a, "turnoverPercentage") * 100
-        stats["usg%_opp"] = 100.0
-        stats["ortg_opp"] = val(opp_row_a, "offensiveRating")
-        stats["drtg_opp"] = val(opp_row_a, "defensiveRating")
-        
-        stats["mp_opp.1_opp"] = 240.0
+    team_ids = [int(t) for t in t_rows["teamId"].unique()]
+    if len(team_ids) != 2:
+        raise ValueError(f"expected 2 teams in box score, got {team_ids}")
 
-    # Max Stats
-    my_p_rows_t = p_rows[p_rows["teamId"] == team_id]
-    my_p_rows_a = a_p_rows[a_p_rows["teamId"] == team_id]
-    
-    def get_max(df, api_key):
-        if not df.empty and api_key in df.columns:
-            return float(df[api_key].max())
-        return 0.0
+    def first_row(df, team_id):
+        rows = df[df["teamId"] == team_id]
+        return rows.iloc[0] if not rows.empty else None
 
-    trad_map = {"fg": "fieldGoalsMade", "fga": "fieldGoalsAttempted", "fg%": "fieldGoalsPercentage", "3p": "threePointersMade", "3pa": "threePointersAttempted", "3p%": "threePointersPercentage", "ft": "freeThrowsMade", "fta": "freeThrowsAttempted", "ft%": "freeThrowsPercentage", "orb": "reboundsOffensive", "drb": "reboundsDefensive", "trb": "reboundsTotal", "ast": "assists", "stl": "steals", "blk": "blocks", "tov": "turnovers", "pf": "foulsPersonal", "pts": "points", "+/-": "plusMinusPoints"}
-    adv_map = {"ts%": "trueShootingPercentage", "efg%": "effectiveFieldGoalPercentage", "3par": "threePointersAttemptedPercentage", "ftr": "freeThrowsAttemptedRate", "orb%": ("offensiveReboundPercentage", 100), "drb%": ("defensiveReboundPercentage", 100), "trb%": ("reboundPercentage", 100), "ast%": ("assistPercentage", 100), "stl%": ("stealPercentage", 100), "blk%": ("blockPercentage", 100), "tov%": ("turnoverPercentage", 100), "usg%": ("usagePercentage", 100), "ortg": ("offensiveRating", 1), "drtg": ("defensiveRating", 1)}
+    totals = {tid: _team_totals(first_row(t_rows, tid), first_row(a_t_rows, tid)) for tid in team_ids}
+    own = {}
+    for tid in team_ids:
+        oid = [t for t in team_ids if t != tid][0]
+        stats = dict(totals[tid])
+        stats.update(_add_derived_team_stats(totals[tid], totals[oid]))
+        stats.update(_player_maxes(p_rows[p_rows["teamId"] == tid], a_p_rows[a_p_rows["teamId"] == tid],
+                                   totals[tid], totals[oid]))
+        for k in ("poss", "mp"):
+            stats.pop(k, None)
+        own[tid] = stats
 
-    for k, api in trad_map.items():
-        stats[f"{k}_max"] = get_max(my_p_rows_t, api)
-    for k, val in adv_map.items():
-        if isinstance(val, tuple):
-            stats[f"{k}_max"] = get_max(my_p_rows_a, val[0]) * val[1]
-        else:
-            stats[f"{k}_max"] = get_max(my_p_rows_a, val)
+    result = {}
+    for tid in team_ids:
+        oid = [t for t in team_ids if t != tid][0]
+        merged = dict(own[tid])
+        merged.update({f"{k}_opp": v for k, v in own[oid].items()})
+        result[tid] = merged
+    return result
 
-    if opp_id:
-        opp_p_rows_t = p_rows[p_rows["teamId"] == opp_id]
-        opp_p_rows_a = a_p_rows[a_p_rows["teamId"] == opp_id]
-        for k, api in trad_map.items():
-            stats[f"{k}_max_opp"] = get_max(opp_p_rows_t, api)
-        for k, val in adv_map.items():
-            if isinstance(val, tuple):
-                stats[f"{k}_max_opp"] = get_max(opp_p_rows_a, val[0]) * val[1]
-            else:
-                stats[f"{k}_max_opp"] = get_max(opp_p_rows_a, val)
 
+def get_game_stats(game_id):
+    """Box-score stats for both teams of a finished game, cached on disk."""
+    path = os.path.join(BOXSCORE_CACHE_DIR, f"{game_id}.json")
+    if os.path.exists(path):
+        with open(path) as f:
+            cached = json.load(f)
+        if cached.get("v") == FEATURE_VERSION:
+            return {int(k): v for k, v in cached["teams"].items()}
+
+    trad = retry_api_call(
+        lambda: boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id, headers=CUSTOM_HEADERS, timeout=API_TIMEOUT),
+        label=f"BoxScoreTrad(game={game_id})",
+    )
+    adv = retry_api_call(
+        lambda: boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=game_id, headers=CUSTOM_HEADERS, timeout=API_TIMEOUT),
+        label=f"BoxScoreAdv(game={game_id})",
+    )
+    stats = process_game_stats(trad, adv)
+
+    os.makedirs(BOXSCORE_CACHE_DIR, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump({"v": FEATURE_VERSION, "teams": {str(k): v for k, v in stats.items()}}, f)
     return stats
 
-def predict_matchup(home_id, away_id, model, scaler, predictors, feature_importances=None):
-    """Generate prediction for a matchup"""
-    try:
-        home_name = teams.find_team_name_by_id(home_id)['full_name']
-        away_name = teams.find_team_name_by_id(away_id)['full_name']
-    except:
-        home_name = f"ID {home_id}"
-        away_name = f"ID {away_id}"
-        
-    print(f"  Analyzing: {home_name} vs {away_name}...")
-    
-    home_rolling = fetch_rolling_stats(home_id)
-    time.sleep(1.0)  # Delay between team stat fetches
-    away_rolling = fetch_rolling_stats(away_id)
-    time.sleep(1.0)  # Delay before returning
-    
-    if home_rolling is None or away_rolling is None:
-        return None
-        
-    home_cols = {c: f"{c}_team" for c in home_rolling.columns}
-    home_stats = home_rolling.rename(columns=home_cols)
-    away_cols = {c: f"{c}_opp" for c in away_rolling.columns}
-    away_stats = away_rolling.rename(columns=away_cols)
-    
-    input_row = pd.concat([home_stats.reset_index(drop=True), away_stats.reset_index(drop=True)], axis=1)
-    input_row["home_next"] = 1
-    
-    for p in predictors:
-        if p not in input_row.columns:
-            input_row[p] = 0.0
-            
-    X = input_row[predictors]
-    X_scaled = scaler.transform(X.values)
-    
-    score = model.decision_function(X_scaled)[0]
-    if score > 0:
-        winner = home_name
-        prob = 1 / (1 + np.exp(-score))
-        predicted_home_win = True
-    else:
-        winner = away_name
-        prob = 1 / (1 + np.exp(score))
-        predicted_home_win = False
-        
-    confidence = prob * 100
-    
-    print(f"  -> {winner} ({confidence:.1f}%)")
-    
-    # Calculate top differentiating features for THIS specific game
-    feature_contributions = []
-    
-    # User-friendly names for features
-    feature_name_map = {
-        'ortg_10_team': 'Off Rating', 'ortg_10_opp': 'Off Rating',
-        'drtg_10_team': 'Def Rating', 'drtg_10_opp': 'Def Rating',
-        'ts%_10_team': 'True Shooting %', 'ts%_10_opp': 'True Shooting %',
-        'efg%_10_team': 'Effective FG %', 'efg%_10_opp': 'Effective FG %',
-        'fg%_10_team': 'Field Goal %', 'fg%_10_opp': 'Field Goal %',
-        '3p%_10_team': '3-Point %', '3p%_10_opp': '3-Point %',
-        'ft%_10_team': 'Free Throw %', 'ft%_10_opp': 'Free Throw %',
-        'trb%_10_team': 'Rebound %', 'trb%_10_opp': 'Rebound %',
-        'ast%_10_team': 'Assist %', 'ast%_10_opp': 'Assist %',
-        'stl%_10_team': 'Steal %', 'stl%_10_opp': 'Steal %',
-        'blk%_10_team': 'Block %', 'blk%_10_opp': 'Block %',
-        'tov%_10_team': 'Turnover %', 'tov%_10_opp': 'Turnover %',
-        'ast_10_team': 'Assists', 'ast_10_opp': 'Assists',
-        'pts_max_10_team': 'Max Points', 'pts_max_10_opp': 'Max Points',
-    }
-    
-    # Calculate differences for each feature
-    for feature in predictors:
-        if feature == 'home_next':
-            continue  # Skip home advantage indicator
-        
-        # Get the raw feature value
-        feature_val = X.iloc[0][feature]
-        
-        # Try to find corresponding team/opp pair to get both values
-        if '_team' in feature:
-            base_feature = feature.replace('_team', '')
-            opp_feature = f"{base_feature}_opp"
-            
-            if opp_feature in X.columns:
-                home_val = float(X[feature].iloc[0])
-                away_val = float(X[opp_feature].iloc[0])
-                
-                # Calculate absolute difference
-                diff = abs(home_val - away_val)
-                
-                # Weight by feature importance if available
-                if feature_importances and feature in feature_importances:
-                    importance_weighted_diff = diff * feature_importances[feature]
-                else:
-                    importance_weighted_diff = diff
-                
-                # Get friendly name
-                friendly_name = feature_name_map.get(feature, feature.replace('_10_team', '').replace('_', ' ').title())
-                
-                feature_contributions.append({
-                    'name': friendly_name,
-                    'homeValue': round(home_val, 1),
-                    'awayValue': round(away_val, 1),
-                    'difference': round(diff, 1),
-                    'importanceScore': round(importance_weighted_diff, 3),
-                    'homeAdvantage': home_val > away_val
-                })
-    
-    # Sort by importance score (or difference if no importance) and get top 7
-    if feature_importances:
-        top_features = sorted(feature_contributions, key=lambda x: x['importanceScore'], reverse=True)[:7]
-    else:
-        top_features = sorted(feature_contributions, key=lambda x: x['difference'], reverse=True)[:7]
-    
-    return {
-        "winner": winner,
-        "confidence": round(confidence, 1),
-        "predictedHomeWin": predicted_home_win,
-        "keyDifferences": top_features
-    }
 
 # =============================================================================
-# MAIN WORKFLOW FUNCTIONS
+# GAME LOG, ROLLING FEATURES, PREDICTION
+# =============================================================================
+
+def season_label(dt):
+    start = dt.year if dt.month >= 8 else dt.year - 1
+    return f"{start}-{str(start + 1)[2:]}"
+
+
+def fetch_game_log(target_date):
+    """All competitive team-games of the current and previous season played before target_date."""
+    target_dt = datetime.strptime(target_date, "%Y-%m-%d")
+    frames = []
+    for season in (season_label(target_dt.replace(year=target_dt.year - 1)), season_label(target_dt)):
+        finder = retry_api_call(
+            lambda s=season: leaguegamefinder.LeagueGameFinder(
+                player_or_team_abbreviation="T", season_nullable=s, league_id_nullable="00",
+                headers=CUSTOM_HEADERS, timeout=API_TIMEOUT,
+            ),
+            label=f"LeagueGameFinder(season={season})",
+        )
+        frames.append(finder.get_data_frames()[0])
+    log = pd.concat(frames, ignore_index=True)
+    log = log[log["SEASON_ID"].astype(str).str.startswith(COMPETITIVE_SEASON_PREFIXES)]
+    log = log[log["GAME_DATE"] < target_date]
+    log = log[log["WL"].notna()]  # finished games only
+    return log.drop_duplicates(subset=["GAME_ID", "TEAM_ID"]).sort_values("GAME_DATE")
+
+
+def rolling_stats(team_id, game_log):
+    """Mean of the team's last 10 games' box-score stats, keys suffixed '_10'."""
+    recent = game_log[game_log["TEAM_ID"] == team_id].tail(ROLLING_WINDOW)
+    rows = []
+    for game_id in recent["GAME_ID"]:
+        try:
+            rows.append(get_game_stats(game_id)[int(team_id)])
+        except Exception as e:
+            print(f"  [WARN] Skipping game {game_id}: {e}")
+    if len(rows) < MIN_GAMES_FOR_PREDICTION:
+        return None
+    mean = pd.DataFrame(rows).mean()
+    return {f"{k}_10": float(v) for k, v in mean.items()}
+
+
+class Predictor:
+    def __init__(self):
+        self.model = joblib.load(MODEL_PATH)
+        self.scaler = joblib.load(SCALER_PATH)
+        self.predictors = joblib.load(PREDICTORS_PATH)
+        try:
+            self.importances = joblib.load(FEATURE_IMPORTANCE_PATH)
+        except FileNotFoundError:
+            self.importances = {}
+        self.feature_range = {
+            f: (lo, hi) for f, lo, hi in zip(self.predictors, self.scaler.data_min_, self.scaler.data_max_)
+        }
+
+    def _row(self, team_roll, opp_roll, home_next):
+        row = {f"{k}_team": v for k, v in team_roll.items()}
+        row.update({f"{k}_opp": v for k, v in opp_roll.items()})
+        row["home_next"] = home_next
+        missing = [p for p in self.predictors if p not in row]
+        if missing:
+            raise ValueError(f"missing model features: {missing}")
+        return np.array([[row[p] for p in self.predictors]])
+
+    def home_win_prob(self, home_roll, away_roll):
+        """The model was trained on both teams' perspectives; average them for one consistent probability."""
+        p_home_view = self.model.predict_proba(self.scaler.transform(self._row(home_roll, away_roll, 1)))[0, 1]
+        p_away_view = self.model.predict_proba(self.scaler.transform(self._row(away_roll, home_roll, 0)))[0, 1]
+        return float((p_home_view + (1 - p_away_view)) / 2)
+
+    def key_factors(self, home_roll, away_roll, limit=6):
+        """Readable stat comparisons, ranked by model importance x size of the gap (in training-range units)."""
+        factors = []
+        for base, label, higher_better, fmt in KEY_FACTOR_STATS:
+            key = f"{base}_10"
+            if key not in home_roll or key not in away_roll:
+                continue
+            h, a = home_roll[key], away_roll[key]
+            feats = [f for f in (f"{key}_team", f"{key}_opp") if f in self.feature_range]
+            weight = 0.0
+            if feats:
+                lo, hi = self.feature_range[feats[0]]
+                gap = abs(h - a) / (hi - lo) if hi > lo else 0.0
+                weight = gap * sum(self.importances.get(f, 0.0) for f in feats)
+            edge = "even" if np.isclose(h, a) else ("home" if (h > a) == higher_better else "away")
+            factors.append({"label": label, "home": round(h, 3), "away": round(a, 3), "format": fmt,
+                            "higherIsBetter": higher_better, "edge": edge, "weight": round(weight, 5)})
+        factors.sort(key=lambda f: -f["weight"])
+        return factors[:limit]
+
+
+def team_info(team_id):
+    t = teams.find_team_name_by_id(int(team_id))
+    return {"name": t["nickname"], "city": t["city"], "fullName": t["full_name"],
+            "abbreviation": t["abbreviation"], "team_id": int(team_id)}
+
+
+# =============================================================================
+# MAIN WORKFLOW
 # =============================================================================
 
 def load_predictions_history():
-    """Load or create predictions history file"""
     if os.path.exists(PREDICTIONS_HISTORY_PATH):
-        with open(PREDICTIONS_HISTORY_PATH, 'r') as f:
+        with open(PREDICTIONS_HISTORY_PATH) as f:
             return json.load(f)
     return {}
 
-def save_predictions_history(history):
-    """Save predictions history to file"""
-    os.makedirs(os.path.dirname(PREDICTIONS_HISTORY_PATH), exist_ok=True)
-    with open(PREDICTIONS_HISTORY_PATH, 'w') as f:
-        json.dump(history, f, indent=2)
 
-def get_games_for_date(date_str):
-    """Fetch games for a specific date"""
-    print(f"\n[FETCH] Fetching games for {date_str}...")
-    
-    board = scoreboardv2.ScoreboardV2(game_date=date_str)
-    time.sleep(0.5)  # Delay after fetching scoreboard
-    games_df = board.get_data_frames()[0]  # GameHeader dataframe
-    linescore_df = board.get_data_frames()[1]  # LineScore dataframe (has PTS!)
-    
-    if games_df.empty:
-        print("  No games found for this date.")
-        return []
-    
-    # Remove duplicate game IDs (NBA API sometimes returns duplicates)
-    games_df = games_df.drop_duplicates(subset=['GAME_ID'], keep='first')
-    
-    game_list = []
-    for i, row in games_df.iterrows():
-        game_id = row["GAME_ID"]
-        home_id = row["HOME_TEAM_ID"]
-        away_id = row["VISITOR_TEAM_ID"]
-        status = row["GAME_STATUS_TEXT"]
-        venue = row.get("ARENA_NAME", "") if pd.notna(row.get("ARENA_NAME")) else ""
-        
-        # Get scores from LineScore dataframe
-        game_scores = linescore_df[linescore_df["GAME_ID"] == game_id]
-        
-        home_score = None
-        away_score = None
-        
-        if not game_scores.empty:
-            home_row = game_scores[game_scores["TEAM_ID"] == home_id]
-            away_row = game_scores[game_scores["TEAM_ID"] == away_id]
-            
-            if not home_row.empty:
-                pts = home_row.iloc[0]["PTS"]
-                home_score = int(pts) if pd.notna(pts) and pts > 0 else None
-            
-            if not away_row.empty:
-                pts = away_row.iloc[0]["PTS"]
-                away_score = int(pts) if pd.notna(pts) and pts > 0 else None
-        
-        game_list.append({
-            "game_id": game_id,
-            "home_id": home_id,
-            "away_id": away_id,
-            "status": status,
-            "venue": venue,
-            "home_score": home_score,
-            "away_score": away_score
+def write_json(path, data):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = f"{path}.tmp"
+    with open(tmp, "w") as f:
+        json.dump(data, f, indent=2)
+    os.replace(tmp, path)
+
+
+def get_schedule(date_str):
+    """Games on date_str from the scoreboard (the only source for not-yet-played games)."""
+    board = retry_api_call(
+        lambda: scoreboardv2.ScoreboardV2(game_date=date_str, headers=CUSTOM_HEADERS, timeout=API_TIMEOUT),
+        label=f"ScoreboardV2(date={date_str})",
+    )
+    games_df = board.get_data_frames()[0].drop_duplicates(subset=["GAME_ID"])
+    games = []
+    for _, row in games_df.iterrows():
+        venue = row.get("ARENA_NAME")
+        games.append({
+            "game_id": row["GAME_ID"], "home_id": int(row["HOME_TEAM_ID"]), "away_id": int(row["VISITOR_TEAM_ID"]),
+            "status": row["GAME_STATUS_TEXT"].strip(), "venue": venue if isinstance(venue, str) else "",
         })
-        
-    print(f"  Found {len(game_list)} games.")
-    return game_list
+    return games
 
-def generate_todays_predictions(target_date, model, scaler, predictors, history, feature_importances=None):
-    """Generate predictions for target date's games and update history"""
-    games = get_games_for_date(target_date)
-    
-    if not games:
-        return None
-    
-    print(f"\nGenerating predictions for {len(games)} games...")
-    
+
+def predict_today(target_date, schedule, game_log, predictor, history):
+    day_history = {g["game_id"]: g for g in history.get(target_date, [])}
     today_games = []
-    predictions_for_history = []
-    
-    for game in games:
-        try:
-            home_team = teams.find_team_name_by_id(game["home_id"])
-            away_team = teams.find_team_name_by_id(game["away_id"])
-            
-            pred_result = predict_matchup(game["home_id"], game["away_id"], model, scaler, predictors, feature_importances)
-            
-            game_obj = {
-                "id": game["game_id"],
-                "date": target_date,
-                "time": game["status"],
-                "venue": game.get("venue", ""),
-                "gameStatus": "scheduled",
-                "homeTeam": {
-                    "name": home_team['nickname'],
-                    "city": home_team['city'],
-                    "abbreviation": home_team['abbreviation'],
-                    "team_id": game["home_id"]
-                },
-                "awayTeam": {
-                    "name": away_team['nickname'],
-                    "city": away_team['city'],
-                    "abbreviation": away_team['abbreviation'],
-                    "team_id": game["away_id"]
-                },
-                "prediction": pred_result if pred_result else {"winner": "TBD", "confidence": 0, "predictedHomeWin": None}
-            }
-            
-            today_games.append(game_obj)
-            
-            # Save to history
-            if pred_result:
-                predictions_for_history.append({
-                    "game_id": game["game_id"],
-                    "home_team_id": game["home_id"],
-                    "away_team_id": game["away_id"],
-                    "prediction": pred_result,
-                    "actual_result": None
-                })
-                
-        except Exception as e:
-            print(f"  [ERROR] Error processing game {game['game_id']}: {e}")
-            continue
-    
-    # Update history
-    history[target_date] = predictions_for_history
-    
-    # Create today.json
-    today_json = {
-        "date": target_date,
-        "games": today_games
-    }
-    
-    return today_json
+    print(f"\nGenerating predictions for {len(schedule)} games...")
 
-def fetch_last_7_days_results(target_date, history):
-    """Fetch results for last 7 days from target_date and evaluate predictions"""
-    print("\nFetching last 7 days of results...")
-    
-    target_dt = datetime.strptime(target_date, '%Y-%m-%d')
-    # Reverse to go from oldest to newest (7 days ago -> yesterday)
-    last_7_days = [(target_dt - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7, 0, -1)]
-    
-    week_data = {
-        "weekDates": last_7_days,
-        "orderedDays": [],
-        "currentWeek": {}
-    }
-    
-    for date_str in last_7_days:
-        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-        day_name = date_obj.strftime('%A')
-        week_data["orderedDays"].append(day_name)
-        
-        print(f"\n  {day_name} ({date_str}):")
-        
-        # Fetch games for that date
-        try:
-            games = get_games_for_date(date_str)
-            
-            if not games:
-                print("    No games on this day")
-                week_data["currentWeek"][day_name] = []
-                continue
-            
-            day_games = []
-            
-            for game in games:
-                game_id = game["game_id"]
-                home_id = game["home_id"]
-                away_id = game["away_id"]
-                home_score = game["home_score"]
-                away_score = game["away_score"]
-                
-                home_team = teams.find_team_name_by_id(home_id)
-                away_team = teams.find_team_name_by_id(away_id)
-                
-                # Determine actual winner
-                if home_score is not None and away_score is not None:
-                    actual_winner = home_team['full_name'] if home_score > away_score else away_team['full_name']
+    for game in schedule:
+        home, away = team_info(game["home_id"]), team_info(game["away_id"])
+        print(f"  {away['abbreviation']} @ {home['abbreviation']}")
+        prediction = None
+
+        existing = day_history.get(game["game_id"])
+        if existing and existing.get("prediction"):
+            # Never rewrite a prediction once published: keeps the tracked record honest
+            prediction = existing["prediction"]
+            print("    (already predicted)")
+        else:
+            try:
+                home_roll = rolling_stats(game["home_id"], game_log)
+                away_roll = rolling_stats(game["away_id"], game_log)
+                if home_roll and away_roll:
+                    p_home = predictor.home_win_prob(home_roll, away_roll)
+                    home_pick = p_home >= 0.5
+                    winner = home if home_pick else away
+                    prediction = {
+                        "winner": winner["fullName"],
+                        "winnerAbbreviation": winner["abbreviation"],
+                        "confidence": round(100 * max(p_home, 1 - p_home), 1),
+                        "homeWinProbability": round(100 * p_home, 1),
+                        "predictedHomeWin": bool(home_pick),
+                        "keyFactors": predictor.key_factors(home_roll, away_roll),
+                    }
+                    print(f"    -> {winner['abbreviation']} ({prediction['confidence']}%)")
                 else:
-                    actual_winner = None
-                
-                # Look up prediction from history
-                prediction = None
-                correct = None
-                
-                if date_str in history:
-                    for hist_game in history[date_str]:
-                        if hist_game["game_id"] == game_id:
-                            prediction = hist_game["prediction"]
-                            
-                            # Evaluate
-                            if actual_winner and prediction:
-                                correct = (prediction["winner"] == actual_winner)
-                                
-                                # Update history with actual result
-                                hist_game["actual_result"] = {
-                                    "home_score": home_score,
-                                    "away_score": away_score,
-                                    "winner": actual_winner
-                                }
-                            break
-                
-                game_obj = {
-                    "id": game_id,
-                    "date": date_str,
-                    "time": game["status"],
-                    "venue": game.get("venue", ""),
-                    "gameStatus": "final",
-                    "homeTeam": {
-                        "name": home_team['nickname'],
-                        "city": home_team['city'],
-                        "abbreviation": home_team['abbreviation'],
-                        "team_id": home_id
-                    },
-                    "awayTeam": {
-                        "name": away_team['nickname'],
-                        "city": away_team['city'],
-                        "abbreviation": away_team['abbreviation'],
-                        "team_id": away_id
-                    },
-                    "finalScore": {
-                        "home": home_score,
-                        "away": away_score
-                    }
-                }
-                
-                if prediction:
-                    game_obj["prediction"] = {
-                        "winner": prediction["winner"],
-                        "confidence": prediction["confidence"],
-                        "correct": correct
-                    }
-                
-                day_games.append(game_obj)
-                
-                # Print evaluation
-                if correct is not None:
-                    status = "[OK]" if correct else "[FAIL]"
-                    print(f"    {status} {home_team['abbreviation']} {home_score}-{away_score} {away_team['abbreviation']}: Predicted {prediction['winner']}")
-                elif home_score and away_score:
-                    print(f"    [INFO] {home_team['abbreviation']} {home_score}-{away_score} {away_team['abbreviation']}: No prediction found")
-            
-            week_data["currentWeek"][day_name] = day_games
-            
-        except Exception as e:
-            print(f"    [ERROR] Error fetching games for {date_str}: {e}")
-            week_data["currentWeek"][day_name] = []
+                    print("    [WARN] not enough recent games for a prediction")
+            except Exception as e:
+                print(f"    [ERROR] {e}")
+
+        if prediction:
+            day_history[game["game_id"]] = {
+                "game_id": game["game_id"], "home_team_id": game["home_id"], "away_team_id": game["away_id"],
+                "venue": game["venue"], "prediction": prediction,
+                "actual_result": existing.get("actual_result") if existing else None,
+            }
+        today_games.append({
+            "id": game["game_id"], "date": target_date, "time": game["status"], "venue": game["venue"],
+            "gameStatus": "scheduled", "homeTeam": home, "awayTeam": away,
+            "prediction": prediction,
+        })
+
+    history[target_date] = list(day_history.values())
+    return today_games
+
+
+def final_games_by_date(game_log):
+    """{date: [{game_id, home_id, away_id, home_score, away_score}]} from the team game log."""
+    out = {}
+    for game_id, rows in game_log.groupby("GAME_ID"):
+        home = rows[rows["MATCHUP"].str.contains(" vs. ", regex=False)]
+        away = rows[rows["MATCHUP"].str.contains(" @ ", regex=False)]
+        if home.empty or away.empty:
             continue
-    
-    return week_data
+        h, a = home.iloc[0], away.iloc[0]
+        out.setdefault(h["GAME_DATE"], []).append({
+            "game_id": game_id, "home_id": int(h["TEAM_ID"]), "away_id": int(a["TEAM_ID"]),
+            "home_score": int(h["PTS"]), "away_score": int(a["PTS"]),
+        })
+    return out
+
+
+def grade_history(history, finals):
+    """Attach actual results to every past prediction we can now grade."""
+    graded = 0
+    for date_str, games in history.items():
+        results = {g["game_id"]: g for g in finals.get(date_str, [])}
+        for hist_game in games:
+            res = results.get(hist_game["game_id"])
+            if not res or hist_game.get("actual_result"):
+                continue
+            winner_id = res["home_id"] if res["home_score"] > res["away_score"] else res["away_id"]
+            w = team_info(winner_id)
+            hist_game["actual_result"] = {
+                "home_score": res["home_score"], "away_score": res["away_score"],
+                "winner": w["fullName"],
+            }
+            graded += 1
+    return graded
+
+
+def build_last_week(target_date, finals, history):
+    target_dt = datetime.strptime(target_date, "%Y-%m-%d")
+    week_dates = [(target_dt - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7, 0, -1)]
+    week = {"weekDates": week_dates, "orderedDays": [], "currentWeek": {}}
+
+    for date_str in week_dates:
+        day_name = datetime.strptime(date_str, "%Y-%m-%d").strftime("%A")
+        week["orderedDays"].append(day_name)
+        preds = {g["game_id"]: g for g in history.get(date_str, [])}
+        day_games = []
+        for res in finals.get(date_str, []):
+            home, away = team_info(res["home_id"]), team_info(res["away_id"])
+            hist = preds.get(res["game_id"], {})
+            game_obj = {
+                "id": res["game_id"], "date": date_str, "time": "Final", "venue": hist.get("venue", ""),
+                "gameStatus": "final", "homeTeam": home, "awayTeam": away,
+                "finalScore": {"home": res["home_score"], "away": res["away_score"]},
+                "prediction": None,
+            }
+            pred = hist.get("prediction")
+            if pred:
+                actual = hist.get("actual_result") or {}
+                game_obj["prediction"] = {
+                    "winner": pred["winner"], "confidence": pred["confidence"],
+                    "homeWinProbability": pred.get("homeWinProbability"),
+                    "predictedHomeWin": pred.get("predictedHomeWin"),
+                    "correct": pred["winner"] == actual.get("winner") if actual else None,
+                }
+            day_games.append(game_obj)
+        week["currentWeek"][day_name] = day_games
+    return week
+
+
+def build_performance(history, target_date):
+    graded = []
+    for date_str, games in history.items():
+        for g in games:
+            actual = g.get("actual_result")
+            if actual and actual.get("winner") and g.get("prediction"):
+                pred = g["prediction"]
+                home_won = actual["home_score"] > actual["away_score"]
+                graded.append({"date": date_str, "correct": pred["winner"] == actual["winner"],
+                               "confidence": float(pred["confidence"]), "home_won": home_won})
+
+    def record(items):
+        n, c = len(items), sum(i["correct"] for i in items)
+        return {"games": n, "correct": c, "accuracy": round(c / n, 4) if n else None}
+
+    cutoff = (datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=7)).strftime("%Y-%m-%d")
+    buckets = []
+    for lo, hi in [(50, 60), (60, 70), (70, 80), (80, 101)]:
+        items = [g for g in graded if lo <= g["confidence"] < hi]
+        buckets.append({"range": f"{lo}–{min(hi, 100)}%", **record(items),
+                        "avgConfidence": round(np.mean([i["confidence"] for i in items]), 1) if items else None})
+    by_day = {}
+    for g in graded:
+        by_day.setdefault(g["date"], []).append(g)
+
+    return {
+        "generatedAt": datetime.now().isoformat(timespec="seconds"),
+        "trackingSince": min((g["date"] for g in graded), default=None),
+        "overall": record(graded),
+        "last7Days": record([g for g in graded if cutoff <= g["date"] < target_date]),
+        "homeTeamBaseline": round(np.mean([g["home_won"] for g in graded]), 4) if graded else None,
+        "byConfidence": buckets,
+        "daily": [{"date": d, **record(items)} for d, items in sorted(by_day.items())][-30:],
+    }
+
 
 def main():
-    parser = argparse.ArgumentParser(description='NBA Prediction Tracking System V5')
-    parser.add_argument('--date', type=str, help='Target date (YYYY-MM-DD). Defaults to today.')
+    parser = argparse.ArgumentParser(description="NBA Prediction Tracking System V5")
+    parser.add_argument("--date", type=str, help="Target date (YYYY-MM-DD). Defaults to today.")
     args = parser.parse_args()
-    
-    # Determine target date
+
+    target_date = datetime.now().strftime("%Y-%m-%d")
     if args.date:
         try:
-            target_date = datetime.strptime(args.date, '%Y-%m-%d').strftime('%Y-%m-%d')
-            print(f"Running for custom date: {target_date}")
+            target_date = datetime.strptime(args.date, "%Y-%m-%d").strftime("%Y-%m-%d")
         except ValueError:
             print("Invalid date format. Use YYYY-MM-DD")
-            return
-    else:
-        target_date = datetime.now().strftime('%Y-%m-%d')
-    
+            return 1
+
     print("=" * 60)
-    print("NBA PREDICTION TRACKING SYSTEM V5")
-    print("=" * 60)
-    
-    # Load model
-    print("\nLoading model...")
-    try:
-        model = joblib.load(MODEL_PATH)
-        scaler = joblib.load(SCALER_PATH)
-        predictors = joblib.load(PREDICTORS_PATH)
-        
-        # Load feature importance if available
-        try:
-            feature_importances = joblib.load(FEATURE_IMPORTANCE_PATH)
-            print("  [OK] Model and feature importance loaded successfully")
-        except FileNotFoundError:
-            feature_importances = None
-            print("  [OK] Model loaded successfully (no feature importance file found)")
-    except Exception as e:
-        print(f"  [ERROR] Error loading model: {e}")
-        return
-    
-    # Load predictions history
-    history = load_predictions_history()
-    print(f"  [OK] Loaded predictions history ({len(history)} days tracked)")
-    
-    # Generate today's predictions
-    today_json = generate_todays_predictions(target_date, model, scaler, predictors, history, feature_importances)
-    
-    if today_json:
-        os.makedirs(os.path.dirname(TODAY_JSON_PATH), exist_ok=True)
-        with open(TODAY_JSON_PATH, 'w') as f:
-            json.dump(today_json, f, indent=2)
-        print(f"\n[OK] Saved today's predictions to {TODAY_JSON_PATH}")
-    
-    # Fetch and evaluate last 7 days
-    lastweek_json = fetch_last_7_days_results(target_date, history)
-    
-    os.makedirs(os.path.dirname(LASTWEEK_JSON_PATH), exist_ok=True)
-    with open(LASTWEEK_JSON_PATH, 'w') as f:
-        json.dump(lastweek_json, f, indent=2)
-    print(f"\n[OK] Saved last week's results to {LASTWEEK_JSON_PATH}")
-    
-    # Save updated history
-    save_predictions_history(history)
-    print(f"[OK] Updated predictions history")
-    
-    print("\n" + "=" * 60)
-    print("COMPLETE!")
+    print(f"NBA PREDICTION TRACKING SYSTEM V5 - {target_date}")
     print("=" * 60)
 
+    predictor = Predictor()
+    history = load_predictions_history()
+    print(f"  [OK] Model loaded, {len(history)} days of prediction history")
+
+    # One call per season covers both the rolling-stat inputs and last week's results
+    print("\n[FETCH] League game log...")
+    try:
+        game_log = fetch_game_log(target_date)
+    except Exception as e:
+        print(f"  [ERROR] Could not fetch the game log, leaving published data unchanged: {e}")
+        return 1
+    print(f"  {len(game_log)} team-games through {game_log['GAME_DATE'].max()}")
+
+    finals = final_games_by_date(game_log)
+    print(f"  Graded {grade_history(history, finals)} past predictions")
+
+    failed = False
+    print(f"\n[FETCH] Schedule for {target_date}...")
+    try:
+        schedule = get_schedule(target_date)
+        print(f"  {len(schedule)} games")
+        today_games = predict_today(target_date, schedule, game_log, predictor, history)
+        write_json(TODAY_JSON_PATH, {
+            "date": target_date, "generatedAt": datetime.now().isoformat(timespec="seconds"), "games": today_games,
+        })
+        print(f"\n[OK] Saved {TODAY_JSON_PATH}")
+    except Exception as e:
+        print(f"  [ERROR] Could not build today's predictions: {e}")
+        failed = True
+
+    write_json(LASTWEEK_JSON_PATH, build_last_week(target_date, finals, history))
+    print(f"[OK] Saved {LASTWEEK_JSON_PATH}")
+    write_json(PERFORMANCE_JSON_PATH, build_performance(history, target_date))
+    print(f"[OK] Saved {PERFORMANCE_JSON_PATH}")
+    write_json(PREDICTIONS_HISTORY_PATH, history)
+    print("[OK] Updated predictions history")
+
+    print("\n" + "=" * 60)
+    print("COMPLETE (with errors)" if failed else "COMPLETE!")
+    print("=" * 60)
+    return 1 if failed else 0
+
+
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

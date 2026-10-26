@@ -37,3 +37,7 @@ frontend/Thumbs.db
 data/*.csv
 data/2026_schedule/
 
+
+# Box score cache (rebuilt automatically by scripts/update_frontend_data.py)
+data/boxscore_cache/
+scripts/__pycache__/

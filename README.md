@@ -30,9 +30,10 @@ nba-match-predictor/
 ├── models/
 │   └── hist_gbm_v5/            # Serialized Model, Scaler, and Predictor list
 ├── scripts/
-│   └── predict_v5.py           # PRODUCTION SCRIPT: Generates today's predictions
+│   ├── update_frontend_data.py # PRODUCTION SCRIPT: predicts today, grades past picks
+│   └── evaluate_model.py       # Offline check: held-out accuracy, calibration, feature importance
 ├── frontend/                   # React Application
-│   ├── public/data/            # Contains schedule and generated predictions.json
+│   ├── public/data/            # today.json, lastweek.json, performance.json (generated)
 │   └── src/                    # Frontend source
 ├── data/                       # Raw training data (gitignored)
 └── .github/workflows/          # Automation configuration
@@ -44,9 +45,18 @@ nba-match-predictor/
 To run the prediction system locally:
 ```bash
 pip install -r requirements.txt
-python scripts/predict_v5.py
+python scripts/update_frontend_data.py            # or --date YYYY-MM-DD
 ```
-This will fetch today's games and save the results to `frontend/public/data/predictions.json`.
+This fetches the league game log and today's schedule from `nba_api`, predicts each game, grades past
+predictions, and writes `today.json`, `lastweek.json` and `performance.json` to `frontend/public/data/`.
+Box scores are cached in `data/boxscore_cache/` (gitignored), so after the first run only the previous
+night's games are downloaded.
+
+To re-check the model offline (needs `data/nba_games_raw.csv`):
+```bash
+python scripts/evaluate_model.py
+```
+On the held-out 2021–22 season it picks 61.9% of winners (always picking the home team: 54.7%).
 
 ### 2. Run the Frontend
 ```bash
@@ -65,8 +75,8 @@ Open `predictors/predictor_v5.ipynb` in Jupyter. This notebook contains the full
 
 ## Automation
 The project is configured to run automatically via GitHub Actions.
-- **Schedule**: Every day at 11:00 UTC (6:00 AM ET).
-- **Action**: Runs `predict_v5.py`, commits the new `predictions.json`, and pushes to the repo.
+- **Schedule**: Daily at 6:00 AM via Windows Task Scheduler (`run_daily_predictions.bat`). The GitHub Action is disabled.
+- **Action**: Runs `update_frontend_data.py`, commits the updated JSON files, and pushes to the repo.
 - **Deploy**: Vercel (linked to the repo) automatically deploys the updated frontend.
 
 ## License

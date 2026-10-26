@@ -39,5 +39,6 @@ jobs:
           git add data/predictions_history.json
           git add frontend/public/data/today.json
           git add frontend/public/data/lastweek.json
+          git add frontend/public/data/performance.json
           # Only commit if files changed
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update daily predictions and evaluations [skip ci]" && git push)
